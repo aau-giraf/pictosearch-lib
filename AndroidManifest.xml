@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dk.aau.cs.giraf.pictosearch"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="19" />
+	
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="PictoAdminMain"
+        android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name="dk.aau.cs.giraf.pictosearch.PictoAdminMain"
+            android:label="@string/title_activity_picto_main"
+            android:logo="@drawable/ic_action_search"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="dk.aau.cs.giraf.pictosearch.HelpMenu"
+            android:label="@string/title_activity_help_menu" >
+        </activity>
+    </application>
+    
+</manifest>
