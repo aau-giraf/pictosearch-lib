@@ -61,12 +61,14 @@ public class PictoAdminMain extends Activity {
 		getProfile();
 		getPurpose();
 		getAllPictograms();
+        onUpdatedCheckoutCount();
 		
 		checkoutGrid = (GridView) findViewById(R.id.checkout);
 		checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long arg3) {
 				checkoutList.remove(position);
+                onUpdatedCheckoutCount();
 				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
 				return true;
 			}
@@ -81,6 +83,7 @@ public class PictoAdminMain extends Activity {
 					checkoutList.clear();
 				}
 				checkoutList.add(searchlist.get(position));
+                onUpdatedCheckoutCount();
 				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
 			}
 		});
@@ -369,6 +372,7 @@ public class PictoAdminMain extends Activity {
 	
 	public void clearCheckoutList(View view) {
 		checkoutList.clear();
+        onUpdatedCheckoutCount();
 		checkoutGrid.setAdapter(new PictoAdapter(checkoutList, this));
 	}
 	
@@ -399,4 +403,11 @@ public class PictoAdminMain extends Activity {
 		MessageDialogFragment message = new MessageDialogFragment("Call: +45 24 26 93 98 for tech support");
 		message.show(getFragmentManager(), "callTechSupport");
 	}
+
+    public void onUpdatedCheckoutCount()
+    {
+        TextView  messageBox = (TextView)  findViewById(R.id.textView1);
+
+        messageBox.setText("Valg: " + checkoutList.size());
+    }
 }
