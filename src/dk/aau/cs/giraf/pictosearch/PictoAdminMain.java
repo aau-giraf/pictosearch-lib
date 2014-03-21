@@ -85,7 +85,7 @@ public class PictoAdminMain extends Activity {
 			}
 		});
 
-        loadPictogramIntoGridView("Alt");
+        loadPictogramIntoGridView();
 	}
 	
 	@Override
@@ -164,12 +164,8 @@ public class PictoAdminMain extends Activity {
 	 * @param view: This must be included for the function to work
 	 */
 	public void searchForPictogram(View view){
-		Spinner searchField = (Spinner)findViewById(R.id.select_search_field);
-		String  selectedTag =  searchField.getSelectedItem().toString();
-		
 		updateErrorMessage(purpose, 0); // Redisplay purpose
-		
-		loadPictogramIntoGridView(selectedTag);
+		loadPictogramIntoGridView();
 	}
 	
 	/**
@@ -191,6 +187,12 @@ public class PictoAdminMain extends Activity {
 	 * @param tag: String identifying whether the user searches for tags, name,
 	 * category, sub-category or color
 	 */
+    private void loadPictogramIntoGridView()
+    {
+        Spinner searchField = (Spinner)findViewById(R.id.select_search_field);
+        String  selectedTag =  searchField.getSelectedItem().toString();
+        loadPictogramIntoGridView(selectedTag);
+    }
 	private void loadPictogramIntoGridView(String tag)
 	{	
 		GridView picgrid = (GridView) findViewById(R.id.pictogram_displayer);		
@@ -362,6 +364,7 @@ public class PictoAdminMain extends Activity {
 	public void clearSearchField(View view) {
 		EditText searchField = (EditText) findViewById(R.id.text_input);
 		searchField.setText(null);
+        loadPictogramIntoGridView();
 	}
 	
 	public void clearCheckoutList(View view) {
