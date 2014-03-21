@@ -30,7 +30,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/checkoutList"
+            android:text="Valg:"
             android:textAppearance="?android:attr/textAppearanceLarge" />
         
         <GridView
@@ -38,9 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
+            android:layout_weight="1"
             android:background="@drawable/sentenceboardlayout" >
+        </GridView>
 
-    </GridView>
+        <ImageButton
+            android:id="@+id/deleteCheckoutButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:contentDescription="@string/delete"
+            android:src="@drawable/content_discard"
+            android:onClick="clearCheckoutList" />
        
     </LinearLayout>
     
@@ -106,21 +115,6 @@
                 android:contentDescription="@string/reset"
                 android:onClick="clearSearchField"
                 android:src="@drawable/navigation_cancel" />
-
-            <TextView
-                android:id="@+id/delete_checkout_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/deleteCheckoutButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/delete"
-                android:src="@drawable/content_discard"
-                android:onClick="clearCheckoutList" />
 
             <TextView
                 android:id="@+id/TextView01"
