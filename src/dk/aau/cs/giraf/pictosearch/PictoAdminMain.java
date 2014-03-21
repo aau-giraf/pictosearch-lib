@@ -19,6 +19,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.text.TextWatcher;
+import android.text.Editable;
 import dk.aau.cs.giraf.categorylib.CategoryHelper;
 import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
@@ -62,6 +64,7 @@ public class PictoAdminMain extends Activity {
 		getPurpose();
 		getAllPictograms();
         onUpdatedCheckoutCount();
+        onUpdatedSearchField();
 		
 		checkoutGrid = (GridView) findViewById(R.id.checkout);
 		checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -89,6 +92,15 @@ public class PictoAdminMain extends Activity {
 		});
 
         loadPictogramIntoGridView();
+
+        EditText searchterm = (EditText) findViewById(R.id.text_input);
+        searchterm.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                onUpdatedSearchField();
+            }
+            public void  beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void  onTextChanged (CharSequence s, int start, int before,int count) {}
+        });
 	}
 	
 	@Override
@@ -367,6 +379,7 @@ public class PictoAdminMain extends Activity {
 	public void clearSearchField(View view) {
 		EditText searchField = (EditText) findViewById(R.id.text_input);
 		searchField.setText(null);
+        onUpdatedSearchField();
         loadPictogramIntoGridView();
 	}
 	
@@ -407,7 +420,18 @@ public class PictoAdminMain extends Activity {
     public void onUpdatedCheckoutCount()
     {
         TextView  messageBox = (TextView)  findViewById(R.id.textView1);
-
         messageBox.setText("Valg: " + checkoutList.size());
+    }
+
+    public void onUpdatedSearchField()
+    {
+        EditText searchterm = (EditText) findViewById(R.id.text_input);
+        //String searchtext = searchterm.getText().toString();
+        Editable s = searchterm.getText();
+        View clearButton = findViewById(R.id.clearSearchFieldButton);
+        if (s != null && s.length() > 0)
+            clearButton.setVisibility(View.VISIBLE);
+        else
+            clearButton.setVisibility(View.INVISIBLE);
     }
 }
