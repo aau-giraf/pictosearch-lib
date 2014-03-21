@@ -111,21 +111,6 @@
                 android:onClick="searchForPictogram"
                 android:src="@drawable/ic_action_search" />
 
-            <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Croc"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/ImageButton01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/reset"
-                android:onClick="gotoCroc"
-                android:src="@drawable/device_access_camera" />
-
             <ImageButton
                 android:id="@+id/sendContentButton"
                 android:layout_width="100dp"

@@ -411,6 +411,12 @@ public class PictoAdminMain extends Activity {
 		croc.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.CrocActivity");
 		startActivity(croc);
 	}
+
+    public void optionsGoToCroc(MenuItem item) {
+        Intent croc = new Intent();
+        croc.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.CrocActivity");
+        startActivity(croc);
+    }
 	
 	public void callAndersSupport(MenuItem item) {
 		MessageDialogFragment message = new MessageDialogFragment("Call: +45 24 26 93 98 for tech support");
