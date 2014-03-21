@@ -64,7 +64,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="@string/text_input"
+                android:hint="Søg"
                 android:inputType="text"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="20sp" >
@@ -123,21 +123,6 @@
                 android:onClick="clearCheckoutList" />
 
             <TextView
-                android:id="@+id/search_button_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/send"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/sendContentButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/reset"
-                android:src="@drawable/action_send"
-                android:onClick="sendContent" />
-
-            <TextView
                 android:id="@+id/TextView01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,6 +136,16 @@
                 android:contentDescription="@string/reset"
                 android:onClick="gotoCroc"
                 android:src="@drawable/device_access_camera" />
+
+            <ImageButton
+                android:id="@+id/sendContentButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:contentDescription="@string/reset"
+                android:src="@drawable/action_ok"
+                android:background="@layout/custom_button"
+                android:onClick="sendContent" />
 
         </LinearLayout>
 

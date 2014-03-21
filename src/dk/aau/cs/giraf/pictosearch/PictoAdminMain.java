@@ -84,6 +84,8 @@ public class PictoAdminMain extends Activity {
 				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
 			}
 		});
+
+        loadPictogramIntoGridView("Alt");
 	}
 	
 	@Override
@@ -122,20 +124,24 @@ public class PictoAdminMain extends Activity {
 	 * Get the purpose from the calling application and displays a message to the user
 	 * describing what to do in the application and how to finish
 	 */
-	private void getPurpose() {
+	private void getPurpose()
+    {
+        EditText searchterm = (EditText) findViewById(R.id.text_input);
+
 		if(getIntent().hasExtra("purpose")){
 			if(getIntent().getStringExtra("purpose").equals("single")){
 				isSingle = true;
-				purpose = "V�lg et pictogram og afslut med Send";
+                purpose = "Vælg et pictogram og klik OK!";
 			}
 			else if(getIntent().getStringExtra("purpose").equals("multi")){
 				isSingle = false;
-				purpose = "V�lg pictogrammer og afslut med Send";
+				purpose = "Vælg pictogrammer og klik OK!";
 			}
 			else if(getIntent().getStringExtra("purpose").equals("CAT")){
-				purpose = "V�lg pictogrammer, som skal tilf�jes til kategori og afslut med Send";
+				purpose = "Vælg pictogrammer, som skal tilføjes til kategori og klik OK!";
 			}
-			updateErrorMessage(purpose, 0);
+            searchterm.setHint(purpose);
+			//updateErrorMessage(purpose, 0);
 		}
 	}
 	
@@ -189,11 +195,14 @@ public class PictoAdminMain extends Activity {
 	{	
 		GridView picgrid = (GridView) findViewById(R.id.pictogram_displayer);		
 		EditText searchterm = (EditText) findViewById(R.id.text_input);
+        String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
 		searchlist.clear();
-		String[] splitinput = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "").split(",");
+		String[] splitinput = searchstring.split(",");
 		
-		if(tag.equals("Alt")) {
-			for (Pictogram p : pictoList){
+		if(tag.equals("Alt"))
+        {
+			for (Pictogram p : pictoList)
+            {
 					searchlist.add(p);
 			}
 		}
@@ -245,7 +254,21 @@ public class PictoAdminMain extends Activity {
 		ArrayList<SearchNode> sortedsearchlist = new ArrayList<SearchNode>();
 		
 		int value;
-		for(Pictogram p : searchlist){
+		for(Pictogram p : searchlist)
+        {
+            if (!searchstring.isEmpty() && splitinput.length > 0)
+            {
+                boolean IsPartOfSearch = false;
+                for(int i = 0; i < splitinput.length; i++){
+                    if (p.getTextLabel().toLowerCase().contains(splitinput[i]))
+                    {
+                       IsPartOfSearch = true;
+                        break;
+                    }
+                }
+                if (!IsPartOfSearch) continue;
+            }
+
 			value = calculateValueOfPictogram(p, splitinput);
 			SearchNode sn = new SearchNode(p, value);
 			sortedsearchlist.add(sn);
