@@ -32,7 +32,19 @@ public class SearchClass
 
     private ArrayList<Object> DoSearch_Name(String[] input, ArrayList<Pictogram> AllPictograms)
     {
-
+        ArrayList<Object> lst = new ArrayList<Object>();
+        for (Pictogram p : AllPictograms)
+        {
+            for(int i = 0; i < input.length; i++)
+            {
+                if (p.getTextLabel().toLowerCase().contains(input[i]))
+                {
+                    lst.add(p);
+                    break;
+                }
+            }
+        }
+        return lst;
     }
 
     private ArrayList<Object> DoSearch_Tags(String[] input, ArrayList<Pictogram> AllPictograms)
