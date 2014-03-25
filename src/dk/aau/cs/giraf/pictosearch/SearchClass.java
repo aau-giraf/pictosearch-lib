@@ -12,33 +12,37 @@ import java.util.List;
  */
 public class SearchClass
 {
-    public ArrayList<Object> DoSearch(String tag, String[] input)
+    public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Pictogram> AllPictograms)
     {
         // Vælg tag, resten skal tilføjes på et tidspunkt
-        if (tag == "Tag") return DoSearch_Tags(input);
-        else return DoSearch_All(input);
+        if (tag == "Tag") return DoSearch_Tags(input, AllPictograms);
+        else return DoSearch_All(input, AllPictograms);
     }
-    public ArrayList<Object> DoCategorySearch(String tag, String[] input)
+    public ArrayList<Object> DoCategorySearch(String tag, String[] input, ArrayList<Pictogram> AllPictograms)
     {
-        return DoSearch_Category(input);
+        return DoSearch_Category(input, AllPictograms);
     }
 
-    private ArrayList<Object> DoSearch_All(String[] input)
+    // PICTOGRAM IMPLEMENTATIONS
+
+    private ArrayList<Object> DoSearch_All(String[] input, ArrayList<Pictogram> AllPictograms)
     {
         // Combines name and category, but make sure to avoid duplicates!!
     }
 
-    private ArrayList<Object> DoSearch_Name(String[] input)
+    private ArrayList<Object> DoSearch_Name(String[] input, ArrayList<Pictogram> AllPictograms)
     {
 
     }
 
-    private ArrayList<Object> DoSearch_Tags(String[] input)
+    private ArrayList<Object> DoSearch_Tags(String[] input, ArrayList<Pictogram> AllPictograms)
     {
 
     }
 
-    private ArrayList<Object> DoSearch_Category(String[] input)
+    // CATEGORY IMPLEMENTATIONS
+
+    private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<Pictogram> AllPictograms)
     {
 
     }
