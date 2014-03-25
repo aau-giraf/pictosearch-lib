@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.pictosearch;
 
+import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,30 +12,28 @@ import java.util.List;
  */
 public class SearchClass
 {
-    public ArrayList<Pictogram> DoSearch(String tag, String input)
+    public ArrayList<Pictogram> DoSearch(String tag, String[] input)
     {
         // Vælg tag, resten skal tilføjes på et tidspunkt
-        if (tag == "Pictogram") return DoSearch_Pictogram(input);
-        else if (tag == "Category") return DoSearch_Category(input);
-        else if (tag == "Subcategory") return DoSearch_SubCategory(input);
+        if (tag == "Tag") return DoSearch_Tags(input);
         else return DoSearch_All(input);
     }
-    private ArrayList<Pictogram> DoSearch_All(String input)
+    public ArrayList<PARROTCategory> DoCategorySearch(String tag, String[] input)
+    {
+        return DoSearch_Category(input);
+    }
+
+    private ArrayList<Pictogram> DoSearch_All(String[] input)
     {
 
     }
 
-    private ArrayList<Pictogram> DoSearch_Pictogram(String input)
+    private ArrayList<Pictogram> DoSearch_Tags(String[] input)
     {
 
     }
 
-    private ArrayList<Pictogram> DoSearch_Category(String input)
-    {
-
-    }
-
-    private ArrayList<Pictogram> DoSearch_SubCategory(String input)
+    private ArrayList<PARROTCategory> DoSearch_Category(String[] input)
     {
 
     }
