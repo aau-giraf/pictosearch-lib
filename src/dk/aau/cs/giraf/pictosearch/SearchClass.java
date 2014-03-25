@@ -11,28 +11,30 @@ import java.util.List;
  */
 public class SearchClass
 {
-    public ArrayList<Pictogram> DoSearch(String tag, string input)
+    public ArrayList<Pictogram> DoSearch(String tag, String input)
     {
         // Vælg tag, resten skal tilføjes på et tidspunkt
-        if (tag == "category") return DoSearch_Category(input);
-        else return DoSearch_All(input);
+        if (tag == "All")DoSearch_All(input);
+        else if (tag == "Pictogram") return DoSearch_Pictogram(input);
+        else if (tag == "Category") return DoSearch_Category(input);
+        else if (tag == "Subcategory") return DoSearch_SubCategory(input);
     }
-    private ArrayList<Pictogram> DoSearch_All(string input)
+    private ArrayList<Pictogram> DoSearch_All(String input)
     {
 
     }
 
-    private ArrayList<Pictogram> DoSearch_Pictogram(string input)
+    private ArrayList<Pictogram> DoSearch_Pictogram(String input)
     {
 
     }
 
-    private ArrayList<Pictogram> DoSearch_Category(string input)
+    private ArrayList<Pictogram> DoSearch_Category(String input)
     {
 
     }
 
-    private ArrayList<Pictogram> DoSearch_SubCategory(string input)
+    private ArrayList<Pictogram> DoSearch_SubCategory(String input)
     {
 
     }
