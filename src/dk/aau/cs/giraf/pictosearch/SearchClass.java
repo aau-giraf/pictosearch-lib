@@ -14,10 +14,10 @@ public class SearchClass
     public ArrayList<Pictogram> DoSearch(String tag, String input)
     {
         // Vælg tag, resten skal tilføjes på et tidspunkt
-        if (tag == "All")DoSearch_All(input);
-        else if (tag == "Pictogram") return DoSearch_Pictogram(input);
+        if (tag == "Pictogram") return DoSearch_Pictogram(input);
         else if (tag == "Category") return DoSearch_Category(input);
         else if (tag == "Subcategory") return DoSearch_SubCategory(input);
+        else return DoSearch_All(input);
     }
     private ArrayList<Pictogram> DoSearch_All(String input)
     {
