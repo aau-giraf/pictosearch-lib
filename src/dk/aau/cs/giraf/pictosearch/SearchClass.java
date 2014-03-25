@@ -21,9 +21,9 @@ public class SearchClass
         if (tag == "Tag") return DoSearch_Tags(input, AllPictograms);
         else return DoSearch_All(input, AllPictograms);
     }
-    public ArrayList<Object> DoCategorySearch(String tag, String[] input, Long ChildID, ArrayList<PARROTCategory> AllCategories)
+    public ArrayList<Object> DoCategorySearch(String[] input, ArrayList<PARROTCategory> AllCategories)
     {
-        return DoSearch_Category(input, ChildID, AllCategories);
+        return DoSearch_Category(input, AllCategories);
     }
 
     // PICTOGRAM IMPLEMENTATIONS
@@ -77,12 +77,41 @@ public class SearchClass
 
     // CATEGORY IMPLEMENTATIONS
 
-    private ArrayList<Object> DoSearch_Category(String[] input, Long ChildID, ArrayList<PARROTCategory> CatSearchList)
+    private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<PARROTCategory> CatSearchList)
     {
-        //ArrayList<PARROTCategory> CatSearchList = new ArrayList<PARROTCategory>();
-        //CatSearchList = CatHelp.getChildsCategories(ChildID);
-        ArrayList<Object> CatSearchList2 = new ArrayList<Object>();
+        ArrayList<Object> lst = new ArrayList<Object>();
 
-        return CatSearchList2;
+
+        for (PARROTCategory pc : CatSearchList){
+            boolean added = false;
+            for (int i = 0; i < input.length; i++){
+                if (pc.getCategoryName().contains(input[i])){
+                    lst.add(pc);
+                    added = true;
+                    break;
+                }
+                else if (pc.getSubCategories() != null){
+                    for (PARROTCategory spc : pc.getSubCategories()){
+                        if (spc.getCategoryName().contains(input[i])){
+                            lst.add(pc);
+                            added = true;
+                            break;
+                        }
+                    }
+                }
+                else if (pc.getPictograms() != null){
+                    for (Pictogram p : pc.getPictograms()){
+                        if (p.getName().contains(input[i])){
+                            lst.add(pc);
+                            added = true;
+                            break;
+                        }
+                    }
+                }
+                if (added) break;
+            }
+        }
+
+        return lst;
     }
 }
