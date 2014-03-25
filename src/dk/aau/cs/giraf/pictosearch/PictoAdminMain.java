@@ -60,6 +60,7 @@ public class PictoAdminMain extends Activity {
 		setContentView(R.layout.activity_picto_admin_main);
 		
 		catHelp = new CategoryHelper(this);
+        SearchClassInstance = new SearchClass(this);
 		
 		getProfile();
 		getPurpose();
@@ -225,11 +226,14 @@ public class PictoAdminMain extends Activity {
 		}
 
         searchlist.clear();
-        for (Object o : SearchClassInstance.DoSearch(tag, splitinput, pictoList))
+        if (SearchClassInstance != null)
         {
-            Pictogram p = (Pictogram)(o);
-            if (p != null)
-                searchlist.add(p);
+            for (Object o : SearchClassInstance.DoSearch(tag, splitinput, pictoList))
+            {
+                Pictogram p = (Pictogram)(o);
+                if (p != null)
+                    searchlist.add(p);
+            }
         }
 
 		if(searchlist.size() > 0){

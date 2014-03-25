@@ -15,6 +15,13 @@ import java.util.List;
  */
 public class SearchClass
 {
+    private PictoAdminMain Outer;
+
+    SearchClass(PictoAdminMain ou)
+    {
+        Outer = ou;
+    }
+
     public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Pictogram> AllPictograms)
     {
         // Vælg tag, resten skal tilføjes på et tidspunkt
