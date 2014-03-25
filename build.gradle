@@ -16,6 +16,7 @@ dependencies {
     compile project(':CategoryLib')
     compile project(':OasisLib')
     compile project(':pictogram-lib')
+    compile project(':GIRAF_Components')
 }
 
 android {
