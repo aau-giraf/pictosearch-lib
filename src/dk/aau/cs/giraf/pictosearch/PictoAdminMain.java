@@ -43,6 +43,7 @@ public class PictoAdminMain extends Activity {
 	private CategoryHelper      catHelp;
 	
 	private String purpose;
+    private SearchClass SearchClassInstance;
 	
 	/*
 	 *  Request from another group. It should be possible to only send one pictogram,
@@ -213,7 +214,6 @@ public class PictoAdminMain extends Activity {
 		GridView picgrid = (GridView) findViewById(R.id.pictogram_displayer);		
 		EditText searchterm = (EditText) findViewById(R.id.text_input);
         String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
-		searchlist.clear();
 		String[] splitinput = searchstring.split(",");
 		
 		if(tag.equals("Alt"))
@@ -223,97 +223,15 @@ public class PictoAdminMain extends Activity {
 					searchlist.add(p);
 			}
 		}
-		else if(tag.equals("Tags")) {
-			// TODO: tags not implemented yet
-			updateErrorMessage("You cannot search for tags yet", 0);
-		}
-		else if(tag.equals("Navn")) 
-		{
-			String pictoname;
-			
-			for (Pictogram p : pictoList) {
-				pictoname = p.getTextLabel().toLowerCase().replace("\\s", "");
-				
-				for(int i = 0; i < splitinput.length; i++ ){
-					if(searchMatcher(pictoname, splitinput[i])){
-						searchlist.add(p);
-					}
-				}
-			}
-		}
-		else if(tag.equals("Kategori")){
-			ArrayList<PARROTCategory> childcat = catHelp.getChildsCategories(childId);
-			
-			for(PARROTCategory pc : childcat){
-				for(int i = 0; i < splitinput.length; i++){
-					if(searchMatcher(pc.getCategoryName().toLowerCase().replaceAll("\\s", ""),splitinput[i])){
-						searchlist.add(pc.getIcon());
-					}
-				}
-			}
-		}
-		else if(tag.equals("Under kategori")){
-			ArrayList<PARROTCategory> childcat = catHelp.getChildsCategories(childId);
-			
-			for(PARROTCategory pc : childcat){
-				ArrayList<PARROTCategory> catsubcat = pc.getSubCategories();
-				
-				for(PARROTCategory subc : catsubcat){
-					for(int i = 0; i < splitinput.length; i++){
-						if(searchMatcher(subc.getCategoryName().toLowerCase().replaceAll("\\s", ""),splitinput[i])){
-							searchlist.add(subc.getIcon());
-						}
-					}
-				}
-			}
-		}
-		
-		ArrayList<SearchNode> sortedsearchlist = new ArrayList<SearchNode>();
-		
-		int value;
-		for(Pictogram p : searchlist)
-        {
-            if (!searchstring.isEmpty() && splitinput.length > 0)
-            {
-                boolean IsPartOfSearch = false;
-                for(int i = 0; i < splitinput.length; i++){
-                    if (p.getTextLabel().toLowerCase().contains(splitinput[i]))
-                    {
-                       IsPartOfSearch = true;
-                        break;
-                    }
-                }
-                if (!IsPartOfSearch) continue;
-            }
 
-			value = calculateValueOfPictogram(p, splitinput);
-			SearchNode sn = new SearchNode(p, value);
-			sortedsearchlist.add(sn);
-		}
-		
-		Collections.sort(sortedsearchlist, new Comparator<SearchNode>() {
-			@Override
-	        public int compare(SearchNode o1, SearchNode o2) 
-	        {
-				if(o1.searchvalue > o2.searchvalue){
-					return -1;
-				}
-				else if(o1.searchvalue == o2.searchvalue){
-					return 0;
-				}
-				else{
-					return 1;
-				}
-	        }
-	    });
-		
-		searchlist.clear();
-		for(SearchNode sn : sortedsearchlist){
-			if(!searchlist.contains(sn.pic)){
-				searchlist.add(sn.pic);
-			}
-		}
-		
+        searchlist.clear();
+        for (Object o : SearchClassInstance.DoSearch(tag, splitinput, pictoList))
+        {
+            Pictogram p = (Pictogram)(o);
+            if (p != null)
+                searchlist.add(p);
+        }
+
 		if(searchlist.size() > 0){
 			picgrid.setAdapter(new PictoAdapter(searchlist, this));
 		}

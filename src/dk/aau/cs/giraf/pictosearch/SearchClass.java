@@ -30,17 +30,49 @@ public class SearchClass
 
     private ArrayList<Object> DoSearch_All(String[] input, ArrayList<Pictogram> AllPictograms)
     {
+        // TO DO: NOT COMPLETE
         // Combines name and category, but make sure to avoid duplicates!!
+        return DoSearch_Name(input, AllPictograms);
     }
 
     private ArrayList<Object> DoSearch_Name(String[] input, ArrayList<Pictogram> AllPictograms)
     {
-
+        ArrayList<Object> lst = new ArrayList<Object>();
+        for (Pictogram p : AllPictograms)
+        {
+            for(int i = 0; i < input.length; i++)
+            {
+                if (p.getTextLabel().toLowerCase().contains(input[i]))
+                {
+                    lst.add(p);
+                    break;
+                }
+            }
+        }
+        return lst;
     }
 
     private ArrayList<Object> DoSearch_Tags(String[] input, ArrayList<Pictogram> AllPictograms)
     {
-
+        ArrayList<Object> lst = new ArrayList<Object>();
+        for (Pictogram p : AllPictograms)
+        {
+            boolean added = false;
+            for(int i = 0; i < input.length; i++)
+            {
+                for (String tag : p.getTags())
+                {
+                    if (tag.toLowerCase().contains(input[i]))
+                    {
+                        lst.add(p);
+                        added = true;
+                        break;
+                    }
+                }
+                if (added) break;
+            }
+        }
+        return lst;
     }
 
     // CATEGORY IMPLEMENTATIONS
