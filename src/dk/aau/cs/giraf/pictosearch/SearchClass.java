@@ -26,6 +26,7 @@ public class SearchClass
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         if (tag == "Tag") return DoSearch_Tags(input, AllPictograms);
+        else if (tag == "Pictogram") return DoSearch_Pictogram(input, AllPictograms);
         else if (tag == "Kategori") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
         else return DoSearch_All(input, AllPictograms);
     }
@@ -36,12 +37,12 @@ public class SearchClass
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         ArrayList<Object> Result = new ArrayList<Object>();
-        Result.addAll(DoSearch_Name(input, AllPictograms));
+        Result.addAll(DoSearch_Pictogram(input, AllPictograms));
         Result.addAll(DoSearch_Category(input, new ArrayList<PARROTCategory>()));
         return Result;
     }
 
-    private ArrayList<Object> DoSearch_Name(String[] input, ArrayList<Pictogram> AllPictograms)
+    private ArrayList<Object> DoSearch_Pictogram(String[] input, ArrayList<Pictogram> AllPictograms)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
         for (Pictogram p : AllPictograms)
