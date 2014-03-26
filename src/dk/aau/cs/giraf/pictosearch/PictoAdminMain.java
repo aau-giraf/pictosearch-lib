@@ -230,14 +230,6 @@ public class PictoAdminMain extends Activity {
         String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
 		String[] splitinput = searchstring.split(",");
 		
-		if(tag.equals("Alt"))
-        {
-			for (Pictogram p : pictoList)
-            {
-					searchlist.add(p);
-			}
-		}
-
         searchlist.clear();
         if (SearchClassInstance != null)
         {
