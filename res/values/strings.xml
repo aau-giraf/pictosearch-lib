@@ -2,10 +2,9 @@
 <resources>
     <string-array name="select_search_field">
         <item>Alt</item>
-        <item>Tag</item>
-        <item>Navn</item>
-        <item>Kategori</item>
-        <item>Under kategori</item>
+        <item>Pictogrammer</item>
+        <item>Kategorier</item>
+        <item>Tags</item>
     </string-array>
     
     <string name="app_name">Søg Pictogrammer</string>
