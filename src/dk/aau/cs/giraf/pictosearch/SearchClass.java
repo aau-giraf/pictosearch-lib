@@ -88,7 +88,6 @@ public class SearchClass
     {
         ArrayList<Object> lst = new ArrayList<Object>();
 
-
         for (PARROTCategory pc : CatSearchList){
             boolean added = false;
             for (int i = 0; i < input.length; i++){
@@ -97,7 +96,7 @@ public class SearchClass
                     added = true;
                     break;
                 }
-                else if (pc.getSubCategories() != null){
+                else if (!pc.getSubCategories().isEmpty()){
                     for (PARROTCategory spc : pc.getSubCategories()){
                         if (spc.getCategoryName().contains(input[i])){
                             lst.add(pc);
@@ -106,7 +105,7 @@ public class SearchClass
                         }
                     }
                 }
-                else if (pc.getPictograms() != null){
+                else if (!pc.getPictograms().isEmpty()){
                     for (Pictogram p : pc.getPictograms()){
                         if (p.getName().contains(input[i])){
                             lst.add(pc);
