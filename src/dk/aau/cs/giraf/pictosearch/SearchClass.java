@@ -26,6 +26,7 @@ public class SearchClass
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         if (tag == "Tag") return DoSearch_Tags(input, AllPictograms);
+        else if (tag == "Pictogram") return DoSearch_Pictogram(input, AllPictograms);
         else if (tag == "Kategori") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
         else return DoSearch_All(input, AllPictograms);
     }
@@ -36,12 +37,12 @@ public class SearchClass
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         ArrayList<Object> Result = new ArrayList<Object>();
-        Result.addAll(DoSearch_Name(input, AllPictograms));
+        Result.addAll(DoSearch_Pictogram(input, AllPictograms));
         Result.addAll(DoSearch_Category(input, new ArrayList<PARROTCategory>()));
         return Result;
     }
 
-    private ArrayList<Object> DoSearch_Name(String[] input, ArrayList<Pictogram> AllPictograms)
+    private ArrayList<Object> DoSearch_Pictogram(String[] input, ArrayList<Pictogram> AllPictograms)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
         for (Pictogram p : AllPictograms)
@@ -94,24 +95,6 @@ public class SearchClass
                     lst.add(pc);
                     added = true;
                     break;
-                }
-                else if (!pc.getSubCategories().isEmpty()){
-                    for (PARROTCategory spc : pc.getSubCategories()){
-                        if (spc.getCategoryName().contains(input[i])){
-                            lst.add(pc);
-                            added = true;
-                            break;
-                        }
-                    }
-                }
-                else if (!pc.getPictograms().isEmpty()){
-                    for (Pictogram p : pc.getPictograms()){
-                        if (p.getName().contains(input[i])){
-                            lst.add(pc);
-                            added = true;
-                            break;
-                        }
-                    }
                 }
                 if (added) break;
             }
