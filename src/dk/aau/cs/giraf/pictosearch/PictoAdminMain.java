@@ -166,13 +166,14 @@ public class PictoAdminMain extends Activity {
 	 * 
 	 */
 	@SuppressWarnings("static-access")
-	public void getAllPictograms() {
+	public ArrayList<Pictogram> getAllPictograms() {
 		List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
 		pictoList = new ArrayList<Pictogram>();
 		
 		for (Pictogram p : pictotemp) {
 			pictoList.add(p);
 		}
+        return pictoList;
 	}
 	
 	/**
