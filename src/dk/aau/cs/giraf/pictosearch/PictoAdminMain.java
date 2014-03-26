@@ -40,7 +40,7 @@ public class PictoAdminMain extends Activity {
 	private GridView checkoutGrid;
 	private GridView pictoGrid;
 	
-	private CategoryHelper      catHelp;
+	private CategoryHelper catHelp;
 	
 	private String purpose;
     private SearchClass SearchClassInstance;
