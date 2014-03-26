@@ -24,22 +24,21 @@ public class SearchClass
 
     public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Pictogram> AllPictograms)
     {
-        // Vælg tag, resten skal tilføjes på et tidspunkt
+        // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         if (tag == "Tag") return DoSearch_Tags(input, AllPictograms);
+        else if (tag == "Kategori") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
         else return DoSearch_All(input, AllPictograms);
-    }
-    public ArrayList<Object> DoCategorySearch(String[] input, ArrayList<PARROTCategory> AllCategories)
-    {
-        return DoSearch_Category(input, AllCategories);
     }
 
     // PICTOGRAM IMPLEMENTATIONS
 
     private ArrayList<Object> DoSearch_All(String[] input, ArrayList<Pictogram> AllPictograms)
     {
-        // TO DO: NOT COMPLETE
-        // Combines name and category, but make sure to avoid duplicates!!
-        return DoSearch_Name(input, AllPictograms);
+        // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
+        ArrayList<Object> Result = new ArrayList<Object>();
+        Result.addAll(DoSearch_Name(input, AllPictograms));
+        Result.addAll(DoSearch_Category(input, new ArrayList<PARROTCategory>()));
+        return Result;
     }
 
     private ArrayList<Object> DoSearch_Name(String[] input, ArrayList<Pictogram> AllPictograms)
