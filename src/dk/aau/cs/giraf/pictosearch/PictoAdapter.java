@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.pictosearch;
 
 
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
 /**
@@ -19,16 +22,16 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
  */
 public class PictoAdapter extends BaseAdapter {
 	private Context context;
-	private ArrayList<Pictogram> pictograms;
+	private ArrayList<Object> pictograms;
 	private boolean displayText = true;
 	
-	public PictoAdapter(ArrayList<Pictogram> p, Context c) {
+	public PictoAdapter(ArrayList<Object> p, Context c) {
 		super();
 		this.pictograms = p;
 		context = c;
 	}
 	
-	public PictoAdapter(ArrayList<Pictogram> p, boolean display, Context c) {
+	public PictoAdapter(ArrayList<Object> p, boolean display, Context c) {
 		super();
 		this.pictograms = p;
 		this.displayText = display;
@@ -54,8 +57,12 @@ public class PictoAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
-		Pictogram pctNew = pictograms.get(position);
-		
+        Pictogram pctNew = (Pictogram)pictograms.get(position);
+        PARROTCategory catNew = (PARROTCategory)pictograms.get(position);
+
+        String TextLabel = "???";
+        if (pctNew != null) TextLabel = pctNew.getTextLabel();
+
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
 
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,13 +71,17 @@ public class PictoAdapter extends BaseAdapter {
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.pictogrambitmap); 
 		imageView.setLayoutParams(layoutParams);
 		
-		if(displayText) {
+		if(displayText)
+        {
 			TextView textView = (TextView) convertView.findViewById(R.id.pictogramtext);
-			textView.setText(pctNew.getTextLabel());
+			textView.setText(TextLabel);
 		}
-		
-		BitmapWorker worker = new BitmapWorker(imageView);
-		worker.execute(pctNew);
+
+        if (pctNew != null)
+        {
+		    BitmapWorker worker = new BitmapWorker(imageView);
+		    worker.execute(pctNew);
+        }
 		
 		convertView.setPadding(5, 5, 5, 5);
 

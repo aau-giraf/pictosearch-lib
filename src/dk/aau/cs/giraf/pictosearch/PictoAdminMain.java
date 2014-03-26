@@ -33,10 +33,10 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 public class PictoAdminMain extends Activity {
 	private long    childId = 12;
 
-	private ArrayList<Pictogram> checkoutList = new ArrayList<Pictogram>();
+	private ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
     private ArrayList<PARROTCategory> catList    = new ArrayList<PARROTCategory>();
-	private ArrayList<Pictogram> searchlist   = new ArrayList<Pictogram>();
+	private ArrayList<Object> searchlist   = new ArrayList<Object>();
 	
 	private GridView checkoutGrid;
 	private GridView pictoGrid;
@@ -294,17 +294,36 @@ public class PictoAdminMain extends Activity {
     	
     	return searchvalue;
     }
+
+    private ArrayList<Pictogram> getCheckoutPictograms() {
+        ArrayList<Pictogram> r = new ArrayList<Pictogram>();
+
+        for(Object o : checkoutList)
+        {
+            Pictogram p = (Pictogram)o;
+            PARROTCategory c = (PARROTCategory)o;
+            if (p != null) r.add(p);
+            else if (c != null)
+            {
+                r.addAll(c.getPictograms());
+            }
+        }
+        return r;
+    }
 	
 	/**
 	 * Assess the checkout gridview and load the pictograms into an ArrayList
 	 * @return ArrayList of checkout pictograms
 	 */
-	private long[] getCheckoutList() {
-		long[] checkout = new long[checkoutList.size()];
+	private long[] getCheckoutList()
+    {
+        ArrayList<Pictogram> plist = getCheckoutPictograms();
+		long[] checkout = new long[plist.size()];
 		int i = 0;
 		
-		for(Pictogram p : checkoutList){
-			checkout[i] = p.getPictogramID();
+		for(Pictogram p : plist)
+        {
+            checkout[i] = p.getPictogramID();
 			i++;
 		}
 		
