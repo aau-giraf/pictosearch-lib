@@ -25,9 +25,9 @@ public class SearchClass
     public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Pictogram> AllPictograms)
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
-        if (tag == "Tag") return DoSearch_Tags(input, AllPictograms);
-        else if (tag == "Pictogram") return DoSearch_Pictogram(input, AllPictograms);
-        else if (tag == "Kategori") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
+        if (tag == "Tags") return DoSearch_Tags(input, AllPictograms);
+        else if (tag == "Pictogrammer") return DoSearch_Pictogram(input, AllPictograms);
+        else if (tag == "Kategorier") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
         else return DoSearch_All(input, AllPictograms);
     }
 
