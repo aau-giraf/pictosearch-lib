@@ -229,7 +229,7 @@ public class PictoAdminMain extends Activity {
 		EditText searchterm = (EditText) findViewById(R.id.text_input);
         String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
 		String[] splitinput = searchstring.split(",");
-		
+
         searchlist.clear();
         if (SearchClassInstance != null)
         {
@@ -248,44 +248,6 @@ public class PictoAdminMain extends Activity {
 			updateErrorMessage("Pictogram findes ikke i database", R.drawable.action_about);
 		}
 	}
-	
-	private boolean searchMatcher(String pictoname, String searchinput) {
-		// Mulighed for at g�re s�gefunktionen endnu mere intelligent
-		// Made so that it is possible to make search function more intelligent
-		
-		if(pictoname.contains(searchinput)) {
-			return true;
-		} 
-		else {
-			return false;
-		}
-	}
-	
-	// Used in loadPictogramIntoGridview to
-	//TODO: INSERT description Jacob
-	private static int calculateValueOfPictogram(Pictogram p, String[] searchterm) {
-    	int searchvalue = 0;
-    	
-    	for(String s : searchterm){
-    		s.toLowerCase().replaceAll("\\s", "");
-    		
-    		if(p.getTextLabel().toLowerCase().replaceAll("\\s", "").equals(s)){
-    			searchvalue = 100;
-    		}
-    		
-    		String temps = s;
-    		
-    		for(int i = 0; i < s.length(); i++){
-    			if(p.getTextLabel().toLowerCase().replaceAll("\\s", "").contains(temps) || temps.contains(p.getTextLabel().toLowerCase().replaceAll("\\s", ""))){
-    				searchvalue++;
-    				}
-    			
-    			temps = temps.substring(0, temps.length() - 1);
-    		}
-    	}
-    	
-    	return searchvalue;
-    }
 	
 	/**
 	 * Assess the checkout gridview and load the pictograms into an ArrayList
