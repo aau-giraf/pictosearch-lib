@@ -35,6 +35,7 @@ public class PictoAdminMain extends Activity {
 
 	private ArrayList<Pictogram> checkoutList = new ArrayList<Pictogram>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
+    private ArrayList<PARROTCategory> catList    = new ArrayList<PARROTCategory>();
 	private ArrayList<Pictogram> searchlist   = new ArrayList<Pictogram>();
 	
 	private GridView checkoutGrid;
@@ -65,6 +66,7 @@ public class PictoAdminMain extends Activity {
 		getProfile();
 		getPurpose();
 		getAllPictograms();
+        getAllCategories();
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
 		
@@ -175,6 +177,16 @@ public class PictoAdminMain extends Activity {
 		}
         return pictoList;
 	}
+
+    public  ArrayList<PARROTCategory> getAllCategories(){
+        List<PARROTCategory> cattemp = catHelp.getChildsCategories(childId);
+        catList = new ArrayList<PARROTCategory>();
+
+        for (PARROTCategory pc : cattemp) {
+            catList.add(pc);
+        }
+        return catList;
+    }
 	
 	/**
 	 * Called when pressing search_button
