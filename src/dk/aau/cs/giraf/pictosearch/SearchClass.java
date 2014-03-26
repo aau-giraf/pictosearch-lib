@@ -95,24 +95,6 @@ public class SearchClass
                     added = true;
                     break;
                 }
-                else if (!pc.getSubCategories().isEmpty()){
-                    for (PARROTCategory spc : pc.getSubCategories()){
-                        if (spc.getCategoryName().contains(input[i])){
-                            lst.add(pc);
-                            added = true;
-                            break;
-                        }
-                    }
-                }
-                else if (!pc.getPictograms().isEmpty()){
-                    for (Pictogram p : pc.getPictograms()){
-                        if (p.getName().contains(input[i])){
-                            lst.add(pc);
-                            added = true;
-                            break;
-                        }
-                    }
-                }
                 if (added) break;
             }
         }
