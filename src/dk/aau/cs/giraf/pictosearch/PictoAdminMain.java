@@ -235,9 +235,7 @@ public class PictoAdminMain extends Activity {
         {
             for (Object o : SearchClassInstance.DoSearch(tag, splitinput, pictoList))
             {
-                Pictogram p = (Pictogram)(o);
-                if (p != null)
-                    searchlist.add(p);
+                searchlist.add(o);
             }
         }
 
