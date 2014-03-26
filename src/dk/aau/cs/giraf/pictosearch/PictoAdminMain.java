@@ -178,14 +178,18 @@ public class PictoAdminMain extends Activity {
         return pictoList;
 	}
 
-    public  ArrayList<PARROTCategory> getAllCategories(){
-        List<PARROTCategory> cattemp = catHelp.getChildsCategories(childId);
+    public  ArrayList<PARROTCategory> getAllCategories()
+    {
+        ArrayList<PARROTCategory> cattemp = new ArrayList<PARROTCategory>();
+        /*
+        cattemp = catHelp.getChildsCategories(childId);
         catList = new ArrayList<PARROTCategory>();
 
         for (PARROTCategory pc : cattemp) {
             catList.add(pc);
         }
-        return catList;
+        */
+        return cattemp;
     }
 	
 	/**
@@ -235,7 +239,8 @@ public class PictoAdminMain extends Activity {
         {
             for (Object o : SearchClassInstance.DoSearch(tag, splitinput, pictoList))
             {
-                searchlist.add(o);
+                if (o instanceof Pictogram)
+                    searchlist.add(o);
             }
         }
 
@@ -290,11 +295,14 @@ public class PictoAdminMain extends Activity {
 
         for(Object o : checkoutList)
         {
-            Pictogram p = (Pictogram)o;
-            PARROTCategory c = (PARROTCategory)o;
-            if (p != null) r.add(p);
-            else if (c != null)
+            if (o instanceof Pictogram)
             {
+                Pictogram p = (Pictogram)o;
+                r.add(p);
+            }
+            else if (o instanceof PARROTCategory)
+            {
+                PARROTCategory c = (PARROTCategory)o;
                 r.addAll(c.getPictograms());
             }
         }

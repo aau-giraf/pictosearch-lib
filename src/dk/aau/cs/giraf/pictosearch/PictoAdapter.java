@@ -57,11 +57,19 @@ public class PictoAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
-        Pictogram pctNew = (Pictogram)pictograms.get(position);
-        PARROTCategory catNew = (PARROTCategory)pictograms.get(position);
-
+        Object o = pictograms.get(position);
         String TextLabel = "???";
-        if (pctNew != null) TextLabel = pctNew.getTextLabel();
+
+        Pictogram pctNew = null;
+        if (o instanceof Pictogram)
+        {
+            pctNew = (Pictogram)pictograms.get(position);
+            if (pctNew != null) TextLabel = pctNew.getTextLabel();
+        }
+        else if (o instanceof PARROTCategory)
+        {
+            PARROTCategory catNew = (PARROTCategory)pictograms.get(position);
+        }
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
 
