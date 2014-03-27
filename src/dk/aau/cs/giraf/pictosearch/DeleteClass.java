@@ -31,19 +31,24 @@ public class DeleteClass {
         //PictogramController pictogramHelper = databaseHelper.pictogramHelper;
         //pictogramHelper.removePictogramById(pictogram.getId());
 
-        PictogramController pictogramController = new PictogramController((context));
-        
+        PictogramController pictogramController = new PictogramController(context);
+        pictogramController.removePictogramById(pictogram.getPictogramID());
+
         AllPictograms.remove(AllPictograms.indexOf(pictogram));
     }
 
-    public void CategoryDelete(Context context, ArrayList<Category> AllCategories, Category category){
+    public void CategoryDelete(Context context, ArrayList<PARROTCategory> AllCategories, PARROTCategory parrotCategory){
 
-        databaseHelper = new Helper(context);
+        //databaseHelper = new Helper(context);
+        //CategoryController categoryHelper = databaseHelper.categoryHelper;
+        //Category category = categoryHelper.getCategoryById(parrotCategory.getId());
+        //categoryHelper.removeCategory(category);
 
-        CategoryController categoryHelper = databaseHelper.categoryHelper;
-        categoryHelper.removeCategory(category);
+        CategoryController categoryController = new CategoryController(context);
+        Category category = categoryController.getCategoryById(parrotCategory.getId());
+        categoryController.removeCategory(category);
 
-        AllCategories.remove(AllCategories.indexOf(category));
+        AllCategories.remove(AllCategories.indexOf(parrotCategory));
     }
 
 }
