@@ -199,7 +199,7 @@ public class PictoAdminMain extends Activity {
 	 * @param view: This must be included for the function to work
 	 */
 	public void searchForPictogram(View view){
-		updateErrorMessage(purpose, 0); // Redisplay purpose
+		updateErrorMessage("", 0); // Reset purpose
 		loadPictogramIntoGridView();
 	}
 	
