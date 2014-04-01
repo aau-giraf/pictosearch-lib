@@ -219,7 +219,7 @@ public class PictoAdminMain extends Activity {
 	
 	/**
 	 * Loads the pictoList into the gridview depending on the search tag
-	 * @param tag: String identifying whether the user searches for tags, name,
+	 *  String identifying whether the user searches for tags, name,
 	 * category, sub-category or color
 	 */
     private void loadPictogramIntoGridView()
