@@ -1,13 +1,13 @@
 package dk.aau.cs.giraf.pictosearch;
 
-import dk.aau.cs.giraf.categorylib.CategoryHelper;
-import dk.aau.cs.giraf.categorylib.PARROTCategory;
+//import dk.aau.cs.giraf.categorylib.CategoryHelper;
+//import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.pictogram.Pictogram;
-import dk.aau.cs.giraf.categorylib.CategoryHelper;
+//import dk.aau.cs.giraf.categorylib.CategoryHelper;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class DeleteClass {
         AllPictograms.remove(AllPictograms.indexOf(pictogram));
     }
 
-    public void CategoryDelete(Context context, ArrayList<PARROTCategory> AllCategories, PARROTCategory parrotCategory){
+    /*public void CategoryDelete(Context context, ArrayList<PARROTCategory> AllCategories, PARROTCategory parrotCategory){
 
         //databaseHelper = new Helper(context);
         //CategoryController categoryHelper = databaseHelper.categoryHelper;
@@ -49,6 +49,6 @@ public class DeleteClass {
         categoryController.removeCategory(category);
 
         AllCategories.remove(AllCategories.indexOf(parrotCategory));
-    }
+    }*/
 
 }

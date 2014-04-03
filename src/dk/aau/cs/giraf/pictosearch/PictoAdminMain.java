@@ -21,8 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
-import dk.aau.cs.giraf.categorylib.CategoryHelper;
-import dk.aau.cs.giraf.categorylib.PARROTCategory;
+//import dk.aau.cs.giraf.categorylib.CategoryHelper;
+//import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
@@ -35,13 +35,13 @@ public class PictoAdminMain extends Activity {
 
 	private ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
-    private ArrayList<PARROTCategory> catList    = new ArrayList<PARROTCategory>();
+    //private ArrayList<PARROTCategory> catList    = new ArrayList<PARROTCategory>();
 	private ArrayList<Object> searchlist   = new ArrayList<Object>();
 	
 	private GridView checkoutGrid;
 	private GridView pictoGrid;
 	
-	private CategoryHelper catHelp;
+	//private CategoryHelper catHelp;
 	
 	private String purpose;
     private SearchClass SearchClassInstance;
@@ -60,13 +60,13 @@ public class PictoAdminMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_picto_admin_main);
 		
-		catHelp = new CategoryHelper(this);
+		//catHelp = new CategoryHelper(this);
         SearchClassInstance = new SearchClass(this);
 		
 		getProfile();
 		getPurpose();
 		getAllPictograms();
-        getAllCategories();
+        //getAllCategories();
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
 		
@@ -169,17 +169,17 @@ public class PictoAdminMain extends Activity {
 	 */
 	@SuppressWarnings("static-access")
 	public ArrayList<Pictogram> getAllPictograms() {
-		//List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
+		List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
 		pictoList = new ArrayList<Pictogram>();
-        /*
+
 		for (Pictogram p : pictotemp) {
 			pictoList.add(p);
 		}
-		*/
+
         return pictoList;
 	}
 
-    public  ArrayList<PARROTCategory> getAllCategories()
+    /*public  ArrayList<PARROTCategory> getAllCategories()
     {
         ArrayList<PARROTCategory> cattemp = new ArrayList<PARROTCategory>();
         /*
@@ -190,8 +190,8 @@ public class PictoAdminMain extends Activity {
             catList.add(pc);
         }
         */
-        return cattemp;
-    }
+     /*   return cattemp;
+    }*/
 	
 	/**
 	 * Called when pressing search_button
@@ -301,11 +301,11 @@ public class PictoAdminMain extends Activity {
                 Pictogram p = (Pictogram)o;
                 r.add(p);
             }
-            else if (o instanceof PARROTCategory)
+            /*else if (o instanceof PARROTCategory)
             {
                 PARROTCategory c = (PARROTCategory)o;
                 r.addAll(c.getPictograms());
-            }
+            }*/
         }
         return r;
     }
