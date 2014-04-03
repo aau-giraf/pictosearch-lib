@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import dk.aau.cs.giraf.categorylib.PARROTCategory;
+//import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
 /**
@@ -66,10 +66,10 @@ public class PictoAdapter extends BaseAdapter {
             pctNew = (Pictogram)pictograms.get(position);
             if (pctNew != null) TextLabel = pctNew.getTextLabel();
         }
-        else if (o instanceof PARROTCategory)
+        /*else if (o instanceof PARROTCategory)
         {
             PARROTCategory catNew = (PARROTCategory)pictograms.get(position);
-        }
+        }*/
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
 

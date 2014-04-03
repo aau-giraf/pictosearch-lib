@@ -32,8 +32,8 @@ public class DeleteClass {
         AllPictograms.remove(AllPictograms.indexOf(pictogram));
     }
 
-    public void CategoryDelete(Context context, ArrayList<Category> AllCategories, Category category){
 
+    public void CategoryDelete(Context context, ArrayList<Category> AllCategories, Category category){
         //databaseHelper = new Helper(context);
         //CategoryController categoryHelper = databaseHelper.categoryHelper;
         //categoryHelper.removeCategory(category);
@@ -43,5 +43,6 @@ public class DeleteClass {
 
         AllCategories.remove(AllCategories.indexOf(category));
     }
+
 
 }

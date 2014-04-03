@@ -1,9 +1,8 @@
 package dk.aau.cs.giraf.pictosearch;
 
-import dk.aau.cs.giraf.categorylib.CategoryHelper;
-import dk.aau.cs.giraf.categorylib.PARROTCategory;
+//import dk.aau.cs.giraf.categorylib.CategoryHelper;
+//import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
-import dk.aau.cs.giraf.categorylib.CategoryHelper;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +26,7 @@ public class SearchClass
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         if (tag == "Tags") return DoSearch_Tags(input, AllPictograms);
         else if (tag == "Pictogrammer") return DoSearch_Pictogram(input, AllPictograms);
-        else if (tag == "Kategorier") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
+        //else if (tag == "Kategorier") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
         else return DoSearch_All(input, AllPictograms);
     }
 
@@ -38,7 +37,7 @@ public class SearchClass
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         ArrayList<Object> Result = new ArrayList<Object>();
         Result.addAll(DoSearch_Pictogram(input, AllPictograms));
-        Result.addAll(DoSearch_Category(input, new ArrayList<PARROTCategory>()));
+        //Result.addAll(DoSearch_Category(input, new ArrayList<PARROTCategory>()));
         return Result;
     }
 
@@ -84,7 +83,7 @@ public class SearchClass
 
     // CATEGORY IMPLEMENTATIONS
 
-    private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<PARROTCategory> CatSearchList)
+    /*private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<PARROTCategory> CatSearchList)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
 
@@ -101,5 +100,5 @@ public class SearchClass
         }
 
         return lst;
-    }
+    }*/
 }
