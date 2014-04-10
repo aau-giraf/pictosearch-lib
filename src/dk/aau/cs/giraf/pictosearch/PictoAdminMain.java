@@ -31,7 +31,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends Activity {
-	private long    childId = 12;
+	private int    childId = 12;
 
 	private ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
@@ -135,7 +135,7 @@ public class PictoAdminMain extends Activity {
 	 */
 	public void getProfile() {
 		if(getIntent().hasExtra("currentChildID")){
-			childId = getIntent().getLongExtra("currentChildID", -1);
+			childId = getIntent().getIntExtra("currentChildID", -1);
 		}
 	}
 	
