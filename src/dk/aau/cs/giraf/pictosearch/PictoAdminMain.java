@@ -25,6 +25,7 @@ import android.text.Editable;
 //import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.models.Category;
 
 /**
  * @author SW605f13 Parrot-group
@@ -35,7 +36,7 @@ public class PictoAdminMain extends Activity {
 
 	private ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
-    //private ArrayList<PARROTCategory> catList    = new ArrayList<PARROTCategory>();
+    private ArrayList<Category> catList    = new ArrayList<Category>();
 	private ArrayList<Object> searchlist   = new ArrayList<Object>();
 	
 	private GridView checkoutGrid;
@@ -66,7 +67,7 @@ public class PictoAdminMain extends Activity {
 		getProfile();
 		getPurpose();
 		getAllPictograms();
-        //getAllCategories();
+        getAllCategories();
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
 		
@@ -179,19 +180,19 @@ public class PictoAdminMain extends Activity {
         return pictoList;
 	}
 
-    /*public  ArrayList<PARROTCategory> getAllCategories()
+    public  ArrayList<Category> getAllCategories()
     {
-        ArrayList<PARROTCategory> cattemp = new ArrayList<PARROTCategory>();
-        /*
-        cattemp = catHelp.getChildsCategories(childId);
-        catList = new ArrayList<PARROTCategory>();
+        ArrayList<Category> cattemp = new ArrayList<Category>();
+        catList = new ArrayList<Category>();
+        if (childId < 0) return catList; // If no child, return empty
 
-        for (PARROTCategory pc : cattemp) {
+        //cattemp = catHelp.getChildsCategories(childId);
+
+        for (Category pc : cattemp) {
             catList.add(pc);
         }
-        */
-     /*   return cattemp;
-    }*/
+        return catList;
+    }
 	
 	/**
 	 * Called when pressing search_button
