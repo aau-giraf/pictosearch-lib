@@ -1,8 +1,6 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -32,7 +30,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Category;
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends Activity {
-	private int    childId = 12;
+	private int    guardianInfo_ChildId = -1;
 
 	private ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
@@ -61,8 +59,8 @@ public class PictoAdminMain extends Activity {
 		
 		//catHelp = new CategoryHelper(this);
         SearchClassInstance = new SearchClass(this);
-		
-		getProfile();
+
+        updateGuardianInfo();
 		getPurpose();
 		getAllPictograms();
         getAllCategories();
@@ -130,12 +128,18 @@ public class PictoAdminMain extends Activity {
 	
 	/**
 	 * Get the current child id if information is send by calling application
-	 * Otherwise the standard value of childId is 12
+	 * Otherwise the standard value of childId is -1 (invalid)
 	 */
-	public void getProfile() {
-		if(getIntent().hasExtra("currentChildID")){
-			childId = getIntent().getIntExtra("currentChildID", -1);
-		}
+    private void updateGuardianInfo()
+    {
+        guardianInfo_ChildId = -1;
+        if(getIntent().hasExtra("currentChildID"))
+            guardianInfo_ChildId = getIntent().getIntExtra("currentChildID", -1);
+    }
+
+	public int getChildID()
+    {
+		return guardianInfo_ChildId;
 	}
 	
 	/**
@@ -183,9 +187,11 @@ public class PictoAdminMain extends Activity {
     {
         List<Category> cattemp = new ArrayList<Category>();
         catList = new ArrayList<Category>();
+
+        int childId = getChildID();
         if (childId < 0) return catList; // If no child, return empty
 
-        //cattemp = catHelp.getChildsCategories(childId);
+        //cattemp = catHelp.getChildsCategories(childid);
         CategoryController categoryController = new CategoryController(getApplicationContext());
         cattemp = categoryController.getCategoriesByProfileId(childId);
 
@@ -360,17 +366,33 @@ public class PictoAdminMain extends Activity {
 		}
 		finish();
 	}
+
+    private boolean LaunchPictoCreator(boolean allow_error_msg)
+    {
+        try
+        {
+            Intent i = new Intent();
+            i.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.MainActivity");
+            startActivity(i);
+            return true;
+        }
+        catch (android.content.ActivityNotFoundException e)
+        {
+            if (allow_error_msg)
+            {
+                MessageDialogFragment message = new MessageDialogFragment("Unable to launch PictoCreator, make sure its installed and up to date!");
+                message.show(getFragmentManager(), "PictoCreator");
+            }
+            return false;
+        }
+    }
 	
 	public void gotoCroc(View view){
-		Intent croc = new Intent();
-		croc.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.CrocActivity");
-		startActivity(croc);
+        LaunchPictoCreator(true);
 	}
 
     public void optionsGoToCroc(MenuItem item) {
-        Intent croc = new Intent();
-        croc.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.CrocActivity");
-        startActivity(croc);
+        LaunchPictoCreator(true);
     }
 	
 	public void callAndersSupport(MenuItem item) {
