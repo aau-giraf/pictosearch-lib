@@ -359,17 +359,33 @@ public class PictoAdminMain extends Activity {
 		}
 		finish();
 	}
+
+    private boolean LaunchPictoCreator(boolean allow_error_msg)
+    {
+        try
+        {
+            Intent i = new Intent();
+            i.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.MainActivity");
+            startActivity(i);
+            return true;
+        }
+        catch (android.content.ActivityNotFoundException e)
+        {
+            if (allow_error_msg)
+            {
+                MessageDialogFragment message = new MessageDialogFragment("Unable to launch PictoCreator, make sure its installed and up to date!");
+                message.show(getFragmentManager(), "PictoCreator");
+            }
+            return false;
+        }
+    }
 	
 	public void gotoCroc(View view){
-		Intent croc = new Intent();
-		croc.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.CrocActivity");
-		startActivity(croc);
+        LaunchPictoCreator(true);
 	}
 
     public void optionsGoToCroc(MenuItem item) {
-        Intent croc = new Intent();
-        croc.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.CrocActivity");
-        startActivity(croc);
+        LaunchPictoCreator(true);
     }
 	
 	public void callAndersSupport(MenuItem item) {
