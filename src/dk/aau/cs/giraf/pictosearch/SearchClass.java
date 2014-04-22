@@ -48,6 +48,7 @@ public class SearchClass
         {
             for(int i = 0; i < input.length; i++)
             {
+                if (p == null || p.getTextLabel() == null) continue;
                 if (p.getTextLabel().toLowerCase().contains(input[i]))
                 {
                     lst.add(p);
