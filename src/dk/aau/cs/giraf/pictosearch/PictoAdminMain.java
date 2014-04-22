@@ -1,8 +1,6 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
 //import dk.aau.cs.giraf.categorylib.CategoryHelper;
-//import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
@@ -32,7 +29,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Category;
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends Activity {
-	private int    childId = 12;
+	private int    guardianInfo_ChildId = -1;
 
 	private ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
@@ -63,8 +60,8 @@ public class PictoAdminMain extends Activity {
 		
 		//catHelp = new CategoryHelper(this);
         SearchClassInstance = new SearchClass(this);
-		
-		getProfile();
+
+        updateGuardianInfo();
 		getPurpose();
 		getAllPictograms();
         getAllCategories();
@@ -132,12 +129,18 @@ public class PictoAdminMain extends Activity {
 	
 	/**
 	 * Get the current child id if information is send by calling application
-	 * Otherwise the standard value of childId is 12
+	 * Otherwise the standard value of childId is -1 (invalid)
 	 */
-	public void getProfile() {
-		if(getIntent().hasExtra("currentChildID")){
-			childId = getIntent().getIntExtra("currentChildID", -1);
-		}
+    private void updateGuardianInfo()
+    {
+        guardianInfo_ChildId = -1;
+        if(getIntent().hasExtra("currentChildID"))
+            guardianInfo_ChildId = getIntent().getIntExtra("currentChildID", -1);
+    }
+
+	public int getChildID()
+    {
+		return guardianInfo_ChildId;
 	}
 	
 	/**
@@ -184,9 +187,11 @@ public class PictoAdminMain extends Activity {
     {
         ArrayList<Category> cattemp = new ArrayList<Category>();
         catList = new ArrayList<Category>();
+
+        int childId = getChildID();
         if (childId < 0) return catList; // If no child, return empty
 
-        //cattemp = catHelp.getChildsCategories(childId);
+        //cattemp = catHelp.getChildsCategories(childid);
 
         for (Category pc : cattemp) {
             catList.add(pc);

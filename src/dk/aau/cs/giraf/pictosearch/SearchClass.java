@@ -1,13 +1,10 @@
 package dk.aau.cs.giraf.pictosearch;
 
 //import dk.aau.cs.giraf.categorylib.CategoryHelper;
-//import dk.aau.cs.giraf.categorylib.PARROTCategory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import dk.aau.cs.giraf.oasis.lib.models.Category;
 
 /**
  * Created by Tobias on 25-03-14.
@@ -26,7 +23,7 @@ public class SearchClass
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         if (tag == "Tags") return DoSearch_Tags(input, AllPictograms);
         else if (tag == "Pictogrammer") return DoSearch_Pictogram(input, AllPictograms);
-        //else if (tag == "Kategorier") return DoSearch_Category(input, new ArrayList<PARROTCategory>());
+        else if (tag == "Kategorier") return DoSearch_Category(input, Outer.getAllCategories());
         else return DoSearch_All(input, AllPictograms);
     }
 
@@ -37,7 +34,7 @@ public class SearchClass
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         ArrayList<Object> Result = new ArrayList<Object>();
         Result.addAll(DoSearch_Pictogram(input, AllPictograms));
-        //Result.addAll(DoSearch_Category(input, new ArrayList<PARROTCategory>()));
+        Result.addAll(DoSearch_Category(input, Outer.getAllCategories()));
         return Result;
     }
 
@@ -46,9 +43,10 @@ public class SearchClass
         ArrayList<Object> lst = new ArrayList<Object>();
         for (Pictogram p : AllPictograms)
         {
+            if (p == null || p.getTextLabel() == null) continue;
+
             for(int i = 0; i < input.length; i++)
             {
-                if (p == null || p.getTextLabel() == null) continue;
                 if (p.getTextLabel().toLowerCase().contains(input[i]))
                 {
                     lst.add(p);
@@ -64,6 +62,8 @@ public class SearchClass
         ArrayList<Object> lst = new ArrayList<Object>();
         for (Pictogram p : AllPictograms)
         {
+            if (p == null || p.getTextLabel() == null) continue;
+
             boolean added = false;
             for(int i = 0; i < input.length; i++)
             {
@@ -84,14 +84,19 @@ public class SearchClass
 
     // CATEGORY IMPLEMENTATIONS
 
-    /*private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<PARROTCategory> CatSearchList)
+    private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<Category> CatSearchList)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
 
-        for (PARROTCategory pc : CatSearchList){
+        for (Category pc : CatSearchList){
+            if (pc == null || pc.getName() == null) continue;
+
             boolean added = false;
-            for (int i = 0; i < input.length; i++){
-                if (pc.getCategoryName().contains(input[i])){
+
+            for (int i = 0; i < input.length; i++)
+            {
+                if (pc.getName().contains(input[i]))
+                {
                     lst.add(pc);
                     added = true;
                     break;
@@ -101,5 +106,5 @@ public class SearchClass
         }
 
         return lst;
-    }*/
+    }
 }
