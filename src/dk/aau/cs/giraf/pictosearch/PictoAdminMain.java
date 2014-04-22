@@ -21,8 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
-//import dk.aau.cs.giraf.categorylib.CategoryHelper;
-//import dk.aau.cs.giraf.categorylib.PARROTCategory;
+import dk.aau.cs.giraf.categorylib.CatLibHelper;
+import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
@@ -41,8 +41,6 @@ public class PictoAdminMain extends Activity {
 	
 	private GridView checkoutGrid;
 	private GridView pictoGrid;
-	
-	//private CategoryHelper catHelp;
 	
 	private String purpose;
     private SearchClass SearchClassInstance;
@@ -171,7 +169,8 @@ public class PictoAdminMain extends Activity {
 	@SuppressWarnings("static-access")
 	public ArrayList<Pictogram> getAllPictograms() {
 		List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
-		pictoList = new ArrayList<Pictogram>();
+
+        pictoList = new ArrayList<Pictogram>();
 
 		for (Pictogram p : pictotemp) {
 			pictoList.add(p);
@@ -182,11 +181,13 @@ public class PictoAdminMain extends Activity {
 
     public  ArrayList<Category> getAllCategories()
     {
-        ArrayList<Category> cattemp = new ArrayList<Category>();
+        List<Category> cattemp = new ArrayList<Category>();
         catList = new ArrayList<Category>();
         if (childId < 0) return catList; // If no child, return empty
 
         //cattemp = catHelp.getChildsCategories(childId);
+        CategoryController categoryController = new CategoryController(getApplicationContext());
+        cattemp = categoryController.getCategoriesByProfileId(childId);
 
         for (Category pc : cattemp) {
             catList.add(pc);
