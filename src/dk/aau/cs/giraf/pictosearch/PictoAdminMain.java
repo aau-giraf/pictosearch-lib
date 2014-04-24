@@ -322,10 +322,10 @@ public class PictoAdminMain extends Activity {
 	 * Assess the checkout gridview and load the pictograms into an ArrayList
 	 * @return ArrayList of checkout pictograms
 	 */
-	private long[] getCheckoutList()
+	private int[] getCheckoutList()
     {
         ArrayList<Pictogram> plist = getCheckoutPictograms();
-		long[] checkout = new long[plist.size()];
+		int[] checkout = new int[plist.size()];
 		int i = 0;
 		
 		for(Pictogram p : plist)
@@ -354,7 +354,7 @@ public class PictoAdminMain extends Activity {
 	 * MenuItem: Sends pictogram ids from checkoutlist to appropriate calling application 
 	 */	
 	public void sendContent(View view) {
-		long[] output = getCheckoutList();
+		int[] output = getCheckoutList();
 		Intent data = this.getIntent();
 		data.putExtra("checkoutIds", output);
 		
