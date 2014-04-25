@@ -89,6 +89,7 @@ public class PictoAdapter extends BaseAdapter {
 
         if (pctNew != null)
         {
+            /*
             try
             {
                 Bitmap b = pctNew.getImage();
@@ -103,6 +104,7 @@ public class PictoAdapter extends BaseAdapter {
             {
                 System.out.println("Exception: " + e + ", fix nu!!!!!!");
             }
+            */
         }
 
 
