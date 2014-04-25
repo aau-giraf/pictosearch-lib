@@ -354,11 +354,8 @@ public class PictoAdminMain extends Activity {
 	 * MenuItem: Sends pictogram ids from checkoutlist to appropriate calling application 
 	 */	
 	public void sendContent(View view) {
-		//int[] output = getCheckoutList();
-        int[] output = new int[1];
-        output[0] = 1;
-		//Intent data = this.getIntent();
-        Intent data = new Intent();
+		int[] output = getCheckoutList();
+		Intent data = this.getIntent();
 		data.putExtra("checkoutIds", output);
 		
 		if(getParent() == null) {
