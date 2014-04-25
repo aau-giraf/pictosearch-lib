@@ -14,7 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 //import dk.aau.cs.giraf.categorylib.PARROTCategory;
-import dk.aau.cs.giraf.pictogram.Pictogram;
+//import dk.aau.cs.giraf.pictogram.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
  * Used to import the pictograms into a gridview.
@@ -64,7 +65,7 @@ public class PictoAdapter extends BaseAdapter {
         if (o instanceof Pictogram)
         {
             pctNew = (Pictogram)pictograms.get(position);
-            if (pctNew != null) TextLabel = pctNew.getTextLabel();
+            if (pctNew != null) TextLabel = pctNew.getName();
         }
         /*else if (o instanceof PARROTCategory)
         {
@@ -84,13 +85,14 @@ public class PictoAdapter extends BaseAdapter {
 			TextView textView = (TextView) convertView.findViewById(R.id.pictogramtext);
 			textView.setText(TextLabel);
 		}
-
+        /*
         if (pctNew != null)
         {
 		    BitmapWorker worker = new BitmapWorker(imageView);
 		    worker.execute(pctNew);
         }
-		
+        */
+
 		convertView.setPadding(5, 5, 5, 5);
 
 		return convertView;

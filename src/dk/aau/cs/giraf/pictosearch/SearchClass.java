@@ -1,10 +1,12 @@
 package dk.aau.cs.giraf.pictosearch;
 
 //import dk.aau.cs.giraf.categorylib.CategoryHelper;
-import dk.aau.cs.giraf.pictogram.Pictogram;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
+//import dk.aau.cs.giraf.pictogram.Pictogram;
+//import dk.aau.cs.giraf.pictogram.PictoFactory;
 import java.util.ArrayList;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 
 /**
  * Created by Tobias on 25-03-14.
@@ -43,11 +45,11 @@ public class SearchClass
         ArrayList<Object> lst = new ArrayList<Object>();
         for (Pictogram p : AllPictograms)
         {
-            if (p == null || p.getTextLabel() == null) continue;
+            if (p == null || p.getName() == null) continue;
 
             for(int i = 0; i < input.length; i++)
             {
-                if (p.getTextLabel().toLowerCase().contains(input[i]))
+                if (p.getName().toLowerCase().contains(input[i]))
                 {
                     lst.add(p);
                     break;
@@ -62,11 +64,12 @@ public class SearchClass
         ArrayList<Object> lst = new ArrayList<Object>();
         for (Pictogram p : AllPictograms)
         {
-            if (p == null || p.getTextLabel() == null) continue;
+            if (p == null || p.getName() == null) continue;
 
             boolean added = false;
             for(int i = 0; i < input.length; i++)
             {
+                /*
                 for (String tag : p.getTags())
                 {
                     if (tag.toLowerCase().contains(input[i]))
@@ -76,6 +79,7 @@ public class SearchClass
                         break;
                     }
                 }
+                */
                 if (added) break;
             }
         }

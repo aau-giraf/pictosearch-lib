@@ -21,9 +21,11 @@ import android.text.TextWatcher;
 import android.text.Editable;
 import dk.aau.cs.giraf.categorylib.CatLibHelper;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
-import dk.aau.cs.giraf.pictogram.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
+//import dk.aau.cs.giraf.pictogram.PictoFactory;
+//import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
  * @author SW605f13 Parrot-group
@@ -172,7 +174,9 @@ public class PictoAdminMain extends Activity {
 	 */
 	@SuppressWarnings("static-access")
 	public ArrayList<Pictogram> getAllPictograms() {
-		List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
+		//List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
+        PictogramController pictogramController = new PictogramController(this);
+        List<Pictogram> pictotemp = pictogramController.getPictograms();
 
         pictoList = new ArrayList<Pictogram>();
 
@@ -281,14 +285,14 @@ public class PictoAdminMain extends Activity {
     	for(String s : searchterm){
     		s.toLowerCase().replaceAll("\\s", "");
     		
-    		if(p.getTextLabel().toLowerCase().replaceAll("\\s", "").equals(s)){
+    		if(p.getName().toLowerCase().replaceAll("\\s", "").equals(s)){
     			searchvalue = 100;
     		}
     		
     		String temps = s;
     		
     		for(int i = 0; i < s.length(); i++){
-    			if(p.getTextLabel().toLowerCase().replaceAll("\\s", "").contains(temps) || temps.contains(p.getTextLabel().toLowerCase().replaceAll("\\s", ""))){
+    			if(p.getName().toLowerCase().replaceAll("\\s", "").contains(temps) || temps.contains(p.getName().toLowerCase().replaceAll("\\s", ""))){
     				searchvalue++;
     				}
     			
@@ -330,7 +334,7 @@ public class PictoAdminMain extends Activity {
 		
 		for(Pictogram p : plist)
         {
-            checkout[i] = p.getPictogramID();
+            checkout[i] = p.getId();
 			i++;
 		}
 		
