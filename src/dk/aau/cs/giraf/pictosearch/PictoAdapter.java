@@ -5,6 +5,7 @@ import java.io.ObjectOutput;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,13 +86,25 @@ public class PictoAdapter extends BaseAdapter {
 			TextView textView = (TextView) convertView.findViewById(R.id.pictogramtext);
 			textView.setText(TextLabel);
 		}
-        /*
+
         if (pctNew != null)
         {
-		    BitmapWorker worker = new BitmapWorker(imageView);
-		    worker.execute(pctNew);
+            try
+            {
+                Bitmap b = pctNew.getImage();
+                if (b != null)
+                {
+		            //BitmapWorker worker = new BitmapWorker(imageView);
+		            //worker.execute(pctNew);
+                    imageView.setImageBitmap(b);
+                }
+            }
+            catch (java.lang.NullPointerException e)
+            {
+                System.out.println("Exception: " + e + ", fix nu!!!!!!");
+            }
         }
-        */
+
 
 		convertView.setPadding(5, 5, 5, 5);
 
