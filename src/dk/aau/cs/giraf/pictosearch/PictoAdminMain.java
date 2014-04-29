@@ -331,7 +331,20 @@ public class PictoAdminMain extends Activity {
     	return searchvalue;
     }
 
-    private ArrayList<Object> getCheckoutPictograms() {
+    private Object[] getCheckoutObjectsArray()
+    {
+        ArrayList<Object> r = getCheckoutObjects();
+        Object[] checkout = new Object[r.size()];
+        int i = 0;
+        for (Object o: r)
+        {
+            checkout[i] = o;
+            i++;
+        }
+        return checkout;
+    }
+
+    private ArrayList<Object> getCheckoutObjects() {
         ArrayList<Object> r = new ArrayList<Object>();
 
         for(Object o : checkoutList)
@@ -349,14 +362,14 @@ public class PictoAdminMain extends Activity {
         }
         return r;
     }
-	
+
 	/**
 	 * Assess the checkout gridview and load the pictograms into an ArrayList
 	 * @return ArrayList of checkout pictograms
 	 */
-	private int[] getCheckoutList()
+    private int[] getCheckoutPictogramIDs()
     {
-        ArrayList<Object> plist = getCheckoutPictograms();
+        ArrayList<Object> plist = getCheckoutObjects();
 		int[] checkout = new int[plist.size()];
 		int i = 0;
 		
@@ -370,9 +383,12 @@ public class PictoAdminMain extends Activity {
             }
             else if (o instanceof Category)
             {
+                // TODO: Open up category and get pictogram ids
+                /*
                 Category catNew = (Category)o;
                 checkout[i] = catNew.getId();
                 i++;
+                */
             }
 
 		}
@@ -397,9 +413,12 @@ public class PictoAdminMain extends Activity {
 	 * MenuItem: Sends pictogram ids from checkoutlist to appropriate calling application 
 	 */	
 	public void sendContent(View view) {
-		int[] output = getCheckoutList();
+		int[] output = getCheckoutPictogramIDs();
+        Object[] output_objects = getCheckoutObjectsArray();
 		Intent data = this.getIntent();
+
 		data.putExtra("checkoutIds", output);
+        data.putExtra("checkoutObjects", output_objects);
 		
 		if(getParent() == null) {
 			setResult(Activity.RESULT_OK, data);
