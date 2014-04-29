@@ -367,33 +367,51 @@ public class PictoAdminMain extends Activity {
 	 * Assess the checkout gridview and load the pictograms into an ArrayList
 	 * @return ArrayList of checkout pictograms
 	 */
-    private int[] getCheckoutPictogramIDs()
+    private int[] getCheckoutPictogramIDsArray()
     {
+        ArrayList<Integer> plist = getCheckoutPictogramIDs();
+        int[] checkout = new int[plist.size()];
+        int i = 0;
+        for (int j : plist)
+        {
+            checkout[i] = j;
+            i++;
+        }
+        return checkout;
+    }
+    private ArrayList<Integer> getCheckoutPictogramIDs()
+    {
+        ArrayList<Integer> Result = new ArrayList<Integer>();
         ArrayList<Object> plist = getCheckoutObjects();
-		int[] checkout = new int[plist.size()];
-		int i = 0;
-		
+
+        PictogramController pictogramController = new PictogramController(this);
+        CategoryController categoryController = new CategoryController(this);
+
 		for(Object o : plist)
         {
             if (o instanceof Pictogram)
             {
-                Pictogram pctNew = (Pictogram)o;
-                checkout[i] = pctNew.getId();
-                i++;
+                Pictogram p = (Pictogram)o;
+                Result.add(p.getId());
             }
             else if (o instanceof Category)
             {
                 // TODO: Open up category and get pictogram ids
-                /*
                 Category catNew = (Category)o;
-                checkout[i] = catNew.getId();
-                i++;
-                */
+                for (Pictogram p : pictogramController.getPictogramsByCategory(catNew))
+                    Result.add(p.getId());
+
+                for (Category c : categoryController.getSubcategoriesByCategory(catNew))
+                {
+                    if (c == null) continue;
+                    for (Pictogram p : pictogramController.getPictogramsByCategory(c))
+                        Result.add(p.getId());
+                }
             }
 
 		}
 		
-		return checkout;
+		return Result;
 	}
 	
 	public void clearSearchField(View view) {
@@ -413,7 +431,7 @@ public class PictoAdminMain extends Activity {
 	 * MenuItem: Sends pictogram ids from checkoutlist to appropriate calling application 
 	 */	
 	public void sendContent(View view) {
-		int[] output = getCheckoutPictogramIDs();
+		int[] output = getCheckoutPictogramIDsArray();
         Object[] output_objects = getCheckoutObjectsArray();
 		Intent data = this.getIntent();
 
