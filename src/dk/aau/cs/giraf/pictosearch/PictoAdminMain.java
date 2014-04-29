@@ -254,14 +254,19 @@ public class PictoAdminMain extends Activity {
 		EditText searchterm = (EditText) findViewById(R.id.text_input);
         String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
 		String[] splitinput = searchstring.split(",");
-		
+
+
         searchlist.clear();
         if (SearchClassInstance != null)
         {
-            for (Object o : SearchClassInstance.DoSearch(tag, splitinput, pictoList))
+            ArrayList<Object> allList = new ArrayList<Object>();
+            allList.addAll(pictoList);
+            allList.addAll(catList);
+
+            ArrayList<Object> slist = SearchClassInstance.DoSearch(tag, splitinput, allList);
+            for (Object o : slist)
             {
-                if (o instanceof Pictogram)
-                    searchlist.add(o);
+                searchlist.add(o);
             }
         }
 
@@ -270,6 +275,7 @@ public class PictoAdminMain extends Activity {
 		}
 		else{
 			updateErrorMessage("Pictogram findes ikke i database", R.drawable.action_about);
+            picgrid.setAdapter(new PictoAdapter(searchlist, this));
 		}
 	}
 	

@@ -20,92 +20,115 @@ public class SearchClass
         Outer = ou;
     }
 
-    public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Pictogram> AllPictograms)
+    public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Object> AllPictograms)
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
-        if (tag == "Tags") return DoSearch_Tags(input, AllPictograms);
-        else if (tag == "Pictogrammer") return DoSearch_Pictogram(input, AllPictograms);
-        else if (tag == "Kategorier") return DoSearch_Category(input, Outer.getAllCategories());
-        else return DoSearch_All(input, AllPictograms);
+        if (tag.equals("Tags"))
+        {
+            return DoSearch_Tags(input, AllPictograms);
+        }
+        else if (tag.equals("Pictogrammer"))
+        {
+            return DoSearch_Pictogram(input, AllPictograms);
+        }
+        else if (tag.equals("Kategorier"))
+        {
+            return DoSearch_Category(input, AllPictograms);
+        }
+        else
+        {
+            return DoSearch_All(input, AllPictograms);
+        }
     }
 
     // PICTOGRAM IMPLEMENTATIONS
 
-    private ArrayList<Object> DoSearch_All(String[] input, ArrayList<Pictogram> AllPictograms)
+    private ArrayList<Object> DoSearch_All(String[] input, ArrayList<Object> AllPictograms)
     {
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         ArrayList<Object> Result = new ArrayList<Object>();
         Result.addAll(DoSearch_Pictogram(input, AllPictograms));
-        Result.addAll(DoSearch_Category(input, Outer.getAllCategories()));
+        Result.addAll(DoSearch_Category(input, AllPictograms));
         return Result;
     }
 
-    private ArrayList<Object> DoSearch_Pictogram(String[] input, ArrayList<Pictogram> AllPictograms)
+    private ArrayList<Object> DoSearch_Pictogram(String[] input, ArrayList<Object> AllPictograms)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
-        for (Pictogram p : AllPictograms)
+        for (Object o : AllPictograms)
         {
-            if (p == null || p.getName() == null) continue;
-
-            for(int i = 0; i < input.length; i++)
+            if (o instanceof Pictogram)
             {
-                if (p.getName().toLowerCase().contains(input[i]))
+                Pictogram p = (Pictogram)o;
+                if (p == null || p.getName() == null) continue;
+
+                for(int i = 0; i < input.length; i++)
                 {
-                    lst.add(p);
-                    break;
+                    if (p.getName().toLowerCase().contains(input[i]))
+                    {
+                        lst.add(p);
+                        break;
+                    }
                 }
             }
         }
         return lst;
     }
 
-    private ArrayList<Object> DoSearch_Tags(String[] input, ArrayList<Pictogram> AllPictograms)
+    private ArrayList<Object> DoSearch_Tags(String[] input, ArrayList<Object> AllPictograms)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
-        for (Pictogram p : AllPictograms)
-        {
-            if (p == null || p.getName() == null) continue;
 
-            boolean added = false;
-            for(int i = 0; i < input.length; i++)
-            {
-                /*
-                for (String tag : p.getTags())
-                {
-                    if (tag.toLowerCase().contains(input[i]))
-                    {
-                        lst.add(p);
-                        added = true;
-                        break;
-                    }
-                }
-                */
-                if (added) break;
-            }
-        }
+//        for (Object o : AllPictograms)
+//        {
+//            if (p == null || p.getName() == null) continue;
+//
+//            boolean added = false;
+//            for(int i = 0; i < input.length; i++)
+//            {
+//                /*
+//                for (String tag : p.getTags())
+//                {
+//                    if (tag.toLowerCase().contains(input[i]))
+//                    {
+//                        lst.add(p);
+//                        added = true;
+//                        break;
+//                    }
+//                }
+//                */
+//                if (added) break;
+//            }
+//        }
         return lst;
     }
 
     // CATEGORY IMPLEMENTATIONS
 
-    private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<Category> CatSearchList)
+    private ArrayList<Object> DoSearch_Category(String[] input, ArrayList<Object> CatSearchList)
     {
         ArrayList<Object> lst = new ArrayList<Object>();
 
-        for (Category pc : CatSearchList){
-            if (pc == null || pc.getName() == null) continue;
-
-            boolean added = false;
-
-            for (int i = 0; i < input.length; i++)
+        for (Object o : CatSearchList){
+            if(o instanceof Category)
             {
-                if (pc.getName().contains(input[i]))
+                Category pc = (Category)o;
+
+                if (pc == null || pc.getName() == null) continue;
+
+                boolean added = false;
+
+                for (int i = 0; i < input.length; i++)
                 {
-                    lst.add(pc);
-                    added = true;
-                    break;
+                    if (added) break;
+                    else if (pc.getName().contains(input[i]))
+                    {
+                        lst.add(pc);
+                        added = true;
+                        break;
+                    }
+
                 }
-                if (added) break;
             }
         }
 
