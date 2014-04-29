@@ -41,6 +41,7 @@ public class PictoAdminMain extends Activity {
 	
 	private GridView checkoutGrid;
 	private GridView pictoGrid;
+    private Spinner searchspinner;
 	
 	private String purpose;
     private SearchClass SearchClassInstance;
@@ -93,6 +94,19 @@ public class PictoAdminMain extends Activity {
 				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
 			}
 		});
+
+        searchspinner = (Spinner)findViewById(R.id.select_search_field);
+        searchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                loadPictogramIntoGridView();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                loadPictogramIntoGridView();
+            }
+        });
 
         loadPictogramIntoGridView();
 
