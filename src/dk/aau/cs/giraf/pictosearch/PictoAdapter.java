@@ -17,6 +17,7 @@ import android.widget.TextView;
 //import dk.aau.cs.giraf.categorylib.PARROTCategory;
 //import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.models.Category;
 
 /**
  * Used to import the pictograms into a gridview.
@@ -63,15 +64,17 @@ public class PictoAdapter extends BaseAdapter {
         String TextLabel = "???";
 
         Pictogram pctNew = null;
+        Category catNew = null;
         if (o instanceof Pictogram)
         {
             pctNew = (Pictogram)pictograms.get(position);
             if (pctNew != null) TextLabel = pctNew.getName();
         }
-        /*else if (o instanceof PARROTCategory)
+        else if (o instanceof Category)
         {
-            PARROTCategory catNew = (PARROTCategory)pictograms.get(position);
-        }*/
+            catNew = (Category)pictograms.get(position);
+            if (catNew != null) TextLabel = catNew.getName();
+        }
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
 
@@ -89,7 +92,7 @@ public class PictoAdapter extends BaseAdapter {
 
         if (pctNew != null)
         {
-            /*
+
             try
             {
                 Bitmap b = pctNew.getImage();
@@ -104,9 +107,27 @@ public class PictoAdapter extends BaseAdapter {
             {
                 System.out.println("Exception: " + e + ", fix nu!!!!!!");
             }
-            */
-        }
 
+        }
+        else if(catNew != null)
+        {
+
+            try
+            {
+                Bitmap b = catNew.getImage();
+                if (b != null)
+                {
+                    //BitmapWorker worker = new BitmapWorker(imageView);
+                    //worker.execute(pctNew);
+                    imageView.setImageBitmap(b);
+                }
+            }
+            catch (java.lang.NullPointerException e)
+            {
+                System.out.println("Exception: " + e + ", fix nu!!!!!!");
+            }
+
+        }
 
 		convertView.setPadding(5, 5, 5, 5);
 

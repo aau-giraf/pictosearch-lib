@@ -195,9 +195,17 @@ public class PictoAdminMain extends Activity {
         int childId = getChildID();
         if (childId < 0) return catList; // If no child, return empty
 
-        //cattemp = catHelp.getChildsCategories(childid);
         CategoryController categoryController = new CategoryController(getApplicationContext());
-        cattemp = categoryController.getCategoriesByProfileId(childId);
+        //cattemp = categoryController.getCategoriesByProfileId(childId);
+
+        try
+        {
+            cattemp = categoryController.getCategories();
+        }
+        catch (java.lang.NullPointerException e)
+        {
+            System.out.println("Exception: " + e + ", fix nu!!!!!!");
+        }
 
         for (Category pc : cattemp) {
             catList.add(pc);
@@ -303,8 +311,8 @@ public class PictoAdminMain extends Activity {
     	return searchvalue;
     }
 
-    private ArrayList<Pictogram> getCheckoutPictograms() {
-        ArrayList<Pictogram> r = new ArrayList<Pictogram>();
+    private ArrayList<Object> getCheckoutPictograms() {
+        ArrayList<Object> r = new ArrayList<Object>();
 
         for(Object o : checkoutList)
         {
@@ -313,11 +321,11 @@ public class PictoAdminMain extends Activity {
                 Pictogram p = (Pictogram)o;
                 r.add(p);
             }
-            /*else if (o instanceof PARROTCategory)
+            else if (o instanceof Category)
             {
-                PARROTCategory c = (PARROTCategory)o;
-                r.addAll(c.getPictograms());
-            }*/
+                Category c = (Category)o;
+                r.add(c);
+            }
         }
         return r;
     }
@@ -328,14 +336,25 @@ public class PictoAdminMain extends Activity {
 	 */
 	private int[] getCheckoutList()
     {
-        ArrayList<Pictogram> plist = getCheckoutPictograms();
+        ArrayList<Object> plist = getCheckoutPictograms();
 		int[] checkout = new int[plist.size()];
 		int i = 0;
 		
-		for(Pictogram p : plist)
+		for(Object o : plist)
         {
-            checkout[i] = p.getId();
-			i++;
+            if (o instanceof Pictogram)
+            {
+                Pictogram pctNew = (Pictogram)o;
+                checkout[i] = pctNew.getId();
+                i++;
+            }
+            else if (o instanceof Category)
+            {
+                Category catNew = (Category)o;
+                checkout[i] = catNew.getId();
+                i++;
+            }
+
 		}
 		
 		return checkout;
