@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
 import dk.aau.cs.giraf.categorylib.CatLibHelper;
+import dk.aau.cs.giraf.gui.GDialogMessage;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 //import dk.aau.cs.giraf.pictogram.PictoFactory;
@@ -42,7 +43,10 @@ public class PictoAdminMain extends Activity {
 	private GridView checkoutGrid;
 	private GridView pictoGrid;
     private Spinner searchspinner;
-	
+    private Pictogram pictodelete = new Pictogram();
+    private Category catdelete = new Category();
+    private DeleteClass deleteClass = new DeleteClass(this);
+
 	private String purpose;
     private SearchClass SearchClassInstance;
 	
@@ -94,6 +98,23 @@ public class PictoAdminMain extends Activity {
 				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
 			}
 		});
+        pictoGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(searchlist.get(position) instanceof Pictogram) {
+                    pictodelete = (Pictogram) searchlist.get(position);
+                    catdelete = null;
+                }
+                else if (searchlist.get(position) instanceof Category)
+                {
+                    catdelete = (Category) searchlist.get(position);
+                    pictodelete = null;
+                }
+                showDelete();
+                return true;
+            }
+        });
 
         searchspinner = (Spinner)findViewById(R.id.select_search_field);
         searchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -496,5 +517,29 @@ public class PictoAdminMain extends Activity {
             clearButton.setVisibility(View.VISIBLE);
         else
             clearButton.setVisibility(View.INVISIBLE);
+    }
+
+    public void showDelete()
+    {
+        GDialogMessage deleteDialog = new GDialogMessage(this,
+                "Vil du slette det valgte pictogram?",
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       if(pictodelete != null) {
+                           deleteClass.PictoDelete(view.getContext(), pictodelete);
+                           getAllPictograms();
+                           }
+                       else
+                       {
+                           deleteClass.CategoryDelete(view.getContext(), catdelete);
+                           getAllCategories();
+                       }
+                       loadPictogramIntoGridView();
+                    }
+                }
+        );
+
+        deleteDialog.show();
     }
 }
