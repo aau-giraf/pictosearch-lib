@@ -1,12 +1,10 @@
 package dk.aau.cs.giraf.pictosearch;
 
 
-import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-import java.util.ArrayList;
 import android.content.Context;
 
 /**
@@ -14,7 +12,6 @@ import android.content.Context;
  */
 public class DeleteClass {
 
-    private static Helper databaseHelper;
     private PictoAdminMain Outer;
 
     DeleteClass(PictoAdminMain ou){ Outer = ou;}

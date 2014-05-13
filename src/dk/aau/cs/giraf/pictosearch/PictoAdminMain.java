@@ -63,7 +63,7 @@ public class PictoAdminMain extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_picto_admin_main);
-		
+
 		//catHelp = new CategoryHelper(this);
         SearchClassInstance = new SearchClass(this);
 
@@ -73,7 +73,7 @@ public class PictoAdminMain extends Activity {
         getAllCategories();
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
-		
+
 		checkoutGrid = (GridView) findViewById(R.id.checkout);
 		checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
@@ -84,7 +84,7 @@ public class PictoAdminMain extends Activity {
 				return true;
 			}
 		});
-		
+
 		pictoGrid = (GridView) findViewById(R.id.pictogram_displayer);
 		pictoGrid.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -457,7 +457,8 @@ public class PictoAdminMain extends Activity {
 		Intent data = this.getIntent();
 
 		data.putExtra("checkoutIds", output);
-        data.putExtra("checkoutObjects", output_objects);
+        //Java does not like parsing obejcts
+        //data.putExtra("checkoutObjects", output_objects);
 		
 		if(getParent() == null) {
 			setResult(Activity.RESULT_OK, data);
