@@ -77,8 +77,6 @@
                 android:inputType="text"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="20sp" >
-
-                <requestFocus />
             </EditText>
 
             <TextView
