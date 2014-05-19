@@ -60,7 +60,7 @@ public class PictoAdminMain extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(android.R.layout.activity_picto_admin_main);
+		setContentView(R.layout.activity_picto_admin_main);
 
         checkoutList = new ArrayList<Object>();
         pictoList    = new ArrayList<Pictogram>();
@@ -77,7 +77,7 @@ public class PictoAdminMain extends Activity {
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
 
-		checkoutGrid = (GridView) findViewById(android.R.id.checkout);
+		checkoutGrid = (GridView) findViewById(R.id.checkout);
 		checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long arg3) {
@@ -88,7 +88,7 @@ public class PictoAdminMain extends Activity {
 			}
 		});
 
-		pictoGrid = (GridView) findViewById(android.R.id.pictogram_displayer);
+		pictoGrid = (GridView) findViewById(R.id.pictogram_displayer);
         pictoGrid.setDrawingCacheEnabled(false);
 		pictoGrid.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -120,7 +120,7 @@ public class PictoAdminMain extends Activity {
             }
         });
 
-        searchspinner = (Spinner)findViewById(android.R.id.select_search_field);
+        searchspinner = (Spinner)findViewById(R.id.select_search_field);
         searchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -135,7 +135,7 @@ public class PictoAdminMain extends Activity {
 
         loadPictogramIntoGridView();
 
-        EditText searchterm = (EditText) findViewById(android.R.id.text_input);
+        EditText searchterm = (EditText) findViewById(R.id.text_input);
         searchterm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 onUpdatedSearchField();
@@ -149,7 +149,7 @@ public class PictoAdminMain extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(android.R.menu.picto_admin_main, menu);
+		getMenuInflater().inflate(R.menu.picto_admin_main, menu);
 		return true;
 	}
 
@@ -183,7 +183,7 @@ public class PictoAdminMain extends Activity {
 	 */
 	private void getPurpose()
     {
-        EditText searchterm = (EditText) findViewById(android.R.id.text_input);
+        EditText searchterm = (EditText) findViewById(R.id.text_input);
 
 		if(getIntent().hasExtra("purpose")){
 			if(getIntent().getStringExtra("purpose").equals("single")){
@@ -263,8 +263,8 @@ public class PictoAdminMain extends Activity {
 	 */
 	private void updateErrorMessage(String message, int icon)
 	{
-		TextView  errorMessage = (TextView)  findViewById(android.R.id.errorMessage);
-		ImageView errorIcon    = (ImageView) findViewById(android.R.id.errorIcon);
+		TextView  errorMessage = (TextView)  findViewById(R.id.errorMessage);
+		ImageView errorIcon    = (ImageView) findViewById(R.id.errorIcon);
 		
 		errorMessage.setText(message);
 		errorIcon.setImageResource(icon);
@@ -277,7 +277,7 @@ public class PictoAdminMain extends Activity {
 	 */
     private void loadPictogramIntoGridView()
     {
-        Spinner searchField = (Spinner)findViewById(android.R.id.select_search_field);
+        Spinner searchField = (Spinner)findViewById(R.id.select_search_field);
         String  selectedTag =  searchField.getSelectedItem().toString();
         loadPictogramIntoGridView(selectedTag);
     }
@@ -286,7 +286,7 @@ public class PictoAdminMain extends Activity {
         pictoGrid.setAdapter(null);
         searchlist.clear();
 
-		EditText searchterm = (EditText) findViewById(android.R.id.text_input);
+		EditText searchterm = (EditText) findViewById(R.id.text_input);
         String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
 		String[] splitinput = searchstring.split(",");
 
@@ -308,7 +308,7 @@ public class PictoAdminMain extends Activity {
             pictoGrid.setAdapter(new PictoAdapter(searchlist, this));
 		}
 		else{
-			updateErrorMessage("Pictogram findes ikke i database", android.R.drawable.action_about);
+			updateErrorMessage("Pictogram findes ikke i database", R.drawable.action_about);
             pictoGrid.setAdapter(new PictoAdapter(searchlist, this));
 		}
 	}
@@ -435,7 +435,7 @@ public class PictoAdminMain extends Activity {
 	}
 	
 	public void clearSearchField(View view) {
-		EditText searchField = (EditText) findViewById(android.R.id.text_input);
+		EditText searchField = (EditText) findViewById(R.id.text_input);
 		searchField.setText(null);
         onUpdatedSearchField();
         loadPictogramIntoGridView();
@@ -502,16 +502,16 @@ public class PictoAdminMain extends Activity {
 
     public void onUpdatedCheckoutCount()
     {
-        TextView  messageBox = (TextView)  findViewById(android.R.id.textView1);
+        TextView  messageBox = (TextView)  findViewById(R.id.textView1);
         messageBox.setText("Valg: " + checkoutList.size());
     }
 
     public void onUpdatedSearchField()
     {
-        EditText searchterm = (EditText) findViewById(android.R.id.text_input);
+        EditText searchterm = (EditText) findViewById(R.id.text_input);
         //String searchtext = searchterm.getText().toString();
         Editable s = searchterm.getText();
-        View clearButton = findViewById(android.R.id.clearSearchFieldButton);
+        View clearButton = findViewById(R.id.clearSearchFieldButton);
         if (s != null && s.length() > 0)
             clearButton.setVisibility(View.VISIBLE);
         else
