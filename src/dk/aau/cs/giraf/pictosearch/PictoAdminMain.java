@@ -42,7 +42,7 @@ public class PictoAdminMain extends Activity {
 	private GridView pictoGrid;
     private Spinner searchspinner;
     private Pictogram pictodelete = new Pictogram();
-    private Category catdelete = new Category();
+    private Category catdelete = new Category(); // 
     private DeleteClass deleteClass = new DeleteClass(this);
 
 	private String purpose;
