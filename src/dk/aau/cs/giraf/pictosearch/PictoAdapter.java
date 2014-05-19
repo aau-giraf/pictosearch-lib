@@ -1,9 +1,6 @@
 package dk.aau.cs.giraf.pictosearch;
 
 
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -14,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import dk.aau.cs.giraf.oasis.lib.models.Category;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+
 //import dk.aau.cs.giraf.categorylib.PARROTCategory;
 //import dk.aau.cs.giraf.pictogram.Pictogram;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-import dk.aau.cs.giraf.oasis.lib.models.Category;
 
 /**
  * Used to import the pictograms into a gridview.
@@ -60,6 +60,15 @@ public class PictoAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
+        View view;
+        if (convertView == null){
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.pictogramview, null);
+        }
+        else {
+            view = convertView;
+        }
+
         Object o = pictograms.get(position);
         String TextLabel = "???";
 
@@ -76,19 +85,12 @@ public class PictoAdapter extends BaseAdapter {
             if (catNew != null) TextLabel = catNew.getName();
         }
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+        ImageView pictoImage = (ImageView) view.findViewById(R.id.pictogrambitmap);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+        pictoImage.setLayoutParams(layoutParams);
 
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		convertView = layoutInflater.inflate(R.layout.pictogramview, null);
-
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.pictogrambitmap); 
-		imageView.setLayoutParams(layoutParams);
-		
-		if(displayText)
-        {
-			TextView textView = (TextView) convertView.findViewById(R.id.pictogramtext);
-			textView.setText(TextLabel);
-		}
+        TextView pictoName = (TextView) view.findViewById(R.id.pictogramtext);
+        pictoName.setText(TextLabel);
 
         if (pctNew != null)
         {
@@ -98,9 +100,9 @@ public class PictoAdapter extends BaseAdapter {
                 Bitmap b = pctNew.getImage();
                 if (b != null)
                 {
-		            //BitmapWorker worker = new BitmapWorker(imageView);
-		            //worker.execute(pctNew);
-                    imageView.setImageBitmap(b);
+                    //BitmapWorker worker = new BitmapWorker(imageView);
+                    //worker.execute(pctNew);
+                    pictoImage.setImageBitmap(b);
                 }
             }
             catch (java.lang.NullPointerException e)
@@ -119,7 +121,7 @@ public class PictoAdapter extends BaseAdapter {
                 {
                     //BitmapWorker worker = new BitmapWorker(imageView);
                     //worker.execute(pctNew);
-                    imageView.setImageBitmap(b);
+                    pictoImage.setImageBitmap(b);
                 }
             }
             catch (java.lang.NullPointerException e)
@@ -129,8 +131,17 @@ public class PictoAdapter extends BaseAdapter {
 
         }
 
-		convertView.setPadding(5, 5, 5, 5);
+        view.setPadding(5, 5, 5, 5);
 
-		return convertView;
+
+        if(displayText)
+        {
+            view.setVisibility(View.VISIBLE);
+        }
+        else {
+            view.setVisibility(View.GONE);
+        }
+
+		return view;
 	}
 }

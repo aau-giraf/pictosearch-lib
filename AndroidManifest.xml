@@ -9,9 +9,11 @@
         android:targetSdkVersion="19" />
 	
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     
     <application
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@drawable/ic_launcher"
         android:label="PictoSearch"
         android:theme="@style/AppTheme" >
@@ -19,10 +21,13 @@
         <activity
             android:name="dk.aau.cs.giraf.pictosearch.PictoAdminMain"
             android:label="@string/title_activity_picto_main"
+            android:clearTaskOnLaunch="true"
+            android:finishOnTaskLaunch="true"
             android:logo="@drawable/ic_action_search"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         
