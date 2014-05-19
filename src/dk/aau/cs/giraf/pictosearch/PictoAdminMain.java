@@ -19,12 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
-import dk.aau.cs.giraf.categorylib.CatLibHelper;
 import dk.aau.cs.giraf.gui.GDialogMessage;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
-//import dk.aau.cs.giraf.pictogram.PictoFactory;
-//import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 

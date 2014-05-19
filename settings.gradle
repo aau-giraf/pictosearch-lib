@@ -1,6 +1,4 @@
-include ':Ambilwarna'
+include ':metadata'
 include ':OasisLib'
-include ':pictogram-lib'
-include ':CategoryLib'
 include ':PictoSearch'
 include ':GIRAF_Components'

@@ -33,7 +33,7 @@ public class BitmapWorker extends AsyncTask<Object, Void, Bitmap> {
 		Bitmap bmp = null;
 
 		if(pictogram.getId() == -1) {
-			bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.usynlig);
+			bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.action_help);
 		}
 		else {
 			bmp = pictogram.getImageData();
