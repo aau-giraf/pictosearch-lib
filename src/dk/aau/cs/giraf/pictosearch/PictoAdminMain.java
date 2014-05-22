@@ -43,12 +43,12 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 public class PictoAdminMain extends Activity {
 	private int    guardianInfo_ChildId = -1;
 
-	private ArrayList<Object> checkoutList = new ArrayList<Object>();
+	public ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
     private ArrayList<Category> catList    = new ArrayList<Category>();
 	private ArrayList<Object> searchlist   = new ArrayList<Object>();
 	
-	private GGridView checkoutGrid;
+	public GGridView checkoutGrid;
 	private GGridView pictoGrid;
     private GSpinner searchspinner;
     private Pictogram pictodelete = new Pictogram();
