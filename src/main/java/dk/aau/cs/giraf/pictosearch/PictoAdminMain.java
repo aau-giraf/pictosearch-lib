@@ -352,12 +352,12 @@ public class PictoAdminMain extends Activity {
             allList.addAll(catList);
 
             ArrayList<Object> slist = SearchClassInstance.DoSearch(tag, splitinput, allList);
-            for (Object o : slist)
+            TOLARGEBREAK: for (Object o : slist)
             {
                 searchlist.add(o);
-                if(searchlist.size() >= 48)
+                if(searchlist.size() >= 100)
                 {
-                    break;
+                    break TOLARGEBREAK;
                 }
             }
         }
