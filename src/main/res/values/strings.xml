@@ -17,7 +17,7 @@
     <string name="delete">Slet</string>
     <string name="send">Send</string>
 	<string name="checkoutList">Checkout list:</string>
-	<string name="pictograms_colon">Pictogrammer: </string> <!--Changed from pictograms to pictograms_colon-->
+	<string name="pictograms_colon">Pictogrammer: </string>
     
     <string name="picture">Default picture content description</string>
     <string name="title_activity_help_menu">HelpMenu</string>
@@ -44,7 +44,7 @@
 
 
     <!--All Error Message strings here-->
-    <string name="unable_to_launch">Unable to launch PictoCreator, make sure its installed and up to date!</string> <!--TRANSLATE THIS-->
+    <string name="unable_to_launch">Det var ikke muligt at åbne Piktotegner, sikre dig at det er installeret og opdateret.</string>
 
 
     <!--All Help Message strings here-->
