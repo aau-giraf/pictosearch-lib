@@ -57,6 +57,7 @@ public class PictoAdapter extends BaseAdapter {
 	}
 	
 	// Create an imageview for each pictogram in the list.
+    // Todo: Add Strings to Strings.xml
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{

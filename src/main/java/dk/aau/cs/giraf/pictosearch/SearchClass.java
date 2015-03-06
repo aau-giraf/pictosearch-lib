@@ -22,6 +22,7 @@ public class SearchClass
 
     public ArrayList<Object> DoSearch(String tag, String[] input, ArrayList<Object> AllPictograms)
     {
+        // Todo: Add Strings to Strings.xml
         // ToDo: DoSearch_Category currently receives an empty array, fill it with cats pls
         if (tag.equals("Tags"))
         {

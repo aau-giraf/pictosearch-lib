@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--This is the search option array-->
     <string-array name="select_search_field">
         <item>Alt</item>
         <item>Pictogrammer</item>
@@ -15,11 +17,54 @@
     <string name="delete">Slet</string>
     <string name="send">Send</string>
 	<string name="checkoutList">Checkout list:</string>
-	<string name="pictograms">Pictogrammer: </string>
+	<string name="pictograms_colon">Pictogrammer: </string> <!--Changed from pictograms to pictograms_colon-->
     
     <string name="picture">Default picture content description</string>
     <string name="title_activity_help_menu">HelpMenu</string>
     <string name="title_activity_admin_category">AdminCategory</string>
     <string name="title_activity_picto_main">Søg Pictogrammer</string>
-    
+
+    <!--Common nouns and verbs-->
+    <string name="choice_colon">Valg: </string>
+    <string name="purpose">purpose</string>
+    <string name="single">single</string>
+    <string name="multi">multi</string>
+    <string name="CAT">CAT</string>
+    <string name="categories">Kategorier</string>
+    <string name="pictograms">Pictogrammer</string>
+    <string name="tags">Tags</string>
+
+
+    <!--All GUI interface strings here-->
+    <string name="delete_pictogram">Vil du gerne slette dette pictogram?</string>
+    <string name="choose_a_pictogram_press_ok">Vælg et pictogram og klik OK!</string>
+    <string name="choose_a_pictograms_press_ok">Vælg pictogrammer og klik OK!</string>
+    <string name="choose_a_pictograms_add_to_category_press_ok">Vælg pictogrammer, som skal tilføjes til kategori og klik OK!</string>
+    <string name="pictogram_do_not_exist_in_datebase">Pictogram findes ikke i database</string>
+
+
+    <!--All Error Message strings here-->
+    <string name="unable_to_launch">Unable to launch PictoCreator, make sure its installed and up to date!</string> <!--TRANSLATE THIS-->
+
+
+    <!--All Help Message strings here-->
+    <string name="support_number">Call: +45 24 26 93 98 for tech support</string>
+    <string name="call_tech_support">Ring til teknisk hjælp</string>
+
+
+    <!--Application names-->
+    <string name="pictocreator">PictoCreator</string>
+
+
+
+    <!--Unknown group of strings-->
+    <string name="set_class_name_1">dk.aau.cs.giraf.pictocreator</string>
+    <string name="set_class_name_2">dk.aau.cs.giraf.pictocreator.MainActivity</string>
+    <string name="exception_colon">Exception: </string>
+    <string name="fix_now">Fix nu!!!!!</string>
+    <string name="current_child_id">currentChildID</string>
+    <string name="checkout_ids">checkoutIds</string>
+
+
+
 </resources>

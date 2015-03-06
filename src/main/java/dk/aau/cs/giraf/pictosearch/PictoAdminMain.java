@@ -217,8 +217,8 @@ public class PictoAdminMain extends Activity {
     private void updateGuardianInfo()
     {
         guardianInfo_ChildId = -1;
-        if(getIntent().hasExtra("currentChildID"))
-            guardianInfo_ChildId = getIntent().getIntExtra("currentChildID", -1);
+        if(getIntent().hasExtra(getString(R.string.current_child_id)))
+            guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
 	public int getChildID()
@@ -234,17 +234,17 @@ public class PictoAdminMain extends Activity {
     {
         EditText searchterm = (EditText) findViewById(R.id.text_input);
 
-		if(getIntent().hasExtra("purpose")){
-			if(getIntent().getStringExtra("purpose").equals("single")){
+		if(getIntent().hasExtra(getString(R.string.purpose))){
+			if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))){
 				isSingle = true;
-                purpose = "Vælg et pictogram og klik OK!";
+                purpose = getString(R.string.choose_a_pictogram_press_ok);
 			}
-			else if(getIntent().getStringExtra("purpose").equals("multi")){
+			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.multi))){
 				isSingle = false;
-				purpose = "Vælg pictogrammer og klik OK!";
+				purpose = getString(R.string.choose_a_pictograms_press_ok);
 			}
-			else if(getIntent().getStringExtra("purpose").equals("CAT")){
-				purpose = "Vælg pictogrammer, som skal tilføjes til kategori og klik OK!";
+			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.CAT))){
+				purpose = getString(R.string.choose_a_pictograms_add_to_category_press_ok);
 			}
             searchterm.setHint(purpose);
 			//updateErrorMessage(purpose, 0);
@@ -290,7 +290,7 @@ public class PictoAdminMain extends Activity {
         }
         catch (java.lang.NullPointerException e)
         {
-            System.out.println("Exception: " + e + ", fix nu!!!!!!");
+            System.out.println(getString(R.string.exception_colon) + e + getString(R.string.fix_now));
         }
 
         for (Category pc : cattemp) {
@@ -366,7 +366,7 @@ public class PictoAdminMain extends Activity {
             pictoGrid.setAdapter(new PictoAdapter(searchlist, this));
 		}
 		else{
-			updateErrorMessage("Pictogram findes ikke i database", R.drawable.action_about);
+			updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
             pictoGrid.setAdapter(new PictoAdapter(searchlist, this));
 		}
 	}
@@ -507,12 +507,12 @@ public class PictoAdminMain extends Activity {
 	
 	/**
 	 * MenuItem: Sends pictogram ids from checkoutlist to appropriate calling application 
-	 */	
+	 */
 	public void sendContent(View view) {
 		int[] output = getCheckoutPictogramIDsArray();
 		Intent data = this.getIntent();
 
-		data.putExtra("checkoutIds", output);
+		data.putExtra(getString(R.string.checkout_ids), output);
         //Java does not like parsing obejcts
         //data.putExtra("checkoutObjects", output_objects);
 		
@@ -530,7 +530,7 @@ public class PictoAdminMain extends Activity {
         try
         {
             Intent i = new Intent();
-            i.setClassName("dk.aau.cs.giraf.pictocreator", "dk.aau.cs.giraf.pictocreator.MainActivity");
+            i.setClassName(getString(R.string.set_class_name_1), getString(R.string.set_class_name_2));
             startActivity(i);
             return true;
         }
@@ -538,8 +538,8 @@ public class PictoAdminMain extends Activity {
         {
             if (allow_error_msg)
             {
-                MessageDialogFragment message = new MessageDialogFragment("Unable to launch PictoCreator, make sure its installed and up to date!");
-                message.show(getFragmentManager(), "PictoCreator");
+                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch));
+                message.show(getFragmentManager(), getString(R.string.pictocreator));
             }
             return false;
         }
@@ -552,16 +552,16 @@ public class PictoAdminMain extends Activity {
     public void optionsGoToCroc(MenuItem item) {
         LaunchPictoCreator(true);
     }
-	
+
 	public void callAndersSupport(MenuItem item) {
-		MessageDialogFragment message = new MessageDialogFragment("Call: +45 24 26 93 98 for tech support");
-		message.show(getFragmentManager(), "callTechSupport");
+		MessageDialogFragment message = new MessageDialogFragment(getString(R.string.support_number));
+		message.show(getFragmentManager(), getString(R.string.call_tech_support));
 	}
 
     public void onUpdatedCheckoutCount()
     {
         TextView  messageBox = (TextView)  findViewById(R.id.textView1);
-        messageBox.setText("Valg: " + checkoutList.size());
+        messageBox.setText(getString(R.string.choice_colon) + checkoutList.size());
     }
 
     public void onUpdatedSearchField()
@@ -579,7 +579,7 @@ public class PictoAdminMain extends Activity {
     public void showDelete()
     {
         GDialogMessage deleteDialog = new GDialogMessage(this,
-                "Vil du slette det valgte pictogram?",
+                getString(R.string.delete_pictogram),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
