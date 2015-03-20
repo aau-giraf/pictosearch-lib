@@ -291,20 +291,17 @@ public class PictoAdminMain extends Activity {
         }
 
         CategoryController categoryController = new CategoryController(getApplicationContext());
-        //cattemp = categoryController.getCategoriesByProfileId(childId);
 
-        try
-        {
-            cattemp = categoryController.getCategoriesByProfileId(childId);
-        }
-        catch (java.lang.NullPointerException e)
-        {
-            System.out.println(getString(R.string.exception_colon) + e + getString(R.string.fix_now));
+        List<Category> catTemp = categoryController.getCategoriesByProfileId(childID);
+
+        catList = new ArrayList<Category>();
+
+        for (Category c : catTemp){
+            if (c.getName().toLowerCase().contains(name)){
+                catList.add(c);
+            }
         }
 
-        for (Category pc : cattemp) {
-            catList.add(pc);
-        }
         return catList;
     }
 
