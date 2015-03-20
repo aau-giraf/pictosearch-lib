@@ -1,13 +1,12 @@
-include ':metadata'
-include ':OasisLib'
 include ':PictoSearch'
-include ':GIRAF_Components'
 
+include ':GIRAF_Test'
+
+include ':GIRAF_Components'
+project(':GIRAF_Components').projectDir = new File('GIRAF_Components')
+include ':OasisLib'
+project(':OasisLib').projectDir = new File('GIRAF_Components/OasisLib')
 include ':local-db'
 project(':local-db').projectDir = new File('GIRAF_Components/OasisLib/local-db')
-project(':OasisLib').projectDir = new File('GIRAF_Components/OasisLib')
-include ':GIRAF_Test'
 include ':metadata'
-project(':metadata').projectDir = new File('GIRAF_Components/OasisLib/metadata')
-include ':metadata_local'
-project(':metadata_local').projectDir = new File('GIRAF_Components/OasisLib/local-db/metadata_local')
+project(':metadata').projectDir = new File('GIRAF_Components/OasisLib/local-db/metadata')
