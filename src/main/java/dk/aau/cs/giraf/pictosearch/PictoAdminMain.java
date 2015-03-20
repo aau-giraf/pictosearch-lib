@@ -31,6 +31,7 @@ import dk.aau.cs.giraf.gui.GDialogMessage;
 import dk.aau.cs.giraf.gui.GGridView;
 import dk.aau.cs.giraf.gui.GSpinner;
 import dk.aau.cs.giraf.gui.GVerifyButton;
+import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
@@ -156,13 +157,17 @@ public class PictoAdminMain extends Activity {
 
         loadPictogramIntoGridView();
 
-        EditText searchterm = (EditText) findViewById(R.id.text_input);
-        searchterm.addTextChangedListener(new TextWatcher() {
+        EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 onUpdatedSearchField();
             }
-            public void  beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void  onTextChanged (CharSequence s, int start, int before,int count) {}
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         GButtonTrash btnTrash = (GButtonTrash) findViewById(R.id.deleteCheckoutButton);
@@ -261,7 +266,7 @@ public class PictoAdminMain extends Activity {
 	@SuppressWarnings("static-access")
 	public ArrayList<Pictogram> getAllPictograms(String name) {
 		//List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
-        if(name.isEmpty() || name == null)
+        if(name.isEmpty())
         {
             return new ArrayList<Pictogram>();
         }
@@ -350,13 +355,13 @@ public class PictoAdminMain extends Activity {
 	 *  String identifying whether the user searches for tags, name,
 	 * category, sub-category or color
 	 */
-    private void loadPictogramIntoGridView()
+    /*private void loadPictogramIntoGridView()
     {
         Spinner searchField = (Spinner)findViewById(R.id.select_search_field);
         String  selectedTag =  searchField.getSelectedItem().toString();
         loadPictogramIntoGridView(selectedTag);
-    }
-	private void loadPictogramIntoGridView(String tag)
+    }*/
+	private void loadPictogramIntoGridView()
 	{
         pictoGrid.setAdapter(null);
         searchList.clear();
