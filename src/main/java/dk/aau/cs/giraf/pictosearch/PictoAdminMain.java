@@ -33,8 +33,10 @@ import dk.aau.cs.giraf.gui.GSpinner;
 import dk.aau.cs.giraf.gui.GVerifyButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
+import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
 /**
  * @author SW605f13 Parrot-group
@@ -46,6 +48,7 @@ public class PictoAdminMain extends Activity {
 	public ArrayList<Object> checkoutList = new ArrayList<Object>();
 	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
     private ArrayList<Category> catList    = new ArrayList<Category>();
+    private ArrayList<Tag> tagList    = new ArrayList<Tag>();
 	private ArrayList<Object> searchlist   = new ArrayList<Object>();
 	
 	public GGridView checkoutGrid;
@@ -91,6 +94,7 @@ public class PictoAdminMain extends Activity {
 		getPurpose();
 		getAllPictograms("");
         getAllCategories();
+        getAllTags("");
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
 
@@ -298,6 +302,24 @@ public class PictoAdminMain extends Activity {
         }
         return catList;
     }
+
+    private ArrayList<Tag> getAllTags(String tagCaption){
+        tagList = new ArrayList<Tag>();
+
+        if (tagCaption == null || tagCaption.isEmpty()){
+            return new ArrayList<Tag>();
+        }
+
+
+        TagController tagController = new TagController(this);
+        List<Tag> tagTemp = tagController.getTagsByCaption(tagCaption);
+
+        for (Tag t : tagTemp){
+            tagList.add(t);
+        }
+
+        return tagList;
+    }
 	
 	/**
 	 * Called when pressing search_button
@@ -344,14 +366,16 @@ public class PictoAdminMain extends Activity {
 		String[] splitinput = searchstring.split(",");
 
         pictoList = getAllPictograms(searchstring);
+        tagList = getAllTags(searchstring);
 
         if (SearchClassInstance != null)
         {
             ArrayList<Object> allList = new ArrayList<Object>();
             allList.addAll(pictoList);
             allList.addAll(catList);
+            allList.addAll(tagList);
 
-            ArrayList<Object> slist = SearchClassInstance.DoSearch(tag, splitinput, allList);
+            ArrayList<Object> slist = SearchClassInstance.DoSearch(splitinput, allList); //DoSearch(tag, splitinput, allList);
             for (Object o : slist)
             {
                 searchlist.add(o);
