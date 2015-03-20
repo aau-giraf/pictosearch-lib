@@ -94,7 +94,7 @@ public class PictoAdminMain extends Activity {
         updateGuardianInfo();
 		getPurpose();
 		getAllPictograms("");
-        getAllCategories();
+        getAllCategories("");
         getAllTags("");
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
@@ -282,13 +282,13 @@ public class PictoAdminMain extends Activity {
         return pictoList;
 	}
 
-    public  ArrayList<Category> getAllCategories()
-    {
-        List<Category> cattemp = new ArrayList<Category>();
-        catList = new ArrayList<Category>();
+    public ArrayList<Category> getAllCategories(String name){
 
-        int childId = getChildID();
-        if (childId < 0) return catList; // If no child, return empty
+        int childID = getChildID();
+
+        if (childID < 0 || name.isEmpty()){
+            return new ArrayList<Category>();
+        }
 
         CategoryController categoryController = new CategoryController(getApplicationContext());
         //cattemp = categoryController.getCategoriesByProfileId(childId);
@@ -371,6 +371,7 @@ public class PictoAdminMain extends Activity {
 		String[] splitInput = searchString.split(",");
 
         pictoList = getAllPictograms(searchString);
+        catList = getAllCategories(searchString);
         tagList = getAllTags(searchString);
 
         if (SearchClassInstance != null)
@@ -618,7 +619,7 @@ public class PictoAdminMain extends Activity {
                        else
                        {
                            deleteClass.CategoryDelete(view.getContext(), catDelete);
-                           getAllCategories();
+                           getAllCategories("");
                        }
                        loadPictogramIntoGridView();
                     }
