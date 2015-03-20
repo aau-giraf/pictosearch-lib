@@ -265,17 +265,17 @@ public class PictoAdminMain extends Activity {
 	 */
 	@SuppressWarnings("static-access")
 	public ArrayList<Pictogram> getAllPictograms(String name) {
-		//List<Pictogram> pictotemp = PictoFactory.INSTANCE.getAllPictograms(getApplicationContext());
         if(name.isEmpty())
         {
             return new ArrayList<Pictogram>();
         }
-        PictogramController pictogramController = new PictogramController(this);
-        List<Pictogram> pictotemp = pictogramController.getPictogramsByName(name);
+
+        PictogramController pictogramController = new PictogramController(getApplicationContext());
+        List<Pictogram> pictoTemp = pictogramController.getPictogramsByName(name);
 
         pictoList = new ArrayList<Pictogram>();
 
-		for (Pictogram p : pictotemp) {
+		for (Pictogram p : pictoTemp) {
 			pictoList.add(p);
 		}
 
@@ -313,7 +313,7 @@ public class PictoAdminMain extends Activity {
         }
 
 
-        TagController tagController = new TagController(this);
+        TagController tagController = new TagController(getApplicationContext());
         List<Tag> tagTemp = tagController.getTagsByCaption(tagCaption);
 
         for (Tag t : tagTemp){
@@ -322,7 +322,7 @@ public class PictoAdminMain extends Activity {
 
         return tagList;
     }
-	
+
 	/**
 	 * Called when pressing search_button
 	 * Depending on search_field, search for pictoList in database
@@ -358,14 +358,16 @@ public class PictoAdminMain extends Activity {
         String  selectedTag =  searchField.getSelectedItem().toString();
         loadPictogramIntoGridView(selectedTag);
     }*/
+
 	private void loadPictogramIntoGridView()
 	{
         pictoGrid.setAdapter(null);
         searchList.clear();
 
-		EditText searchTerm = (EditText) findViewById(R.id.text_input);
-        String searchString = searchTerm.getText().toString().toLowerCase().replaceAll("\\s", "");
-		String[] splitInput = searchString.split(",");
+
+        EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        String searchString = searchTerm.getText().toString().toLowerCase();
+        String[] splitInput = searchString.split("\\s");
 
         pictoList = getAllPictograms(searchString);
         catList = getAllCategories(searchString);
