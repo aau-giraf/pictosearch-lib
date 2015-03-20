@@ -43,19 +43,19 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends Activity {
-	private int    guardianInfo_ChildId = -1;
+	private int guardianInfo_ChildId = -1;
 
 	public ArrayList<Object> checkoutList = new ArrayList<Object>();
-	private ArrayList<Pictogram> pictoList    = new ArrayList<Pictogram>();
-    private ArrayList<Category> catList    = new ArrayList<Category>();
-    private ArrayList<Tag> tagList    = new ArrayList<Tag>();
-	private ArrayList<Object> searchlist   = new ArrayList<Object>();
+	private ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+    private ArrayList<Category> catList = new ArrayList<Category>();
+    private ArrayList<Tag> tagList = new ArrayList<Tag>();
+	private ArrayList<Object> searchList = new ArrayList<Object>();
 	
 	public GGridView checkoutGrid;
 	private GGridView pictoGrid;
-    private GSpinner searchspinner;
-    private Pictogram pictodelete = new Pictogram();
-    private Category catdelete = new Category(); // 
+    private GSpinner searchSpinner;
+    private Pictogram pictoDelete = new Pictogram();
+    private Category catDelete = new Category(); //
     private DeleteClass deleteClass = new DeleteClass(this);
 
 	private String purpose;
@@ -83,9 +83,9 @@ public class PictoAdminMain extends Activity {
         */
 
         checkoutList = new ArrayList<Object>();
-        pictoList    = new ArrayList<Pictogram>();
-        catList    = new ArrayList<Category>();
-        searchlist   = new ArrayList<Object>();
+        pictoList = new ArrayList<Pictogram>();
+        catList = new ArrayList<Category>();
+        searchList = new ArrayList<Object>();
 
 		//catHelp = new CategoryHelper(this);
         SearchClassInstance = new SearchClass(this);
@@ -118,7 +118,7 @@ public class PictoAdminMain extends Activity {
 				if(isSingle){
 					checkoutList.clear();
 				}
-				checkoutList.add(searchlist.get(position));
+				checkoutList.add(searchList.get(position));
                 onUpdatedCheckoutCount();
 				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
 			}
@@ -127,22 +127,22 @@ public class PictoAdminMain extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(searchlist.get(position) instanceof Pictogram) {
-                    pictodelete = (Pictogram) searchlist.get(position);
-                    catdelete = null;
+                if(searchList.get(position) instanceof Pictogram) {
+                    pictoDelete = (Pictogram) searchList.get(position);
+                    catDelete = null;
                 }
-                else if (searchlist.get(position) instanceof Category)
+                else if (searchList.get(position) instanceof Category)
                 {
-                    catdelete = (Category) searchlist.get(position);
-                    pictodelete = null;
+                    catDelete = (Category) searchList.get(position);
+                    pictoDelete = null;
                 }
                 showDelete();
                 return true;
             }
         });
 
-        searchspinner = (GSpinner)findViewById(R.id.select_search_field);
-        searchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        searchSpinner = (GSpinner)findViewById(R.id.select_search_field);
+        searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 loadPictogramIntoGridView();
@@ -359,14 +359,14 @@ public class PictoAdminMain extends Activity {
 	private void loadPictogramIntoGridView(String tag)
 	{
         pictoGrid.setAdapter(null);
-        searchlist.clear();
+        searchList.clear();
 
-		EditText searchterm = (EditText) findViewById(R.id.text_input);
-        String searchstring = searchterm.getText().toString().toLowerCase().replaceAll("\\s", "");
-		String[] splitinput = searchstring.split(",");
+		EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        String searchString = searchTerm.getText().toString().toLowerCase().replaceAll("\\s", "");
+		String[] splitInput = searchString.split(",");
 
-        pictoList = getAllPictograms(searchstring);
-        tagList = getAllTags(searchstring);
+        pictoList = getAllPictograms(searchString);
+        tagList = getAllTags(searchString);
 
         if (SearchClassInstance != null)
         {
@@ -375,28 +375,27 @@ public class PictoAdminMain extends Activity {
             allList.addAll(catList);
             allList.addAll(tagList);
 
-            ArrayList<Object> slist = SearchClassInstance.DoSearch(splitinput, allList); //DoSearch(tag, splitinput, allList);
-            for (Object o : slist)
+            ArrayList<Object> searchList = SearchClassInstance.DoSearch(splitInput, allList);
+            for (Object o : searchList)
             {
-                searchlist.add(o);
-                if(searchlist.size() >= 48)
+                this.searchList.add(o);
+                if(this.searchList.size() >= 48)
                 {
                     break;
                 }
             }
         }
 
-		if(searchlist.size() > 0){
-            pictoGrid.setAdapter(new PictoAdapter(searchlist, this));
+		if(searchList.size() > 0){
+            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
 		}
 		else{
 			updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
-            pictoGrid.setAdapter(new PictoAdapter(searchlist, this));
+            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
 		}
 	}
 
     private boolean searchMatcher(String pictoname, String searchinput) {
-		// Mulighed for at g�re s�gefunktionen endnu mere intelligent
 		// Made so that it is possible to make search function more intelligent
 		
 		if(pictoname.contains(searchinput)) {
@@ -410,27 +409,27 @@ public class PictoAdminMain extends Activity {
 	// Used in loadPictogramIntoGridview to
 	//TODO: INSERT description Jacob
 	private static int calculateValueOfPictogram(Pictogram p, String[] searchterm) {
-    	int searchvalue = 0;
+    	int searchValue = 0;
     	
     	for(String s : searchterm){
     		s.toLowerCase().replaceAll("\\s", "");
     		
     		if(p.getName().toLowerCase().replaceAll("\\s", "").equals(s)){
-    			searchvalue = 100;
+    			searchValue = 100;
     		}
     		
     		String temps = s;
     		
     		for(int i = 0; i < s.length(); i++){
     			if(p.getName().toLowerCase().replaceAll("\\s", "").contains(temps) || temps.contains(p.getName().toLowerCase().replaceAll("\\s", ""))){
-    				searchvalue++;
+    				searchValue++;
     				}
     			
     			temps = temps.substring(0, temps.length() - 1);
     		}
     	}
     	
-    	return searchvalue;
+    	return searchValue;
     }
 
     private Object[] getCheckoutObjectsArray()
@@ -607,13 +606,13 @@ public class PictoAdminMain extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                       if(pictodelete != null) {
-                           deleteClass.PictoDelete(view.getContext(), pictodelete);
+                       if(pictoDelete != null) {
+                           deleteClass.PictoDelete(view.getContext(), pictoDelete);
                            getAllPictograms("");
                            }
                        else
                        {
-                           deleteClass.CategoryDelete(view.getContext(), catdelete);
+                           deleteClass.CategoryDelete(view.getContext(), catDelete);
                            getAllCategories();
                        }
                        loadPictogramIntoGridView();
