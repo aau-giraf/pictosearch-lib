@@ -56,7 +56,7 @@ public class PictoAdminMain extends Activity {
 	private GGridView pictoGrid;
     private GSpinner searchSpinner;
     private Pictogram pictoDelete = new Pictogram();
-    private Category catDelete = new Category(); //
+    private Category catDelete = new Category();
     private DeleteClass deleteClass = new DeleteClass(this);
 
 	private String purpose;
@@ -76,19 +76,12 @@ public class PictoAdminMain extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
-       /* View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_picto_admin_main, null);
-
-        //Set the background
-        v.setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
-
-        */
 
         checkoutList = new ArrayList<Object>();
         pictoList = new ArrayList<Pictogram>();
         catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
 
-		//catHelp = new CategoryHelper(this);
         SearchClassInstance = new SearchClass(this);
 
         updateGuardianInfo();
@@ -256,13 +249,9 @@ public class PictoAdminMain extends Activity {
 				purpose = getString(R.string.choose_a_pictograms_add_to_category_press_ok);
 			}
             searchterm.setHint(purpose);
-			//updateErrorMessage(purpose, 0);
 		}
 	}
 	
-	/**
-	 * 
-	 */
 	@SuppressWarnings("static-access")
 	public ArrayList<Pictogram> getAllPictograms(String name) {
         if(name.isEmpty())
@@ -347,18 +336,6 @@ public class PictoAdminMain extends Activity {
 		errorIcon.setImageResource(icon);
 	}
 	
-	/**
-	 * Loads the pictoList into the gridview depending on the search tag
-	 *  String identifying whether the user searches for tags, name,
-	 * category, sub-category or color
-	 */
-    /*private void loadPictogramIntoGridView()
-    {
-        Spinner searchField = (Spinner)findViewById(R.id.select_search_field);
-        String  selectedTag =  searchField.getSelectedItem().toString();
-        loadPictogramIntoGridView(selectedTag);
-    }*/
-
 	private void loadPictogramIntoGridView()
 	{
         pictoGrid.setAdapter(null);
@@ -541,9 +518,7 @@ public class PictoAdminMain extends Activity {
 		Intent data = this.getIntent();
 
 		data.putExtra(getString(R.string.checkout_ids), output);
-        //Java does not like parsing obejcts
-        //data.putExtra("checkoutObjects", output_objects);
-		
+
 		if(getParent() == null) {
 			setResult(Activity.RESULT_OK, data);
 		}
@@ -595,7 +570,6 @@ public class PictoAdminMain extends Activity {
     public void onUpdatedSearchField()
     {
         EditText searchterm = (EditText) findViewById(R.id.text_input);
-        //String searchtext = searchterm.getText().toString();
         Editable s = searchterm.getText();
         View clearButton = findViewById(R.id.clearSearchFieldButton);
         if (s != null && s.length() > 0)
