@@ -1,12 +1,10 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,16 +12,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.gui.GButton;
 import dk.aau.cs.giraf.gui.GButtonSearch;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 import dk.aau.cs.giraf.gui.GComponent;
@@ -31,7 +26,6 @@ import dk.aau.cs.giraf.gui.GDialogMessage;
 import dk.aau.cs.giraf.gui.GGridView;
 import dk.aau.cs.giraf.gui.GSpinner;
 import dk.aau.cs.giraf.gui.GVerifyButton;
-import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
@@ -54,7 +48,6 @@ public class PictoAdminMain extends Activity {
 	
 	public GGridView checkoutGrid;
 	private GGridView pictoGrid;
-    private GSpinner searchSpinner;
     private Pictogram pictoDelete = new Pictogram();
     private Category catDelete = new Category();
     private DeleteClass deleteClass = new DeleteClass(this);
@@ -135,7 +128,7 @@ public class PictoAdminMain extends Activity {
             }
         });
 
-        searchSpinner = (GSpinner)findViewById(R.id.select_search_field);
+        GSpinner searchSpinner = (GSpinner) findViewById(R.id.select_search_field);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -167,7 +160,7 @@ public class PictoAdminMain extends Activity {
         btnTrash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearCheckoutList(v);
+                clearCheckoutList();
             }
         });
 
@@ -175,7 +168,7 @@ public class PictoAdminMain extends Activity {
         clearSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearSearchField(v);
+                clearSearchField();
             }
         });
 
@@ -183,7 +176,7 @@ public class PictoAdminMain extends Activity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchForPictogram(v);
+                searchForPictogram();
             }
         });
 
@@ -191,7 +184,7 @@ public class PictoAdminMain extends Activity {
         btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendContent(v);
+                sendContent();
             }
         });
 	}
@@ -209,7 +202,7 @@ public class PictoAdminMain extends Activity {
 	 */
 	@Override
 	public void onBackPressed() {
-		sendContent(getCurrentFocus());
+		sendContent();
 	}
 	
 	/**
@@ -315,9 +308,8 @@ public class PictoAdminMain extends Activity {
 	/**
 	 * Called when pressing search_button
 	 * Depending on search_field, search for pictoList in database
-	 * @param view: This must be included for the function to work
-	 */
-	public void searchForPictogram(View view){
+     */
+	public void searchForPictogram(){
 		updateErrorMessage("", 0); // Reset purpose
 		loadPictogramIntoGridView();
 	}
@@ -379,13 +371,8 @@ public class PictoAdminMain extends Activity {
 
     private boolean searchMatcher(String pictoname, String searchinput) {
 		// Made so that it is possible to make search function more intelligent
-		
-		if(pictoname.contains(searchinput)) {
-			return true;
-		} 
-		else {
-			return false;
-		}
+
+        return pictoname.contains(searchinput);
 	}
 	
 	// Used in loadPictogramIntoGridview to
@@ -506,14 +493,14 @@ public class PictoAdminMain extends Activity {
 		return Result;
 	}
 	
-	public void clearSearchField(View view) {
+	public void clearSearchField() {
 		EditText searchField = (EditText) findViewById(R.id.text_input);
 		searchField.setText(null);
         onUpdatedSearchField();
         loadPictogramIntoGridView();
 	}
 	
-	public void clearCheckoutList(View view) {
+	public void clearCheckoutList() {
 		checkoutList.clear();
         onUpdatedCheckoutCount();
 		checkoutGrid.setAdapter(new PictoAdapter(checkoutList, this));
@@ -522,7 +509,7 @@ public class PictoAdminMain extends Activity {
 	/**
 	 * MenuItem: Sends pictogram ids from checkoutlist to appropriate calling application 
 	 */
-	public void sendContent(View view) {
+	public void sendContent() {
 		int[] output = getCheckoutPictogramIDsArray();
 		Intent data = this.getIntent();
 
@@ -557,18 +544,13 @@ public class PictoAdminMain extends Activity {
         }
     }
 	
-	public void gotoCroc(View view){
+	public void gotoCroc(){
         LaunchPictoCreator(true);
 	}
 
-    public void optionsGoToCroc(MenuItem item) {
+    public void optionsGoToCroc() {
         LaunchPictoCreator(true);
     }
-
-	public void callAndersSupport(MenuItem item) {
-		MessageDialogFragment message = new MessageDialogFragment(getString(R.string.support_number));
-		message.show(getFragmentManager(), getString(R.string.call_tech_support));
-	}
 
     public void onUpdatedCheckoutCount()
     {

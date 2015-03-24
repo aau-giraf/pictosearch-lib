@@ -7,47 +7,57 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
-//import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
- * This class is used to loading the bitmaps into memory and displaying them in the pictogramGrid when 
- * they are to be posted. This is happending off the UI Thread via AsyncTask.
- * @author Anders Vinther, SW605f13 Parrot-group
+ * BitmapWorker is used to loading the bitmaps into memory and displaying them in the pictogramGrid
+ * when they are to be posted. This is happening off the UI Thread via AsyncTask.
  */
 public class BitmapWorker extends AsyncTask<Object, Void, Bitmap> {
-	// En weak reference g�r den "flagged" som "garbage collectable" :)
-	// A weak reference flags the imageview as garbage collectable
-	private final WeakReference<ImageView> imageview;
-
-	private Pictogram pictogram;
-	private Context context;
-	
-	public BitmapWorker(ImageView img) {
-		imageview = new WeakReference<ImageView>(img);
+    /**
+     * The WeakReference to the ImageView ensures that the AsyncTask does not prevent the ImageView
+     * and anything it references from being garbage collected.
+     */
+	private final WeakReference<ImageView> imageViewReference;
+    private Context context;
+    /**
+     // Use a WeakReference to ensure the ImageView can be garbage collected
+     * @param imageView Displays an arbitrary image, such as a pictogram.
+     */
+    public BitmapWorker(ImageView imageView) {
+		imageViewReference = new WeakReference<ImageView>(imageView);
 	}
 
+    /**
+     * Decode image in background.
+     * @param params Objects
+     * @return decoded image bitmap
+     */
 	@Override
 	protected Bitmap doInBackground(Object... params) {
-		pictogram = (Pictogram) params[0];
-		Bitmap bmp = null;
+        Pictogram pictogram = (Pictogram) params[0];
+		Bitmap bitmap;
 
 		if(pictogram.getId() == -1) {
-			bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.action_help);
+			bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.action_help);
 		}
 		else {
-			bmp = pictogram.getImageData();
+			bitmap = pictogram.getImageData();
 		}
 		
-		return bmp;
+		return bitmap;
 	}
-	
-	protected void onPostExecute(Bitmap result) {
-		if(result != null && imageview != null) {
-			final ImageView imgview = imageview.get();
-			
-			if(imgview != null) {
-				imgview.setImageBitmap(result);
+
+    /**
+     * Once complete, see if ImageView is still around and set bitmap.
+     * @param bitmap
+     */
+    protected void onPostExecute(Bitmap bitmap) {
+		if(bitmap != null && imageViewReference != null) {
+			final ImageView imageView = imageViewReference.get();
+
+			if(imageView != null) {
+				imageView.setImageBitmap(bitmap);
 			}
 		}
 	}
