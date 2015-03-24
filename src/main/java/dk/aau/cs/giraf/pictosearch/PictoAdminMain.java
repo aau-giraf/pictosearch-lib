@@ -234,7 +234,7 @@ public class PictoAdminMain extends Activity {
 	 */
 	private void getPurpose()
     {
-        EditText searchterm = (EditText) findViewById(R.id.text_input);
+        EditText searchTerm = (EditText) findViewById(R.id.text_input);
 
 		if(getIntent().hasExtra(getString(R.string.purpose))){
 			if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))){
@@ -248,7 +248,7 @@ public class PictoAdminMain extends Activity {
 			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.CAT))){
 				purpose = getString(R.string.choose_a_pictograms_add_to_category_press_ok);
 			}
-            searchterm.setHint(purpose);
+            searchTerm.setHint(purpose);
 		}
 	}
 	
@@ -390,10 +390,10 @@ public class PictoAdminMain extends Activity {
 	
 	// Used in loadPictogramIntoGridview to
 	//TODO: INSERT description Jacob
-	private static int calculateValueOfPictogram(Pictogram p, String[] searchterm) {
+	private static int calculateValueOfPictogram(Pictogram p, String[] searchTerm) {
     	int searchValue = 0;
     	
-    	for(String s : searchterm){
+    	for(String s : searchTerm){
     		s.toLowerCase().replaceAll("\\s", "");
     		
     		if(p.getName().toLowerCase().replaceAll("\\s", "").equals(s)){
@@ -472,13 +472,22 @@ public class PictoAdminMain extends Activity {
 
 		for(Object o : plist)
         {
-            if (o instanceof Pictogram)
-            {
+            if (o instanceof Pictogram){
                 Pictogram p = (Pictogram)o;
                 Result.add(p.getId());
             }
-            else if (o instanceof Category)
-            {
+            else if (o instanceof Category){
+                Category catNew = (Category)o;
+
+                List<Pictogram> pictogramsInCategory = pictogramController.getPictogramsByCategory(catNew);
+
+                for (Pictogram p : pictogramsInCategory){
+                    if (p != null){
+                        Result.add(p.getId());
+                    }
+                }
+
+                /*
                 // TODO: Open up category and get pictogram ids
                 Category catNew = (Category)o;
                 for (Pictogram p : pictogramController.getPictogramsByCategory(catNew))
@@ -489,11 +498,11 @@ public class PictoAdminMain extends Activity {
                     if (c == null) continue;
                     for (Pictogram p : pictogramController.getPictogramsByCategory(c))
                         Result.add(p.getId());
-                }
-            }
+                }*/
 
+            }
 		}
-		
+
 		return Result;
 	}
 	
@@ -569,8 +578,8 @@ public class PictoAdminMain extends Activity {
 
     public void onUpdatedSearchField()
     {
-        EditText searchterm = (EditText) findViewById(R.id.text_input);
-        Editable s = searchterm.getText();
+        EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        Editable s = searchTerm.getText();
         View clearButton = findViewById(R.id.clearSearchFieldButton);
         if (s != null && s.length() > 0)
             clearButton.setVisibility(View.VISIBLE);
