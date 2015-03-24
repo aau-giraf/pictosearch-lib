@@ -486,20 +486,6 @@ public class PictoAdminMain extends Activity {
                         Result.add(p.getId());
                     }
                 }
-
-                /*
-                // TODO: Open up category and get pictogram ids
-                Category catNew = (Category)o;
-                for (Pictogram p : pictogramController.getPictogramsByCategory(catNew))
-                    Result.add(p.getId());
-
-                for (Category c : categoryController.getSubcategoriesByCategory(catNew))
-                {
-                    if (c == null) continue;
-                    for (Pictogram p : pictogramController.getPictogramsByCategory(c))
-                        Result.add(p.getId());
-                }*/
-
             }
 		}
 
