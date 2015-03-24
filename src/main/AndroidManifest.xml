@@ -17,7 +17,7 @@
         android:largeHeap="true"
         android:icon="@drawable/ic_launcher"
         android:label="PictoSearch"
-		android:theme="@style/AppTheme" 
+		android:theme="@style/GirafTheme"
 		tools:replace="label"	
 		>
         
@@ -34,10 +34,10 @@
             </intent-filter>
         </activity>
         
-        <activity
+        <!--<activity
             android:name="dk.aau.cs.giraf.pictosearch.HelpMenu"
             android:label="@string/title_activity_help_menu" >
-        </activity>
+        </activity>-->
     </application>
     
 </manifest>
