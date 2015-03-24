@@ -50,7 +50,7 @@ public class BitmapWorker extends AsyncTask<Object, Void, Bitmap> {
 
     /**
      * Once complete, see if ImageView is still around and set bitmap.
-     * @param bitmap
+     * @param bitmap decoded image bitmap
      */
     protected void onPostExecute(Bitmap bitmap) {
 		if(bitmap != null && imageViewReference != null) {
