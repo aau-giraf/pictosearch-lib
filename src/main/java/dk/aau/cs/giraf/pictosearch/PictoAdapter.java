@@ -1,6 +1,5 @@
 package dk.aau.cs.giraf.pictosearch;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -16,48 +15,80 @@ import java.util.ArrayList;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
-//import dk.aau.cs.giraf.categorylib.PARROTCategory;
-//import dk.aau.cs.giraf.pictogram.Pictogram;
-
 /**
- * Used to import the pictograms into a gridview.
- * @author SW605f13 Parrot-group
+ * An Adapter object acts as a bridge between an AdapterView and the underlying data for that view.
+ * This class is used to import the pictograms into a gridView
  */
 public class PictoAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<Object> pictograms;
 	private boolean displayText = true;
-	
-	public PictoAdapter(ArrayList<Object> p, Context c) {
+
+    /**
+     * Assigns pictograms to class instance.
+     * @param pictograms ArrayList of pictograms
+     * @param context provides access to the databases.
+     */
+	public PictoAdapter(ArrayList<Object> pictograms, Context context) {
 		super();
-		this.pictograms = p;
-		context = c;
-	}
-	
-	public PictoAdapter(ArrayList<Object> p, boolean display, Context c) {
-		super();
-		this.pictograms = p;
-		this.displayText = display;
-		context = c;
+		this.pictograms = pictograms;
+		this.context = context;
 	}
 
+    /**
+     * Assigns pictograms to class instance.
+     * @param pictograms ArrayList of pictograms
+     * @param display boolean, set view visibility.
+     * @param context provides access to the databases.
+     */
+	public PictoAdapter(ArrayList<Object> pictograms, boolean display, Context context) {
+		super();
+		this.pictograms = pictograms;
+		this.displayText = display;
+		this.context = context;
+	}
+
+    /**
+     * Return the number of pictograms
+     * @return number of pictograms
+     */
 	@Override
 	public int getCount() {
-		return pictograms.size(); // Return the number of pictograms
+		return pictograms.size();
 	}
 
+    /**
+     * Overridden method is superclass.
+     * Get the data item associated with the specified position in the data set.
+     * @param position in the data set
+     * @return null
+     */
 	@Override
-	public Object getItem(int arg0) {
+	public Object getItem(int position) {
 		return null;
 	}
 
+    /**
+     * Overridden method is superclass.
+     * Get the row id associated with the specified position in the list.
+     * @param position in the list
+     * @return 0
+     */
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int position) {
 		return 0;
 	}
 	
-	// Create an imageview for each pictogram in the list.
-    // Todo: Add Strings to Strings.xml
+
+    /**
+     * Get a View that displays the data at the specified position in the data set.
+     * Create an imageView for each pictogram in the list.
+     * @param position of the item within the adapter's data set of the item whose view we want.
+     * @param convertView The old view to reuse, if possible
+     * @param parent that this view will eventually be attached to
+     * @return A View corresponding to the data at the specified position.
+     */
+    // Todo: handle NullPointerException
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -70,20 +101,20 @@ public class PictoAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        Object o = pictograms.get(position);
-        String TextLabel = "???";
+        Object object = pictograms.get(position);
+        String TextLabel = context.getString(R.string.pictocreator);
 
-        Pictogram pctNew = null;
-        Category catNew = null;
-        if (o instanceof Pictogram)
+        Pictogram pictogramNew = null;
+        Category categoryNew = null;
+        if (object instanceof Pictogram)
         {
-            pctNew = (Pictogram)pictograms.get(position);
-            if (pctNew != null) TextLabel = pctNew.getName();
+            pictogramNew = (Pictogram)pictograms.get(position);
+            if (pictogramNew != null) TextLabel = pictogramNew.getName();
         }
-        else if (o instanceof Category)
+        else if (object instanceof Category)
         {
-            catNew = (Category)pictograms.get(position);
-            if (catNew != null) TextLabel = catNew.getName();
+            categoryNew = (Category)pictograms.get(position);
+            if (categoryNew != null) TextLabel = categoryNew.getName();
         }
 
         ImageView pictoImage = (ImageView) view.findViewById(R.id.pictogrambitmap);
@@ -93,47 +124,35 @@ public class PictoAdapter extends BaseAdapter {
         TextView pictoName = (TextView) view.findViewById(R.id.pictogramtext);
         pictoName.setText(TextLabel);
 
-        if (pctNew != null)
-        {
-
+        if (pictogramNew != null) {
             try
             {
-                Bitmap b = pctNew.getImage();
+                Bitmap bitmap = pictogramNew.getImage();
+                if (bitmap != null)
+                {
+                    pictoImage.setImageBitmap(bitmap);
+                }
+            }
+            catch (java.lang.NullPointerException e)
+            {
+                System.out.println(context.getString(R.string.exception) + e);
+            }
+        }
+        else if(categoryNew != null) {
+            try
+            {
+                Bitmap b = categoryNew.getImage();
                 if (b != null)
                 {
-                    //BitmapWorker worker = new BitmapWorker(imageView);
-                    //worker.execute(pctNew);
                     pictoImage.setImageBitmap(b);
                 }
             }
             catch (java.lang.NullPointerException e)
             {
-                System.out.println("Exception: " + e + ", fix nu!!!!!!");
+                System.out.println(context.getString(R.string.exception) + e);
             }
-
         }
-        else if(catNew != null)
-        {
-
-            try
-            {
-                Bitmap b = catNew.getImage();
-                if (b != null)
-                {
-                    //BitmapWorker worker = new BitmapWorker(imageView);
-                    //worker.execute(pctNew);
-                    pictoImage.setImageBitmap(b);
-                }
-            }
-            catch (java.lang.NullPointerException e)
-            {
-                System.out.println("Exception: " + e + ", fix nu!!!!!!");
-            }
-
-        }
-
         view.setPadding(5, 5, 5, 5);
-
 
         if(displayText)
         {
@@ -142,7 +161,6 @@ public class PictoAdapter extends BaseAdapter {
         else {
             view.setVisibility(View.GONE);
         }
-
 		return view;
 	}
 }

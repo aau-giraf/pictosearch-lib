@@ -24,16 +24,15 @@ public class MessageDialogFragment extends DialogFragment {
 	}
 
     /**
-     *
+     * Create dialog
      * @param savedInstanceState A mapping from String values to various Parcelable types.
-     * @return the AlertDialog object
+     * @return the AlertDialog.
      */
 	@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(message)
-			.setPositiveButton("Ok", new OnClickListener() {
+        builder.setMessage(message).setPositiveButton("Ok", new OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				//Do nothing
