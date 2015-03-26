@@ -81,7 +81,6 @@ public class SearchClass
             }
         }
 
-
         return categoryResult;
     }
 
@@ -115,7 +114,6 @@ public class SearchClass
                 }
             }
         }
-
 
         return tagResult;
     }

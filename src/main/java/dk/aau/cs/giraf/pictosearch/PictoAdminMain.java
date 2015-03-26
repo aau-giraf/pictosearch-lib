@@ -251,32 +251,48 @@ public class PictoAdminMain extends Activity {
             searchTerm.setHint(purpose);
 		}
 	}
-	
-	@SuppressWarnings("static-access")
-	public ArrayList<Pictogram> getAllPictograms(String name) {
-        if(name.isEmpty())
+
+	private void getAllPictograms(String pictogramName) {
+        if(pictogramName.isEmpty())
         {
-            return new ArrayList<Pictogram>();
+            return;
         }
 
         PictogramController pictogramController = new PictogramController(getApplicationContext());
-        List<Pictogram> pictoTemp = pictogramController.getPictogramsByName(name);
+        List<Pictogram> pictoTemp = pictogramController.getPictogramsByName(pictogramName);
 
         pictoList = new ArrayList<Pictogram>();
 
 		for (Pictogram p : pictoTemp) {
 			pictoList.add(p);
 		}
-
-        return pictoList;
 	}
 
-    public ArrayList<Category> getAllCategories(String name){
+    private void getAllPictograms(String[] pictogramNames) {
+        pictoList = new ArrayList<Pictogram>();
+
+        if (pictogramNames[0].isEmpty()){
+            return;
+        }
+
+        PictogramController pictogramController = new PictogramController(getApplicationContext());
+        List<Pictogram> pictoTemp = new ArrayList<Pictogram>();
+
+        for (String s : pictogramNames){
+            pictoTemp.addAll(pictogramController.getPictogramsByName(s));
+        }
+
+        for (Pictogram p : pictoTemp) {
+            pictoList.add(p);
+        }
+    }
+
+    private void getAllCategories(String categoryName){
 
         int childID = getChildID();
 
-        if (childID < 0 || name.isEmpty()){
-            return new ArrayList<Category>();
+        if (childID < 0 || categoryName.isEmpty()){
+            return;
         }
 
         CategoryController categoryController = new CategoryController(getApplicationContext());
@@ -286,19 +302,38 @@ public class PictoAdminMain extends Activity {
         catList = new ArrayList<Category>();
 
         for (Category c : catTemp){
-            if (c.getName().toLowerCase().contains(name)){
+            if (c.getName().toLowerCase().contains(categoryName)){
                 catList.add(c);
             }
         }
-
-        return catList;
     }
 
-    private ArrayList<Tag> getAllTags(String tagCaption){
+    private void getAllCategories(String[] categoryNames){
+        int childID = getChildID();
+        catList = new ArrayList<Category>();
+
+        if (childID < 0 || categoryNames[0].isEmpty()){
+            return;
+        }
+
+        CategoryController categoryController = new CategoryController(getApplicationContext());
+
+        List<Category> catTemp = categoryController.getCategoriesByProfileId(childID);
+
+        for (String s : categoryNames){
+            for (Category c : catTemp){
+                if (c.getName().toLowerCase().contains(s)){
+                    catList.add(c);
+                }
+            }
+        }
+    }
+
+    private void getAllTags(String tagCaption){
         tagList = new ArrayList<Tag>();
 
         if (tagCaption == null || tagCaption.isEmpty()){
-            return new ArrayList<Tag>();
+            return;
         }
 
 
@@ -308,8 +343,26 @@ public class PictoAdminMain extends Activity {
         for (Tag t : tagTemp){
             tagList.add(t);
         }
+    }
 
-        return tagList;
+    private void getAllTags(String[] tagCaptions){
+        tagList = new ArrayList<Tag>();
+
+        if (tagCaptions[0].isEmpty()){
+            return;
+        }
+
+
+        TagController tagController = new TagController(getApplicationContext());
+        List<Tag> tagTemp = new ArrayList<Tag>();
+
+        for (String s : tagCaptions) {
+            tagTemp.addAll(tagController.getTagsByCaption(s));
+        }
+
+        for (Tag t : tagTemp){
+            tagList.add(t);
+        }
     }
 
 	/**
@@ -343,12 +396,13 @@ public class PictoAdminMain extends Activity {
 
 
         EditText searchTerm = (EditText) findViewById(R.id.text_input);
-        String searchString = searchTerm.getText().toString().toLowerCase();
-        String[] splitInput = searchString.split("\\s");
+        String searchString = searchTerm.getText().toString().toLowerCase().trim();
+        String[] splitInput = searchString.split("\\s+");
 
-        pictoList = getAllPictograms(searchString);
-        catList = getAllCategories(searchString);
-        tagList = getAllTags(searchString);
+
+        getAllPictograms(splitInput);
+        getAllCategories(splitInput);
+        getAllTags(splitInput);
 
         if (SearchClassInstance != null)
         {
@@ -486,33 +540,19 @@ public class PictoAdminMain extends Activity {
                         Result.add(p.getId());
                     }
                 }
-
-                /*
-                // TODO: Open up category and get pictogram ids
-                Category catNew = (Category)o;
-                for (Pictogram p : pictogramController.getPictogramsByCategory(catNew))
-                    Result.add(p.getId());
-
-                for (Category c : categoryController.getSubcategoriesByCategory(catNew))
-                {
-                    if (c == null) continue;
-                    for (Pictogram p : pictogramController.getPictogramsByCategory(c))
-                        Result.add(p.getId());
-                }*/
-
             }
 		}
 
 		return Result;
 	}
-	
+
 	public void clearSearchField(View view) {
 		EditText searchField = (EditText) findViewById(R.id.text_input);
 		searchField.setText(null);
         onUpdatedSearchField();
         loadPictogramIntoGridView();
 	}
-	
+
 	public void clearCheckoutList(View view) {
 		checkoutList.clear();
         onUpdatedCheckoutCount();
