@@ -34,9 +34,11 @@ import dk.aau.cs.giraf.gui.GVerifyButton;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
+import dk.aau.cs.giraf.oasis.lib.controllers.PictogramTagController;
 import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.models.PictogramTag;
 import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
 /**
@@ -365,6 +367,41 @@ public class PictoAdminMain extends Activity {
         }
     }
 
+    private ArrayList<Pictogram> getPictogramByTags(String[] input, ArrayList<Tag> listOfTags){
+        ArrayList<Integer> tagIDs = new ArrayList<Integer>();
+
+        for (Tag t : listOfTags) {
+            for (String s : input) {
+                if (t.getName() != null) {
+                    if (t.getName().toLowerCase().contains(s)){
+                        tagIDs.add(t.getId());
+                    }
+                }
+            }
+        }
+
+        if (tagIDs.isEmpty()) {
+            return new ArrayList<Pictogram>();
+        }
+
+        ArrayList<Pictogram> result = new ArrayList<Pictogram>();
+
+        PictogramTagController pictogramTagController = new PictogramTagController(getApplicationContext());
+        PictogramController pictogramController = new PictogramController(getApplicationContext());
+
+        List<PictogramTag> pictogramTagList = pictogramTagController.getListOfPictogramTags();
+
+        for (PictogramTag pt : pictogramTagList){
+            for (int i = 0; i < tagIDs.size(); i++){
+                if (pt.getTagId() == tagIDs.get(i)){
+                    result.add(pictogramController.getPictogramById(pt.getPictogramId()));
+                }
+            }
+        }
+
+        return result;
+    }
+
 	/**
 	 * Called when pressing search_button
 	 * Depending on search_field, search for pictoList in database
@@ -404,14 +441,16 @@ public class PictoAdminMain extends Activity {
         getAllCategories(splitInput);
         getAllTags(splitInput);
 
+        ArrayList<Pictogram> pictogramsByTags = getPictogramByTags(splitInput, tagList);
+
         if (SearchClassInstance != null)
         {
             ArrayList<Object> allList = new ArrayList<Object>();
             allList.addAll(pictoList);
             allList.addAll(catList);
-            allList.addAll(tagList);
+            allList.addAll(pictogramsByTags);
 
-            ArrayList<Object> searchList = SearchClassInstance.DoSearch(splitInput, allList);
+            ArrayList<Object> searchList = allList;
             for (Object o : searchList)
             {
                 this.searchList.add(o);
