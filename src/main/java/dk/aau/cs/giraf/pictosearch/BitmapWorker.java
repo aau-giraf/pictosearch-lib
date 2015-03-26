@@ -42,7 +42,7 @@ public class BitmapWorker extends AsyncTask<Object, Void, Bitmap> {
 			bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.action_help);
 		}
 		else {
-			bitmap = pictogram.getImageData();
+			bitmap = pictogram.getImage();
 		}
 		
 		return bitmap;
