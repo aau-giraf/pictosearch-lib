@@ -11,10 +11,11 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-	compile project(':metadata')
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':OasisLib')
+	compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':GIRAF_Components')
+    compile project(':OasisLib')
+    compile project(':local-db')
+    compile project(':metadata')
 }
 
 android {
