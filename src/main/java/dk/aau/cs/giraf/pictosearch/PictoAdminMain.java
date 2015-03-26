@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -22,7 +24,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.jar.Attributes;
 
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GButton;
@@ -35,10 +41,12 @@ import dk.aau.cs.giraf.gui.GSpinner;
 import dk.aau.cs.giraf.gui.GVerifyButton;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
+import dk.aau.cs.giraf.oasis.lib.controllers.PictogramCategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.oasis.lib.models.PictogramCategory;
 import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
 /**
@@ -53,6 +61,7 @@ public class PictoAdminMain extends GirafActivity {
     private ArrayList<Category> catList = new ArrayList<Category>();
     private ArrayList<Tag> tagList = new ArrayList<Tag>();
 	private ArrayList<Object> searchList = new ArrayList<Object>();
+    private ArrayList<Category> categorySpinnerList = new ArrayList<Category>();
 
 	public GridView checkoutGrid;
 	private GridView pictoGrid;
@@ -83,6 +92,7 @@ public class PictoAdminMain extends GirafActivity {
         pictoList = new ArrayList<Pictogram>();
         catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
+        categorySpinnerList = new ArrayList<Category>();
 
         SearchClassInstance = new SearchClass(this);
 
@@ -93,6 +103,7 @@ public class PictoAdminMain extends GirafActivity {
         getAllTags("");
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
+        loadCategoriesIntoCategorySpinner();
 
 		checkoutGrid = (GridView) findViewById(R.id.checkout);
 		checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -331,6 +342,7 @@ public class PictoAdminMain extends GirafActivity {
 	public void searchForPictogram(View view){
 		//updateErrorMessage("", 0); // Reset purpose
 		loadPictogramIntoGridView();
+        loadCategoriesIntoCategorySpinner();
 	}
 	
 
@@ -386,6 +398,50 @@ public class PictoAdminMain extends GirafActivity {
             pictoGrid.setAdapter(new PictoAdapter(searchList, this));
 		}
 	}
+
+
+    private void loadCategoriesIntoCategorySpinner()
+    {
+
+        int childID = getChildID();
+        EditText tempText = (EditText) findViewById(R.id.text_search_input);
+        String tempString = tempText.getText().toString().toLowerCase();
+
+        CategoryController cController = new CategoryController(getApplicationContext());
+        List<Category> catTemp = cController.getCategoriesByProfileId(childID);
+
+        ArrayList<String> catNames = new ArrayList<String>();
+        catList = getAllCategories(tempString);
+        catNames.add(getString(R.string.category_colon));
+
+
+        if (catList.isEmpty() && tempString.equals("")){
+            for (Category c : catTemp){
+                catNames.add(c.getName());
+            }
+        }
+        else if (catList.isEmpty()){}
+
+        else {
+            for (Category b : catList) {
+                catNames.add(b.getName());
+            }
+        }
+
+        Spinner catspinner = (Spinner) findViewById(R.id.category_dropdown);
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        catspinner.setAdapter(spinnerArrayAdapter);
+
+
+
+        PictogramCategoryController pcController = new PictogramCategoryController(getApplicationContext());
+
+
+
+
+    }
 
     private boolean searchMatcher(String pictoname, String searchinput) {
 		// Made so that it is possible to make search function more intelligent
@@ -606,4 +662,6 @@ public class PictoAdminMain extends GirafActivity {
 
         deleteDialog.show();
     }
+
+
 }
