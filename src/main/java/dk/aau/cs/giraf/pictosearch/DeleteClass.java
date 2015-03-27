@@ -8,18 +8,23 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import android.content.Context;
 
 /**
- * Created by Minh Hieu Nigu on 26-03-14.
+ * This class is used for deleting pictograms from the local database while using PictoSearch.
  */
 public class DeleteClass {
 
-    private PictoAdminMain Outer;
+    private final PictoAdminMain Outer;
 
-    DeleteClass(PictoAdminMain ou){ Outer = ou;}
+    DeleteClass(PictoAdminMain outer){ Outer = outer;}
 
+    /**
+     * Delete selected pictograms from the local database.
+     * @param context provides access to the databases.
+     * @param pictogram is the pictogram that is to be deleted.
+     */
     public void PictoDelete(Context context, Pictogram pictogram){
 		int pictogramId = pictogram.getId();
 		
-		// Remove from checkout list
+		// Remove pictogram from checkout list
 		for (int i = 0; i < Outer.checkoutList.size(); i++)
 		{
 			Object checkoutItem = Outer.checkoutList.get(i);
@@ -33,16 +38,21 @@ public class DeleteClass {
 				i--;
 			}
 		}
-		
+
+        //Delete pictogram
         PictogramController pictogramController = new PictogramController(context);
         pictogramController.removePictogramById(pictogramId);
     }
 
-
+    /**
+     * Delete selected categories from the local database.
+     * @param context provides access to the databases.
+     * @param category is the category that is to be deleted.
+     */
     public void CategoryDelete(Context context, Category category){
 		int categoryId = category.getId();
 		
-		// Remove from checkout list
+		// Remove category from checkout list
 		for (int i = 0; i < Outer.checkoutList.size(); i++)
 		{
 			Object checkoutItem = Outer.checkoutList.get(i);
@@ -56,10 +66,8 @@ public class DeleteClass {
 				i--;
 			}
 		}
-		
+        //Delete category
         CategoryController categoryController = new CategoryController(context);
         categoryController.removeCategory(category);
     }
-
-
 }

@@ -45,7 +45,9 @@
 
 
     <!--All Error Message strings here-->
+    <string name="exception">Fejl: </string>
     <string name="unable_to_launch">Det var ikke muligt at åbne Piktotegner, sikre dig at det er installeret og opdateret.</string>
+    <string name="default_error_string">En ukendt fejl er opstået.</string>
 
 
     <!--All Help Message strings here-->
