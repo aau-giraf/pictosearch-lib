@@ -426,6 +426,7 @@ public class PictoAdminMain extends Activity {
         errorIcon.setImageResource(icon);
     }
 
+    // TODO: Rename allList
     private void loadPictogramIntoGridView()
     {
         pictoGrid.setAdapter(null);
@@ -447,6 +448,8 @@ public class PictoAdminMain extends Activity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
+        allList = SortPictogramsAndCategories(allList, searchString, splitInput);
+
         for (Object o : allList)
         {
             this.searchList.add(o);
@@ -464,6 +467,27 @@ public class PictoAdminMain extends Activity {
             updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
             pictoGrid.setAdapter(new PictoAdapter(allList, this));
         }
+    }
+
+    // TODO: Rename allList
+    // TODO: When pictogram.tag works also use that
+    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object> allList, String searchString, String[] splitInput){
+        if (allList.isEmpty()){
+            return new ArrayList<Object>();
+        }
+
+        ArrayList<Object> sortedList = new ArrayList<Object>();
+
+        for (Object o : allList){
+            if (o instanceof Pictogram){
+
+            }
+            else if (o instanceof Category){
+
+            }
+        }
+
+        return sortedList;
     }
 
     // Used in loadPictogramIntoGridview to
