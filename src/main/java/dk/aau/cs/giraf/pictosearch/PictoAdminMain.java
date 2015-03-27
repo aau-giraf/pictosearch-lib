@@ -578,7 +578,7 @@ public class PictoAdminMain extends GirafActivity {
 
         searchTemp = searchList;
 
-        if(allList.size() > 0){
+        if(searchList.size() > 0){
             pictoGrid.setAdapter(new PictoAdapter(searchList, this));
         }
         else{
