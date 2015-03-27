@@ -576,13 +576,14 @@ public class PictoAdminMain extends GirafActivity {
             }
         }
 
+        searchTemp = searchList;
 
         if(allList.size() > 0){
-            pictoGrid.setAdapter(new PictoAdapter(allList, this));
+            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
         }
         else{
             //updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
-            pictoGrid.setAdapter(new PictoAdapter(allList, this));
+            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
         }
     }
 
