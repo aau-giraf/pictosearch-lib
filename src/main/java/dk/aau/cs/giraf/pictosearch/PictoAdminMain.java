@@ -429,9 +429,7 @@ public class PictoAdminMain extends Activity {
         String[] splitInput = searchString.split("\\s+");
 
 
-        getAllPictograms(splitInput);
-        getAllCategories(splitInput);
-        getAllTags(splitInput);
+        GetAllPictogramsByNameAndTagAndCategories(splitInput);
 
         ArrayList<Pictogram> pictogramsByTags = getPictogramByTags(splitInput, tagList);
 
