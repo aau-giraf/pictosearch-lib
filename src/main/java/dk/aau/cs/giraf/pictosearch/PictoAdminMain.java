@@ -61,7 +61,7 @@ public class PictoAdminMain extends GirafActivity {
     private ArrayList<Category> catList = new ArrayList<Category>();
     private ArrayList<Tag> tagList = new ArrayList<Tag>();
 	private ArrayList<Object> searchList = new ArrayList<Object>();
-    private ArrayList<Category> categorySpinnerList = new ArrayList<Category>();
+    private ArrayList<Object> searchTemp = new ArrayList<Object>();
 
 	public GridView checkoutGrid;
 	private GridView pictoGrid;
@@ -82,7 +82,13 @@ public class PictoAdminMain extends GirafActivity {
 	 */
 	private boolean isSingle = false;
 
-	@Override
+    @Override
+    public void addGirafButtonToActionBar(GirafButton girafButton, int side) {
+        girafButton.setBackgroundResource(R.drawable.icon_help);
+        super.addGirafButtonToActionBar(girafButton, LEFT);
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
@@ -92,7 +98,7 @@ public class PictoAdminMain extends GirafActivity {
         pictoList = new ArrayList<Pictogram>();
         catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
-        categorySpinnerList = new ArrayList<Category>();
+        searchTemp = new ArrayList<Object>();
 
         SearchClassInstance = new SearchClass(this);
 
@@ -189,7 +195,7 @@ public class PictoAdminMain extends GirafActivity {
 
                 if (selectedItem.equals(getString(R.string.category_colon)))
                 {
-                    loadPictogramIntoGridView();
+                    loadCategoryPictogramIntoGridView(searchTemp);
                 }
                 else {
                     loadCategoryPictogramIntoGridView(allList);
@@ -432,6 +438,7 @@ public class PictoAdminMain extends GirafActivity {
                 }
             }
         }
+        searchTemp = searchList;
 
 		if(searchList.size() > 0){
             pictoGrid.setAdapter(new PictoAdapter(searchList, this));
