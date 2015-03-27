@@ -1,12 +1,10 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,16 +12,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.gui.GButton;
 import dk.aau.cs.giraf.gui.GButtonSearch;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 import dk.aau.cs.giraf.gui.GComponent;
@@ -31,7 +26,6 @@ import dk.aau.cs.giraf.gui.GDialogMessage;
 import dk.aau.cs.giraf.gui.GGridView;
 import dk.aau.cs.giraf.gui.GSpinner;
 import dk.aau.cs.giraf.gui.GVerifyButton;
-import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramTagController;
@@ -447,8 +441,7 @@ public class PictoAdminMain extends Activity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        ArrayList<Object> searchList = allList;
-        for (Object o : searchList)
+        for (Object o : allList)
         {
             this.searchList.add(o);
             if(this.searchList.size() >= 48)
@@ -458,23 +451,12 @@ public class PictoAdminMain extends Activity {
         }
 
 
-        if(searchList.size() > 0){
-            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
+        if(allList.size() > 0){
+            pictoGrid.setAdapter(new PictoAdapter(allList, this));
         }
         else{
             updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
-            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
-        }
-    }
-
-    private boolean searchMatcher(String pictoname, String searchinput) {
-        // Made so that it is possible to make search function more intelligent
-
-        if(pictoname.contains(searchinput)) {
-            return true;
-        }
-        else {
-            return false;
+            pictoGrid.setAdapter(new PictoAdapter(allList, this));
         }
     }
 
@@ -502,19 +484,6 @@ public class PictoAdminMain extends Activity {
         }
 
         return searchValue;
-    }
-
-    private Object[] getCheckoutObjectsArray()
-    {
-        ArrayList<Object> r = getCheckoutObjects();
-        Object[] checkout = new Object[r.size()];
-        int i = 0;
-        for (Object o: r)
-        {
-            checkout[i] = o;
-            i++;
-        }
-        return checkout;
     }
 
     private ArrayList<Object> getCheckoutObjects() {
@@ -558,7 +527,6 @@ public class PictoAdminMain extends Activity {
         ArrayList<Object> plist = getCheckoutObjects();
 
         PictogramController pictogramController = new PictogramController(this);
-        CategoryController categoryController = new CategoryController(this);
 
         for(Object o : plist)
         {
