@@ -1,24 +1,37 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.jar.Attributes;
 
+import dk.aau.cs.giraf.activity.GirafActivity;
+import dk.aau.cs.giraf.gui.GButton;
 import dk.aau.cs.giraf.gui.GButtonSearch;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 import dk.aau.cs.giraf.gui.GComponent;
@@ -26,30 +39,34 @@ import dk.aau.cs.giraf.gui.GDialogMessage;
 import dk.aau.cs.giraf.gui.GGridView;
 import dk.aau.cs.giraf.gui.GSpinner;
 import dk.aau.cs.giraf.gui.GVerifyButton;
+import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
+import dk.aau.cs.giraf.oasis.lib.controllers.PictogramCategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramTagController;
 import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.PictogramTag;
+import dk.aau.cs.giraf.oasis.lib.models.PictogramCategory;
 import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
 /**
  * The main class in PictoSearch. Contains all methods relating to search.
  */
-public class PictoAdminMain extends Activity {
-    private int guardianInfo_ChildId = -1;
+public class PictoAdminMain extends GirafActivity {
+	private int guardianInfo_ChildId = -1;
 
-    public ArrayList<Object> checkoutList = new ArrayList<Object>();
-    private ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+	public ArrayList<Object> checkoutList = new ArrayList<Object>();
+	private ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
     private ArrayList<Category> catList = new ArrayList<Category>();
     private ArrayList<Tag> tagList = new ArrayList<Tag>();
-    private ArrayList<Object> searchList = new ArrayList<Object>();
+	private ArrayList<Object> searchList = new ArrayList<Object>();
+    private ArrayList<Object> searchTemp = new ArrayList<Object>();
 
-    public GGridView checkoutGrid;
-    private GGridView pictoGrid;
-    private GSpinner searchSpinner;
+	public GridView checkoutGrid;
+	private GridView pictoGrid;
+    private Spinner searchSpinner;
     private Pictogram pictoDelete = new Pictogram();
     private Category catDelete = new Category();
     private DeleteClass deleteClass = new DeleteClass(this);
@@ -65,59 +82,62 @@ public class PictoAdminMain extends Activity {
      */
     private boolean isSingle = false;
 
-    /**
+@Override
+    public void addGirafButtonToActionBar(GirafButton girafButton, int side) {
+        girafButton.setBackgroundResource(R.drawable.icon_help);
+        super.addGirafButtonToActionBar(girafButton, LEFT);
+    }	
+/**
      * Method called when initialising PictoSearch activity
      * @param savedInstanceState saves information about the state of the activity's view hierarchy
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
-        findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent
-                .GetBackground(GComponent.Background.GRADIENT));
+        findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
 
         checkoutList = new ArrayList<Object>();
         pictoList = new ArrayList<Pictogram>();
         catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
+        searchTemp = new ArrayList<Object>();
 
 
         updateGuardianInfo();
-        getPurpose();
-        getAllPictograms("");
+		//getPurpose();
+		getAllPictograms("");
         getAllCategories("");
         getAllTags("");
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
+        loadCategoriesIntoCategorySpinner();
 
-        checkoutGrid = (GGridView) findViewById(R.id.checkout);
-        //TODO remove OnItemLongClickListener.
-        checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long arg3) {
-                checkoutList.remove(position);
+		checkoutGrid = (GridView) findViewById(R.id.checkout);
+		checkoutGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long arg3) {
+				checkoutList.remove(position);
                 onUpdatedCheckoutCount();
-                checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
-                return true;
-            }
-        });
+				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
+				return true;
+			}
+		});
 
-        pictoGrid = (GGridView) findViewById(R.id.pictogram_displayer);
+		pictoGrid = (GridView) findViewById(R.id.pictogram_displayer);
         pictoGrid.setDrawingCacheEnabled(false);
-        pictoGrid.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
-                // if single pictogram requested, only one pictogram is displayed in checkout
-                //TODO make this into a method by itself and add in methods for handleling based on
-                //Todo: the application the data is send to
-                if(isSingle){
-                    checkoutList.clear();
-                }
-                checkoutList.add(searchList.get(position));
+		pictoGrid.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
+				// if single pictogram requested, only one pictogram is displayed in checkout
+				if(isSingle){
+					checkoutList.clear();
+				}
+				checkoutList.add(searchList.get(position));
                 onUpdatedCheckoutCount();
-                checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
-            }
-        });
+				checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
+			}
+		});
         pictoGrid.setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,11 +156,54 @@ public class PictoAdminMain extends Activity {
             }
         });
 
-        searchSpinner = (GSpinner)findViewById(R.id.select_search_field);
+        searchSpinner = (Spinner)findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                loadPictogramIntoGridView();
+
+                //ArrayList catPictoList = new ArrayList();
+
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                //PictogramCategoryController pcController = new PictogramCategoryController(getApplicationContext());
+                //List<PictogramCategory> pcTemp = pcController.getPictogramCategories();
+
+                CategoryController cController = new CategoryController(getApplicationContext());
+                List<Category> cTemp = cController.getCategories();
+
+                Category cat = new Category();
+
+
+                if (!selectedItem.equals(getString(R.string.category_colon))){
+                    for (Category c : cTemp){
+                        if (selectedItem.equals(c.getName())){
+                            cat = c;
+                        }
+                    }
+
+                }
+                else {
+                    //loadPictogramIntoGridView();
+                }
+
+                PictogramController pictogramController = new PictogramController(getApplicationContext());
+                List<Pictogram> pTemp = pictogramController.getPictogramsByCategory(cat);
+
+                ArrayList<Object> allList = new ArrayList<Object>();
+                allList.addAll(pTemp);
+
+                if (selectedItem.equals(getString(R.string.category_colon)))
+                {
+                    loadCategoryPictogramIntoGridView(searchTemp);
+                }
+                else {
+                    loadCategoryPictogramIntoGridView(allList);
+                }
+
+
             }
 
             @Override
@@ -151,7 +214,7 @@ public class PictoAdminMain extends Activity {
 
         loadPictogramIntoGridView();
 
-        EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 onUpdatedSearchField();
@@ -164,6 +227,7 @@ public class PictoAdminMain extends Activity {
             }
         });
 
+        /*
         GButtonTrash btnTrash = (GButtonTrash) findViewById(R.id.deleteCheckoutButton);
         btnTrash.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,15 +243,15 @@ public class PictoAdminMain extends Activity {
                 clearSearchField(v);
             }
         });
-
-        GButtonSearch btnSearch = (GButtonSearch) findViewById(R.id.search_button);
+        */
+        ImageButton btnSearch = (ImageButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchForPictogram(v);
             }
         });
-
+        /*
         GVerifyButton btnVer = (GVerifyButton) findViewById(R.id.sendContentButton);
         btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,32 +259,36 @@ public class PictoAdminMain extends Activity {
                 sendContent(v);
             }
         });
-    }
+        */
+	}
 
 
-    /**
+	
+     /**
      * Initialize the contents of the Activity's standard options menu.
      * @param menu Interface for managing the items in a menu.
      * @return true
      */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.picto_admin_main, menu);
-        return true;
-    }
+        @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.picto_admin_main, menu);
+		return true;
+	}
 
-    /**
-     * Override the function of the back button. Does the same as sendContent()
-     */
-    @Override
-    public void onBackPressed() {
-        sendContent(getCurrentFocus());
-    }
-
-    /**
-     * Get the current child id if information is send by calling application
-     * Otherwise the standard value of childId is -1 (invalid)
-     */
+	/**
+	 * Override the function of the back button. Does the same as sendContent
+	 */
+    /*
+	@Override
+	public void onBackPressed() {
+		sendContent(getCurrentFocus());
+	}
+	*/
+	
+	/**
+	 * Get the current child id if information is send by calling application
+	 * Otherwise the standard value of childId is -1 (invalid)
+	 */
     private void updateGuardianInfo()
     {
         guardianInfo_ChildId = -1;
@@ -228,38 +296,37 @@ public class PictoAdminMain extends Activity {
             guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
-    /**
-     * Get citizen ID
-     * @return citizen ID
-     */
-    public int getCitizenID()
+	public int getChildID()
     {
-        return guardianInfo_ChildId;
-    }
+		return guardianInfo_ChildId;
+	}
+	
+	/**
+	 * Get the purpose from the calling application and displays a message to the user
+	 * describing what to do in the application and how to finish
+	 */
 
-    /**
-     * Get the purpose from the calling application and displays a message to the user
-     * describing what to do in the application and how to finish 
-     */
-    private void getPurpose()
+    /*
+	private void getPurpose()
     {
-        EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
 
-        if(getIntent().hasExtra(getString(R.string.purpose))){
-            if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))){
-                isSingle = true;
+		if(getIntent().hasExtra(getString(R.string.purpose))){
+			if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))){
+				isSingle = true;
                 purpose = getString(R.string.choose_a_pictogram_press_ok);
-            }
-            else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.multi))){
-                isSingle = false;
-                purpose = getString(R.string.choose_a_pictograms_press_ok);
-            }
-            else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.CAT))){
-                purpose = getString(R.string.choose_a_pictograms_add_to_category_press_ok);
-            }
+			}
+			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.multi))){
+				isSingle = false;
+				purpose = getString(R.string.choose_a_pictograms_press_ok);
+			}
+			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.CAT))){
+				purpose = getString(R.string.choose_a_pictograms_add_to_category_press_ok);
+			}
             searchTerm.setHint(purpose);
         }
     }
+*/
 
     private void GetAllPictogramsByNameAndTagAndCategories(String[] splitInput){
         if (!splitInput[0].equals("")) {
@@ -310,7 +377,7 @@ public class PictoAdminMain extends Activity {
 
     private void getAllCategories(String categoryName){
 
-        int childID = getCitizenID();
+        int childID = getChildID();
 
         if (childID < 0 || categoryName.isEmpty()){
             return;
@@ -330,7 +397,7 @@ public class PictoAdminMain extends Activity {
     }
 
     private void getAllCategories(String[] categoryNames){
-        int childID = getCitizenID();
+        int childID = getChildID();
         catList = new ArrayList<Category>();
 
         if (childID < 0 || categoryNames[0].isEmpty()){
@@ -421,41 +488,43 @@ public class PictoAdminMain extends Activity {
         return result;
     }
 
-    /**
-     * Called when pressing search_button
-     * Depending on search_field, search for pictoList in database
-     * @param view: This must be included for the function to work
-     */
-    public void searchForPictogram(View view){
-        updateErrorMessage("", 0); // Reset purpose
-        loadPictogramIntoGridView();
-    }
-
-    /**
-     * Updates the errorMessage with appropriate error
-     * @param message: Message to be displayed, null = clear
-     * @param icon: get icon from R.drawable
-     */
-    private void updateErrorMessage(String message, int icon)
-    {
-        TextView  errorMessage = (TextView)  findViewById(R.id.errorMessage);
-        ImageView errorIcon    = (ImageView) findViewById(R.id.errorIcon);
-
-        errorMessage.setText(message);
-        errorIcon.setImageResource(icon);
-    }
-
-    /**
+	/**
+	 * Called when pressing search_button
+	 * Depending on search_field, search for pictoList in database
+	 * @param view: This must be included for the function to work
+	 */
+	public void searchForPictogram(View view){
+		//updateErrorMessage("", 0); // Reset purpose
+		loadPictogramIntoGridView();
+                loadCategoriesIntoCategorySpinner();
+	}
+	
+	/**
+	 * Updates the errorMessage with appropriate error
+	 * @param message: Message to be displayed, null = clear
+	 * @param icon: get icon from R.drawable
+	 */
+       /*
+	private void updateErrorMessage(String message, int icon)
+	{
+		TextView  errorMessage = (TextView)  findViewById(R.id.errorMessage);
+		ImageView errorIcon    = (ImageView) findViewById(R.id.errorIcon);
+		
+		errorMessage.setText(message);
+		errorIcon.setImageResource(icon);
+	}
+        */
+/**
      * load all pictograms containing words from the searchString and display a limited amount of
      * them.
      */
-    private void loadPictogramIntoGridView()
-    {
+	private void loadPictogramIntoGridView()
+	{
         pictoGrid.setAdapter(null);
         searchList.clear();
 
 
-        EditText searchTerm = (EditText) findViewById(R.id.text_input);
+        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
         String[] splitInput = searchString.split("\\s+");
 
@@ -470,7 +539,7 @@ public class PictoAdminMain extends Activity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        SortPictogramsAndCategories(allList, searchString, splitInput);
+        //SortPictogramsAndCategories(allList, searchString, splitInput);
 
         for (Object o : allList)
         {
@@ -486,31 +555,100 @@ public class PictoAdminMain extends Activity {
             pictoGrid.setAdapter(new PictoAdapter(allList, this));
         }
         else{
-            updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
+            //updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
             pictoGrid.setAdapter(new PictoAdapter(allList, this));
         }
     }
 
+private void loadCategoryPictogramIntoGridView(ArrayList cpList)
+    {
+        pictoGrid.setAdapter(null);
+        pictoGrid.setAdapter(new PictoAdapter(cpList, this));
 
-    // TODO: Rename allList
-    // TODO: When pictogram.tag works also use that
-    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object> allList, String searchString, String[] splitInput){
-        if (allList.isEmpty()){
-            return new ArrayList<Object>();
+    }
+
+
+    private void loadCategoriesIntoCategorySpinner()
+    {
+
+        int childID = getChildID();
+        EditText tempText = (EditText) findViewById(R.id.text_search_input);
+        String tempString = tempText.getText().toString().toLowerCase();
+
+        CategoryController cController = new CategoryController(getApplicationContext());
+        List<Category> catTemp = cController.getCategoriesByProfileId(childID);
+
+        ArrayList<String> catNames = new ArrayList<String>();
+        getAllCategories(tempString);
+        catNames.add(getString(R.string.category_colon));
+
+
+        if (catList.isEmpty() && tempString.equals("")){
+            for (Category c : catTemp){
+                catNames.add(c.getName());
+            }
+        }
+        else if (catList.isEmpty()){}
+
+        else {
+            for (Category b : catList) {
+                catNames.add(b.getName());
+            }
         }
 
-        ArrayList<Object> sortedList = new ArrayList<Object>();
+        Spinner catspinner = (Spinner) findViewById(R.id.category_dropdown);
 
-        for (Object o : allList){
-            if (o instanceof Pictogram){
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        catspinner.setAdapter(spinnerArrayAdapter);
 
-            }
-            else if (o instanceof Category){
 
-            }
-        }
 
-        return sortedList;
+        PictogramCategoryController pcController = new PictogramCategoryController(getApplicationContext());
+
+
+
+
+    }
+
+
+
+
+    private boolean searchMatcher(String pictoname, String searchinput) {
+		// Made so that it is possible to make search function more intelligent
+		
+		if(pictoname.contains(searchinput)) {
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+	
+	// Used in loadPictogramIntoGridview to
+	//TODO: INSERT description Jacob
+	private static int calculateValueOfPictogram(Pictogram p, String[] searchTerm) {
+    	int searchValue = 0;
+    	
+    	for(String s : searchTerm){
+    		s.toLowerCase().replaceAll("\\s", "");
+    		
+    		if(p.getName().toLowerCase().replaceAll("\\s", "").equals(s)){
+    			searchValue = 100;
+    		}
+    		
+    		String temps = s;
+    		
+    		for(int i = 0; i < s.length(); i++){
+    			if(p.getName().toLowerCase().replaceAll("\\s", "").contains(temps) || temps.contains(p.getName().toLowerCase().replaceAll("\\s", ""))){
+    				searchValue++;
+    				}
+    			
+    			temps = temps.substring(0, temps.length() - 1);
+    		}
+    	}
+    	
+    	return searchValue;
     }
 
     /**
@@ -591,7 +729,7 @@ public class PictoAdminMain extends Activity {
      * @param view: This must be included for the function to work
      */
     public void clearSearchField(View view) {
-        EditText searchField = (EditText) findViewById(R.id.text_input);
+        EditText searchField = (EditText) findViewById(R.id.text_search_input);
         searchField.setText(null);
         onUpdatedSearchField();
         loadPictogramIntoGridView();
@@ -635,18 +773,16 @@ public class PictoAdminMain extends Activity {
     {
         try
         {
-            Intent intent = new Intent();
-            intent.setClassName(getString(R.string.set_class_name_1),
-                    getString(R.string.set_class_name_2));
-            startActivity(intent);
+            Intent i = new Intent();
+            i.setClassName(getString(R.string.set_class_name_1), getString(R.string.set_class_name_2));
+            startActivity(i);
             return true;
         }
         catch (android.content.ActivityNotFoundException e)
         {
             if (allow_error_msg)
             {
-                MessageDialogFragment message = new MessageDialogFragment(
-                        getString(R.string.unable_to_launch));
+                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch));
                 message.show(getFragmentManager(), getString(R.string.pictocreator));
             }
             return false;
@@ -669,18 +805,21 @@ public class PictoAdminMain extends Activity {
         LaunchPictoCreator(true);
     }
 
-    public void callAndersSupport(MenuItem item) {
-        MessageDialogFragment message = new MessageDialogFragment(getString(R.string.support_number));
-        message.show(getFragmentManager(), getString(R.string.call_tech_support));
-    }
+	public void callAndersSupport(MenuItem item) {
+		MessageDialogFragment message = new MessageDialogFragment(getString(R.string.support_number));
+		message.show(getFragmentManager(), getString(R.string.call_tech_support));
+	}
 
     /**
      * Update the number of checkout items
      */
     public void onUpdatedCheckoutCount()
     {
-        TextView  messageBox = (TextView)  findViewById(R.id.textView1);
-        messageBox.setText(getString(R.string.choice_colon) + checkoutList.size());
+        TextView  categoryBox = (TextView)  findViewById(R.id.categorySum);
+        categoryBox.setText(getString(R.string.category_colon) + checkoutList.size());
+
+        TextView  pictogramBox = (TextView)  findViewById(R.id.pictogramSum);
+        pictogramBox.setText(getString(R.string.pictogram_colon) + checkoutList.size());
     }
 
     /**
@@ -688,13 +827,8 @@ public class PictoAdminMain extends Activity {
      */
     public void onUpdatedSearchField()
     {
-        EditText searchTerm = (EditText) findViewById(R.id.text_input);
-        Editable text = searchTerm.getText();
-        View clearButton = findViewById(R.id.clearSearchFieldButton);
-        if (text != null && text.length() > 0)
-            clearButton.setVisibility(View.VISIBLE);
-        else
-            clearButton.setVisibility(View.INVISIBLE);
+        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
+        Editable s = searchTerm.getText();
     }
 
     /**
@@ -702,24 +836,27 @@ public class PictoAdminMain extends Activity {
      */
     public void showDelete()
     {
-        GDialogMessage deleteDialog = new GDialogMessage(this,getString(R.string.delete_pictogram),
+        GDialogMessage deleteDialog = new GDialogMessage(this,
+                getString(R.string.delete_pictogram),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(pictoDelete != null) {
-                            deleteClass.PictoDelete(view.getContext(), pictoDelete);
-                            getAllPictograms("");
-                        }
-                        else
-                        {
-                            deleteClass.CategoryDelete(view.getContext(), catDelete);
-                            getAllCategories("");
-                        }
-                        loadPictogramIntoGridView();
+                       if(pictoDelete != null) {
+                           deleteClass.PictoDelete(view.getContext(), pictoDelete);
+                           getAllPictograms("");
+                           }
+                       else
+                       {
+                           deleteClass.CategoryDelete(view.getContext(), catDelete);
+                           getAllCategories("");
+                       }
+                       loadPictogramIntoGridView();
                     }
                 }
         );
 
         deleteDialog.show();
     }
+
+
 }

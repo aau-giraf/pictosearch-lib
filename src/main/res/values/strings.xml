@@ -17,7 +17,8 @@
     <string name="delete">Slet</string>
     <string name="send">Send</string>
 	<string name="checkoutList">Checkout list:</string>
-	<string name="pictograms_colon">Pictogrammer: </string>
+	<string name="pictogram_colon">Pictogram: </string>
+    <string name="category_colon">Kategori: </string>
     
     <string name="picture">Default picture content description</string>
     <string name="title_activity_help_menu">HelpMenu</string>
@@ -66,6 +67,22 @@
     <string name="fix_now">Fix nu!!!!!</string>
     <string name="current_child_id">currentChildID</string>
     <string name="checkout_ids">checkoutIds</string>
+
+
+
+    <!--Newest added strings to design-->
+    <string name="category_view_count">Kategori:</string>
+    <string name="pictogram_view_count">Pictogram:</string>
+
+
+
+    <!--SAMPLES, not to be used in the project-->
+    <string-array name="category_example">
+        <item>Dyr</item>
+        <item>Mad</item>
+        <item>Ord</item>
+    </string-array>
+
 
 
 

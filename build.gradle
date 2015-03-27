@@ -18,11 +18,10 @@ apply plugin: 'dk.giraf.deploy'
 apply plugin: 'play'
 
 dependencies {
-	compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':GIRAF_Components')
+	compile project(':metadata')
+    //compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':OasisLib')
-    compile project(':local-db')
-    compile project(':metadata')
+    compile project(':GIRAF_Components')
 }
 
 android {
