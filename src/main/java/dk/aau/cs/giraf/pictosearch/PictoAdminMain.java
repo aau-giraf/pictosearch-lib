@@ -246,6 +246,14 @@ public class PictoAdminMain extends Activity {
         }
     }
 
+    private void GetAllPictogramsByNameAndTagAndCategories(String[] splitInput){
+        if (!splitInput[0].equals("")) {
+            getAllPictograms(splitInput);
+            getAllCategories(splitInput);
+            getAllTags(splitInput);
+        }
+    }
+
     private void getAllPictograms(String pictogramName) {
         if(pictogramName.isEmpty())
         {
