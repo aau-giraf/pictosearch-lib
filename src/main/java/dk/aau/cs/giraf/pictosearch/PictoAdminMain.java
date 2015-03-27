@@ -150,9 +150,52 @@ public class PictoAdminMain extends GirafActivity {
 
         searchSpinner = (Spinner)findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                loadPictogramIntoGridView();
+
+                //ArrayList catPictoList = new ArrayList();
+
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                //PictogramCategoryController pcController = new PictogramCategoryController(getApplicationContext());
+                //List<PictogramCategory> pcTemp = pcController.getPictogramCategories();
+
+                CategoryController cController = new CategoryController(getApplicationContext());
+                List<Category> cTemp = cController.getCategories();
+
+                Category cat = new Category();
+
+
+                if (!selectedItem.equals(getString(R.string.category_colon))){
+                    for (Category c : cTemp){
+                        if (selectedItem.equals(c.getName())){
+                            cat = c;
+                        }
+                    }
+
+                }
+                else {
+                    //loadPictogramIntoGridView();
+                }
+
+                PictogramController pictogramController = new PictogramController(getApplicationContext());
+                List<Pictogram> pTemp = pictogramController.getPictogramsByCategory(cat);
+
+                ArrayList<Object> allList = new ArrayList<Object>();
+                allList.addAll(pTemp);
+
+                if (selectedItem.equals(getString(R.string.category_colon)))
+                {
+                    loadPictogramIntoGridView();
+                }
+                else {
+                    loadCategoryPictogramIntoGridView(allList);
+                }
+
+
             }
 
             @Override
@@ -400,6 +443,14 @@ public class PictoAdminMain extends GirafActivity {
 	}
 
 
+    private void loadCategoryPictogramIntoGridView(ArrayList cpList)
+    {
+        pictoGrid.setAdapter(null);
+        pictoGrid.setAdapter(new PictoAdapter(cpList, this));
+
+    }
+
+
     private void loadCategoriesIntoCategorySpinner()
     {
 
@@ -442,6 +493,9 @@ public class PictoAdminMain extends GirafActivity {
 
 
     }
+
+
+
 
     private boolean searchMatcher(String pictoname, String searchinput) {
 		// Made so that it is possible to make search function more intelligent
