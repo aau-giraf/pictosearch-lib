@@ -16,6 +16,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.PictogramTag;
 import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
+// TODO insert comment
 public class Search {
     private Context context;
 
@@ -49,6 +50,7 @@ public class Search {
         return pictoList;
     }
 
+    // TODO insert comment
     public ArrayList<Category> getAllCategories(String[] categoryNames, int childID) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
@@ -71,6 +73,7 @@ public class Search {
         return catList;
     }
 
+    // TODO insert comment
     public ArrayList<Tag> getAllTags(String[] tagCaptions) {
         ArrayList<Tag> tagList = new ArrayList<Tag>();
 
@@ -93,6 +96,7 @@ public class Search {
         return tagList;
     }
 
+    // TODO insert comment
     public ArrayList<Pictogram> getPictogramByTags(String[] input, ArrayList<Tag> listOfTags) {
         ArrayList<Integer> tagIDs = new ArrayList<Integer>();
 
