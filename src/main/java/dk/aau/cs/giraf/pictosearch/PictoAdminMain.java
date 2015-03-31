@@ -527,27 +527,22 @@ public class PictoAdminMain extends GirafActivity {
         return result;
     }
 
-    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString, String[] splitInput){
+    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString){
         ArrayList<Object> result = new ArrayList<Object>();
 
         List<Pair<Object, Integer>> pl = new ArrayList<Pair<Object, Integer>>();
-        int compareNumber;
 
         for (Object o : allList){
             if (o instanceof Pictogram) {
                 Pictogram p = (Pictogram)o;
 
-                compareNumber = Math.abs(p.getName().compareToIgnoreCase(searchString));
-
-                pl.add(new Pair<Object, Integer>(p, compareNumber));
+                pl.add(new Pair<Object, Integer>(p, Math.abs(p.getName().compareToIgnoreCase(searchString))));
 
             }
             else if (o instanceof Category){
                 Category c = (Category)o;
 
-                compareNumber = Math.abs(c.getName().compareToIgnoreCase(searchString));
-
-                pl.add(new Pair<Object, Integer>(c, compareNumber));
+                pl.add(new Pair<Object, Integer>(c, Math.abs(c.getName().compareToIgnoreCase(searchString))));
             }
         }
 
@@ -626,7 +621,7 @@ public class PictoAdminMain extends GirafActivity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        allList = SortPictogramsAndCategories(allList, searchString, splitInput);
+        allList = SortPictogramsAndCategories(allList, searchString);
 
         for (Object o : allList)
         {
