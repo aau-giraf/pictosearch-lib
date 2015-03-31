@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -513,6 +514,53 @@ public class PictoAdminMain extends GirafActivity {
         return result;
     }
 
+    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString, String[] splitInput){
+        ArrayList<Object> result = new ArrayList<Object>();
+
+        List<Pair<Object, Integer>> pl = new ArrayList<Pair<Object, Integer>>();
+        int compareNumber;
+
+        for (Object o : allList){
+            if (o instanceof Pictogram) {
+                Pictogram p = (Pictogram)o;
+
+                compareNumber = Math.abs(p.getName().compareToIgnoreCase(searchString));
+
+                pl.add(new Pair<Object, Integer>(p, compareNumber));
+
+            }
+            else if (o instanceof Category){
+                Category c = (Category)o;
+
+                compareNumber = Math.abs(c.getName().compareToIgnoreCase(searchString));
+
+                pl.add(new Pair<Object, Integer>(c, compareNumber));
+            }
+        }
+
+        int index = 0;
+        int relevance;
+
+        while (!pl.isEmpty()){
+            relevance = pl.get(index).second;
+
+            if (relevance != 0) {
+                for (int j = 0; j < pl.size(); j++) {
+                    if (relevance > pl.get(j).second) {
+                        relevance = pl.get(j).second;
+                        index = j;
+                    }
+                }
+            }
+
+            result.add(pl.get(index).first);
+            pl.remove(index);
+            index = 0;
+        }
+
+        return result;
+    }
+
     /**
      * Called when pressing search_button
      * Depending on search_field, search for pictoList in database
@@ -565,7 +613,7 @@ public class PictoAdminMain extends GirafActivity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        //SortPictogramsAndCategories(allList, searchString, splitInput);
+        allList = SortPictogramsAndCategories(allList, searchString, splitInput);
 
         for (Object o : allList)
         {
