@@ -653,7 +653,7 @@ public class PictoAdminMain extends GirafActivity {
 
 
     private void loadCategoriesIntoCategorySpinner() {
-
+        //TODO Fix split input in search string.
         int childID = getChildID();
         EditText tempText = (EditText) findViewById(R.id.text_search_input);
         String tempString = tempText.getText().toString().toLowerCase();
@@ -892,11 +892,18 @@ public class PictoAdminMain extends GirafActivity {
      */
     public void onUpdatedCheckoutCount()
     {
-        TextView  categoryBox = (TextView)  findViewById(R.id.categorySum);
-        categoryBox.setText(getString(R.string.category_colon) + checkoutList.size());
+        ArrayList<Object> checkoutCat = new ArrayList<Object>();
 
+        for (Object o : checkoutList) {
+                if (o instanceof Category) {
+                    checkoutCat.add(o);
+                }
+        }
+
+        TextView  categoryBox = (TextView)  findViewById(R.id.categorySum);
+        categoryBox.setText(getString(R.string.category_colon) + checkoutCat.size());
         TextView pictogramBox = (TextView) findViewById(R.id.pictogramSum);
-        pictogramBox.setText(getString(R.string.pictogram_colon) + checkoutList.size());
+        pictogramBox.setText(getString(R.string.pictogram_colon) + (checkoutList.size() - checkoutCat.size()));
     }
 
 
