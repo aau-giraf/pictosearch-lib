@@ -527,42 +527,52 @@ public class PictoAdminMain extends GirafActivity {
         return result;
     }
 
+    /**
+     * Method that sorts the list of pictograms and category before sending it to the view
+     * @param allList the list that needs to be sorted
+     * @param searchString the search string that is used to evaluate the relevance for each
+     *                     pictogram or category
+     * @return sorted list according to the relevance from the searchString
+     */
     private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString){
         ArrayList<Object> result = new ArrayList<Object>();
 
-        List<Pair<Object, Integer>> pl = new ArrayList<Pair<Object, Integer>>();
+        // A list of pairs, which contains the pictogram or category and the relevance
+        List<Pair<Object, Integer>> pairList = new ArrayList<Pair<Object, Integer>>();
 
+        // Calculate for each pictogram or category, their relevance according to the search string
         for (Object o : allList){
             if (o instanceof Pictogram) {
                 Pictogram p = (Pictogram)o;
 
-                pl.add(new Pair<Object, Integer>(p, Math.abs(p.getName().compareToIgnoreCase(searchString))));
+                pairList.add(new Pair<Object, Integer>(p, Math.abs(p.getName().compareToIgnoreCase(searchString))));
 
             }
             else if (o instanceof Category){
                 Category c = (Category)o;
 
-                pl.add(new Pair<Object, Integer>(c, Math.abs(c.getName().compareToIgnoreCase(searchString))));
+                pairList.add(new Pair<Object, Integer>(c, Math.abs(c.getName().compareToIgnoreCase(searchString))));
             }
         }
 
         int index = 0;
         int relevance;
 
-        while (!pl.isEmpty()){
-            relevance = pl.get(index).second;
+        // Find the lowest number (the most relevant) and insert it into the result list
+        while (!pairList.isEmpty()){
+            relevance = pairList.get(index).second;
 
             if (relevance != 0) {
-                for (int j = 0; j < pl.size(); j++) {
-                    if (relevance > pl.get(j).second) {
-                        relevance = pl.get(j).second;
+                for (int j = 0; j < pairList.size(); j++) {
+                    if (relevance > pairList.get(j).second) {
+                        relevance = pairList.get(j).second;
                         index = j;
                     }
                 }
             }
 
-            result.add(pl.get(index).first);
-            pl.remove(index);
+            result.add(pairList.get(index).first);
+            pairList.remove(index);
             index = 0;
         }
 
