@@ -653,27 +653,25 @@ public class PictoAdminMain extends GirafActivity {
 
 
     private void loadCategoriesIntoCategorySpinner() {
-        //TODO Fix split input in search string.
+        //TODO Sort the list of categories in alphabetical order.
         int childID = getChildID();
-        EditText tempText = (EditText) findViewById(R.id.text_search_input);
-        String tempString = tempText.getText().toString().toLowerCase();
 
         CategoryController cController = new CategoryController(getApplicationContext());
         List<Category> catTemp = cController.getCategoriesByProfileId(childID);
 
         ArrayList<String> catNames = new ArrayList<String>();
-        getAllCategories(tempString);
         catNames.add(getString(R.string.category_colon));
 
-
-        if (catList.isEmpty() && tempString.equals("")) {
+        if (searchList.isEmpty()) {
             for (Category c : catTemp) {
                 catNames.add(c.getName());
             }
-        } else if (catList.isEmpty()) {
-        } else {
-            for (Category b : catList) {
-                catNames.add(b.getName());
+        }
+        else {
+            for (Object o : searchList){
+                if (o instanceof Category){
+                    catNames.add(((Category) o).getName());
+                }
             }
         }
 
@@ -682,9 +680,6 @@ public class PictoAdminMain extends GirafActivity {
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catspinner.setAdapter(spinnerArrayAdapter);
-
-
-
     }
 
 
