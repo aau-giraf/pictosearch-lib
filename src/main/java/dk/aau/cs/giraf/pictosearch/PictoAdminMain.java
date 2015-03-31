@@ -534,7 +534,7 @@ public class PictoAdminMain extends GirafActivity {
      *                     pictogram or category
      * @return sorted list according to the relevance from the searchString
      */
-    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString){
+    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString, String[] splitInput){
         ArrayList<Object> result = new ArrayList<Object>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
@@ -545,13 +545,33 @@ public class PictoAdminMain extends GirafActivity {
             if (o instanceof Pictogram) {
                 Pictogram p = (Pictogram)o;
 
-                pairList.add(new Pair<Object, Integer>(p, Math.abs(p.getName().compareToIgnoreCase(searchString))));
+                int number = Math.abs(p.getName().compareToIgnoreCase(searchString));
+
+                // Check to see if each string in the split input is more relevant than the whole
+                // search string
+                for (String s : splitInput){
+                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < number){
+                        number = Math.abs(p.getName().compareToIgnoreCase(s));
+                    }
+                }
+
+                pairList.add(new Pair<Object, Integer>(p, number));
 
             }
             else if (o instanceof Category){
                 Category c = (Category)o;
 
-                pairList.add(new Pair<Object, Integer>(c, Math.abs(c.getName().compareToIgnoreCase(searchString))));
+                int number = Math.abs(c.getName().compareToIgnoreCase(searchString));
+
+                // Check to see if each string in the split input is more relevant than the whole
+                // search string
+                for (String s : splitInput){
+                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < number){
+                        number = Math.abs(c.getName().compareToIgnoreCase(s));
+                    }
+                }
+
+                pairList.add(new Pair<Object, Integer>(c, number));
             }
         }
 
@@ -631,7 +651,7 @@ public class PictoAdminMain extends GirafActivity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        allList = SortPictogramsAndCategories(allList, searchString);
+        allList = SortPictogramsAndCategories(allList, searchString, splitInput);
 
         for (Object o : allList)
         {
