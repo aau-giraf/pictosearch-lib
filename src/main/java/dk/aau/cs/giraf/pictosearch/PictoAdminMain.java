@@ -65,6 +65,8 @@ public class PictoAdminMain extends GirafActivity {
     private ArrayList<Tag> tagList = new ArrayList<Tag>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
+    private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
+    private String gridViewString;
 
     public GridView checkoutGrid;
     private GridView pictoGrid;
@@ -133,6 +135,7 @@ public class PictoAdminMain extends GirafActivity {
         catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
         searchTemp = new ArrayList<Object>();
+        currentViewSearch = new ArrayList<Object>();
 
 
         updateGuardianInfo();
@@ -164,7 +167,14 @@ public class PictoAdminMain extends GirafActivity {
                 if (isSingle) {
                     checkoutList.clear();
                 }
-                checkoutList.add(searchList.get(position));
+
+                if (gridViewString == getString(R.string.category_colon)) {
+                    checkoutList.add(searchTemp.get(position));
+                }
+                else {
+                    checkoutList.add(currentViewSearch.get(position));
+                }
+
                 onUpdatedCheckoutCount();
                 checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
             }
@@ -222,10 +232,13 @@ public class PictoAdminMain extends GirafActivity {
                 ArrayList<Object> allList = new ArrayList<Object>();
                 allList.addAll(pTemp);
 
+                currentViewSearch = allList;
+                gridViewString = selectedItem;
+
                 if (selectedItem.equals(getString(R.string.category_colon))) {
                     loadCategoryPictogramIntoGridView(searchTemp);
                 } else {
-                    loadCategoryPictogramIntoGridView(allList);
+                    loadCategoryPictogramIntoGridView(currentViewSearch);
                 }
 
 
@@ -578,6 +591,7 @@ public class PictoAdminMain extends GirafActivity {
 
         searchTemp = searchList;
 
+
         if(searchList.size() > 0){
             pictoGrid.setAdapter(new PictoAdapter(searchList, this));
         }
@@ -626,8 +640,6 @@ public class PictoAdminMain extends GirafActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catspinner.setAdapter(spinnerArrayAdapter);
 
-
-        PictogramCategoryController pcController = new PictogramCategoryController(getApplicationContext());
 
 
     }
