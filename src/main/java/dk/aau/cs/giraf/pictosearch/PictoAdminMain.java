@@ -1,10 +1,8 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Pair;
@@ -31,16 +29,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.jar.Attributes;
-
 import dk.aau.cs.giraf.activity.GirafActivity;
-import dk.aau.cs.giraf.gui.GButton;
-import dk.aau.cs.giraf.gui.GButtonSearch;
-import dk.aau.cs.giraf.gui.GButtonTrash;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogMessage;
-import dk.aau.cs.giraf.gui.GGridView;
-import dk.aau.cs.giraf.gui.GSpinner;
-import dk.aau.cs.giraf.gui.GVerifyButton;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramCategoryController;
@@ -87,16 +78,16 @@ public class PictoAdminMain extends GirafActivity {
      */
     private boolean isSingle = false;
 
-    
 
-    
-/**
+
+
+    /**
      * Method called when initialising PictoSearch activity
      * @param savedInstanceState saves information about the state of the activity's view hierarchy
      */
-        @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
 
@@ -105,8 +96,8 @@ public class PictoAdminMain extends GirafActivity {
         GirafButton accept = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_accept));
         GirafButton add = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_add));
         GirafButton delete = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_delete));
-        GirafButton catTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_camera));
-        GirafButton creTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_camera));
+        GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.collections_view_as_list));
+        GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.croc_icon));
 
         // Example of an onclicklistener
         help.setOnClickListener(new View.OnClickListener() {
@@ -116,20 +107,46 @@ public class PictoAdminMain extends GirafActivity {
             }
         });
 
+
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendContent(getCurrentFocus());
-                }
-            });
+            }
+        });
 
-        //Giraf buttons added to actionbar - Order is important!!!
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //do nothing
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //do nothing
+            }
+        });
+        categoryTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LaunchCategoryTool(true);
+            }
+        });
+        pictoCreatorTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LaunchPictoCreator(true);
+            }
+        });
+
+        //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
         addGirafButtonToActionBar(help, LEFT);
         addGirafButtonToActionBar(accept, LEFT);
         addGirafButtonToActionBar(add, RIGHT);
         addGirafButtonToActionBar(delete, RIGHT);
-        addGirafButtonToActionBar(catTool, RIGHT);
-        addGirafButtonToActionBar(creTool, RIGHT);
+        addGirafButtonToActionBar(categoryTool, RIGHT);
+        addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
 
         checkoutList = new ArrayList<Object>();
         pictoList = new ArrayList<Pictogram>();
@@ -304,10 +321,10 @@ public class PictoAdminMain extends GirafActivity {
 
 
 /**
-     * Initialize the contents of the Activity's standard options menu.
-     * @param menu Interface for managing the items in a menu.
-     * @return true
-     */	
+ * Initialize the contents of the Activity's standard options menu.
+ * @param menu Interface for managing the items in a menu.
+ * @return true
+ */
 /*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -527,42 +544,72 @@ public class PictoAdminMain extends GirafActivity {
         return result;
     }
 
-    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString){
+    /**
+     * Method that sorts the list of pictograms and category before sending it to the view
+     * @param allList the list that needs to be sorted
+     * @param searchString the search string that is used to evaluate the relevance for each
+     *                     pictogram or category
+     * @return sorted list according to the relevance from the searchString
+     */
+    private ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString, String[] splitInput){
         ArrayList<Object> result = new ArrayList<Object>();
 
-        List<Pair<Object, Integer>> pl = new ArrayList<Pair<Object, Integer>>();
+        // A list of pairs, which contains the pictogram or category and the relevance
+        List<Pair<Object, Integer>> pairList = new ArrayList<Pair<Object, Integer>>();
 
+        // Calculate for each pictogram or category, their relevance according to the search string
         for (Object o : allList){
             if (o instanceof Pictogram) {
                 Pictogram p = (Pictogram)o;
 
-                pl.add(new Pair<Object, Integer>(p, Math.abs(p.getName().compareToIgnoreCase(searchString))));
+                int number = Math.abs(p.getName().compareToIgnoreCase(searchString));
+
+                // Check to see if each string in the split input is more relevant than the whole
+                // search string
+                for (String s : splitInput){
+                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < number){
+                        number = Math.abs(p.getName().compareToIgnoreCase(s));
+                    }
+                }
+
+                pairList.add(new Pair<Object, Integer>(p, number));
 
             }
             else if (o instanceof Category){
                 Category c = (Category)o;
 
-                pl.add(new Pair<Object, Integer>(c, Math.abs(c.getName().compareToIgnoreCase(searchString))));
+                int number = Math.abs(c.getName().compareToIgnoreCase(searchString));
+
+                // Check to see if each string in the split input is more relevant than the whole
+                // search string
+                for (String s : splitInput){
+                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < number){
+                        number = Math.abs(c.getName().compareToIgnoreCase(s));
+                    }
+                }
+
+                pairList.add(new Pair<Object, Integer>(c, number));
             }
         }
 
         int index = 0;
         int relevance;
 
-        while (!pl.isEmpty()){
-            relevance = pl.get(index).second;
+        // Find the lowest number (the most relevant) and insert it into the result list
+        while (!pairList.isEmpty()){
+            relevance = pairList.get(index).second;
 
             if (relevance != 0) {
-                for (int j = 0; j < pl.size(); j++) {
-                    if (relevance > pl.get(j).second) {
-                        relevance = pl.get(j).second;
+                for (int j = 0; j < pairList.size(); j++) {
+                    if (relevance > pairList.get(j).second) {
+                        relevance = pairList.get(j).second;
                         index = j;
                     }
                 }
             }
 
-            result.add(pl.get(index).first);
-            pl.remove(index);
+            result.add(pairList.get(index).first);
+            pairList.remove(index);
             index = 0;
         }
 
@@ -580,12 +627,12 @@ public class PictoAdminMain extends GirafActivity {
         loadPictogramIntoGridView();
         loadCategoriesIntoCategorySpinner();
     }
-	
-	/**
-	 * Updates the errorMessage with appropriate error
-	 * @param message: Message to be displayed, null = clear
-	 * @param icon: get icon from R.drawable
-	 */
+
+    /**
+     * Updates the errorMessage with appropriate error
+     * @param message: Message to be displayed, null = clear
+     * @param icon: get icon from R.drawable
+     */
        /*
 	private void updateErrorMessage(String message, int icon)
 	{
@@ -596,12 +643,12 @@ public class PictoAdminMain extends GirafActivity {
 		errorIcon.setImageResource(icon);
 	}
         */
-/**
+    /**
      * load all pictograms containing words from the searchString and display a limited amount of
      * them.
      */
-	private void loadPictogramIntoGridView()
-	{
+    private void loadPictogramIntoGridView()
+    {
         pictoGrid.setAdapter(null);
         searchList.clear();
 
@@ -621,7 +668,7 @@ public class PictoAdminMain extends GirafActivity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        allList = SortPictogramsAndCategories(allList, searchString);
+        allList = SortPictogramsAndCategories(allList, searchString, splitInput);
 
         for (Object o : allList)
         {
@@ -661,6 +708,7 @@ public class PictoAdminMain extends GirafActivity {
 
         ArrayList<String> catNames = new ArrayList<String>();
         catNames.add(getString(R.string.category_colon));
+
 
         if (searchList.isEmpty()) {
             for (Category c : catTemp) {
@@ -850,24 +898,45 @@ public class PictoAdminMain extends GirafActivity {
         try
         {
             Intent i = new Intent();
-            i.setClassName(getString(R.string.set_class_name_1), getString(R.string.set_class_name_2));
+            i.setClassName(getString(R.string.set_class_name_pictoCreator), getString(R.string.set_class_name_pictoCreator_mainActivity));
             startActivity(i);
             return true;
         } catch (android.content.ActivityNotFoundException e) {
             if (allow_error_msg) {
-                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch));
-                message.show(getFragmentManager(), getString(R.string.pictocreator));
+                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch_pictoCreator));
+                message.show(getFragmentManager(), getString(R.string.pictoCreator));
             }
             return false;
         }
     }
-	/**
+    /**
+     * Open the application CategoryTool if the application is installed.
+     * @param allow_error_msg boolean for allowing error messages to be displayed to user
+     * @return return false if unable to open CategoryTool.
+     */
+    private boolean LaunchCategoryTool(boolean allow_error_msg)
+    {
+        try
+        {
+            Intent i = new Intent();
+            i.setClassName(getString(R.string.set_class_name_categoryTool), getString(R.string.set_class_name_categoryTool_mainActivity));
+            startActivity(i);
+            return true;
+        } catch (android.content.ActivityNotFoundException e) {
+            if (allow_error_msg) {
+                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch_categoryTool));
+                message.show(getFragmentManager(), getString(R.string.categoryTool));
+            }
+            return false;
+        }
+    }
+    /**
      * opens PictoCreator
      * @param view: This must be included for the function to work
      */
-	public void gotoCroc(View view){
+    public void gotoCroc(View view){
         LaunchPictoCreator(true);
-	}
+    }
 
     /**
      * opens PictoCreator
@@ -902,7 +971,7 @@ public class PictoAdminMain extends GirafActivity {
     }
 
 
-     /**
+    /**
      * Hide clearSearchFieldButton if no text has been entered
      */
     public void onUpdatedSearchField() {

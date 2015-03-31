@@ -46,7 +46,8 @@
 
     <!--All Error Message strings here-->
     <string name="exception">Fejl: </string>
-    <string name="unable_to_launch">Det var ikke muligt at åbne Piktotegner, sikre dig at det er installeret og opdateret.</string>
+    <string name="unable_to_launch_pictoCreator">Det var ikke muligt at åbne Piktotegner, sikre dig at det er installeret og opdateret.</string>
+    <string name="unable_to_launch_categoryTool">Det var ikke muligt at åbne Kategori værktøjet, sikre dig at det er installeret og opdateret.</string>
     <string name="default_error_string">En ukendt fejl er opstået.</string>
 
 
@@ -56,13 +57,16 @@
 
 
     <!--Application names-->
-    <string name="pictocreator">PictoCreator</string>
+    <string name="pictoCreator">PictoCreator</string>
+    <string name="categoryTool">Kategori værktøjet</string>
 
 
 
     <!--Unknown group of strings-->
-    <string name="set_class_name_1">dk.aau.cs.giraf.pictocreator</string>
-    <string name="set_class_name_2">dk.aau.cs.giraf.pictocreator.MainActivity</string>
+    <string name="set_class_name_pictoCreator">dk.aau.cs.giraf.pictocreator</string>
+    <string name="set_class_name_pictoCreator_mainActivity">dk.aau.cs.giraf.pictocreator.MainActivity</string>
+    <string name="set_class_name_categoryTool">dk.aau.cs.giraf.cat</string>
+    <string name="set_class_name_categoryTool_mainActivity">dk.aau.cs.giraf.cat.MainActivity</string>
     <string name="exception_colon">Exception: </string>
     <string name="fix_now">Fix nu!!!!!</string>
     <string name="current_child_id">currentChildID</string>

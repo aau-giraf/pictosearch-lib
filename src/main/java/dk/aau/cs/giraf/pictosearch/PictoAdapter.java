@@ -102,7 +102,7 @@ public class PictoAdapter extends BaseAdapter {
         }
 
         Object object = pictograms.get(position);
-        String TextLabel = context.getString(R.string.pictocreator);
+        String TextLabel = context.getString(R.string.pictoCreator);
 
         Pictogram pictogramNew = null;
         Category categoryNew = null;
