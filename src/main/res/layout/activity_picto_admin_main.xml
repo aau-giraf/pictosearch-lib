@@ -2,10 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
     android:keepScreenOn="true"
     android:id="@+id/mainLinearLayout"
-    tools:context=".PictoAdminMain" >
+    tools:context=".PictoAdminMain"
+    android:orientation="horizontal"
+    android:background="@drawable/gbackground"> <!-- Change this to global -->
+
 
     <LinearLayout
         android:layout_width="0dp"
@@ -13,47 +15,50 @@
         android:layout_marginRight="5dp"
         android:layout_weight="0.13"
         android:orientation="vertical" >
-        
-        <LinearLayout
+
+        <GridLayout
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
-        	android:layout_height="50dp"
-        	android:orientation="horizontal">
+            android:layout_height="50dp"
+            android:background="@drawable/border_square">
 
-            <dk.aau.cs.giraf.gui.GSpinner
-                android:id="@+id/select_search_field"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:entries="@array/select_search_field" />
+        <TextView
+            android:id="@+id/categorySum"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="@string/category_colon"
+            android:textSize="15sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_row="0"
+            android:layout_column="0"/>
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/pictogramSum"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="@string/pictogram_colon"
+            android:textSize="15sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_row="1"
+            android:layout_column="0"/>
 
-        <dk.aau.cs.giraf.gui.GTextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Valg:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        <dk.aau.cs.giraf.gui.GGridView
+        </GridLayout>
+
+
+        <GridView
             android:id="@+id/checkout"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/sentenceboardlayout" >
-        </dk.aau.cs.giraf.gui.GGridView>
+            android:layout_height="match_parent"
+            android:background="@drawable/border_round">
 
-        <dk.aau.cs.giraf.gui.GButtonTrash
-            android:id="@+id/deleteCheckoutButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:contentDescription="@string/delete"
-            android:src="@drawable/content_discard" />
+
+        </GridView>
+
 
     </LinearLayout>
-
-    <TextView android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -63,86 +68,70 @@
         android:orientation="vertical" >
 
         <LinearLayout
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center" >
 
-            <EditText
-                android:id="@+id/text_input"
+            <ImageView
+                android:id="@+id/invisibleImageSearchBar"
+                android:layout_width="400dp"
+                android:layout_height="match_parent"
+                android:contentDescription="InvisibleBar"/>
+
+            <Spinner
+                android:id="@+id/category_dropdown"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                android:clickable="true"
+                android:entries="@array/category_example">
+
+
+            </Spinner>
+
+            <LinearLayout
+                android:layout_margin="5dp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Søg"
+                android:background="@drawable/border_square"
+                android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/text_search_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/search"
                 android:inputType="text"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="20sp" >
+                android:textSize="20sp">
             </EditText>
 
-            <dk.aau.cs.giraf.gui.GTextView
-                android:id="@+id/TextView09"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <ImageButton
-                android:id="@+id/clearSearchFieldButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/reset"
-                android:src="@android:drawable/ic_delete"
-                android:background="@layout/transparent_button"
-            />
-
-            <dk.aau.cs.giraf.gui.GButtonSearch
                 android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:contentDescription="@string/search"
-                android:src="@drawable/ic_action_search" />
-
-            <dk.aau.cs.giraf.gui.GVerifyButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sendContentButton"/>
+                android:background="@drawable/icon_search"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left" >
-
-            <dk.aau.cs.giraf.gui.GTextView
-                android:id="@+id/PictoGridDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pictograms_colon"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-            
-            <dk.aau.cs.giraf.gui.GTextView
-                android:id="@+id/errorMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ff0000" />
-
-            <ImageView
-                android:id="@+id/errorIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/picture" />
-        </LinearLayout>
-
-        <dk.aau.cs.giraf.gui.GGridView
+        <GridView
+            android:layout_margin="5dp"
             android:id="@+id/pictogram_displayer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:numColumns="8"
-            android:background="@drawable/sentenceboardlayout" >
-            
-        </dk.aau.cs.giraf.gui.GGridView>
+            android:background="@drawable/border_round" >
+
+        </GridView>
 
     </LinearLayout>
+
+
 
 </LinearLayout>
