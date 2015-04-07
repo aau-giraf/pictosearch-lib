@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import dk.aau.cs.giraf.activity.GirafActivity;
@@ -325,7 +326,6 @@ public class PictoAdminMain extends GirafActivity {
 
     // TODO Insert comment
     private void loadCategoriesIntoCategorySpinner() {
-        //TODO Sort the list of categories in alphabetical order.
         int childID = getChildID();
 
         CategoryController cController = new CategoryController(getApplicationContext());
@@ -347,6 +347,7 @@ public class PictoAdminMain extends GirafActivity {
                 }
             }
         }
+        Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER); //Sorts in alphabetical order.
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
 
