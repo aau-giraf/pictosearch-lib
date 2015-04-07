@@ -74,12 +74,14 @@ public class PictoAdminMain extends GirafActivity {
         GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.croc_icon));
 
         // Example of an onclicklistener
+
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PictoAdminMain.this,"Hjælp kommer snarest muligt.",Toast.LENGTH_SHORT).show();
             }
         });
+
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +103,7 @@ public class PictoAdminMain extends GirafActivity {
         });
 
         //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
-        addGirafButtonToActionBar(help, LEFT);
+        //addGirafButtonToActionBar(help, LEFT);
         addGirafButtonToActionBar(accept, LEFT);
         addGirafButtonToActionBar(categoryTool, RIGHT);
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
