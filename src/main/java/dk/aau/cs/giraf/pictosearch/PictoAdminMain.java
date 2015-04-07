@@ -232,7 +232,10 @@ public class PictoAdminMain extends GirafActivity {
             guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
-    // TODO Insert comment
+    /**
+     * Get the child ID
+     * @return The child id
+     */
     public int getChildID() {
         return guardianInfo_ChildId;
     }
