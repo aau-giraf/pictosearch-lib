@@ -293,8 +293,7 @@ public class PictoAdminMain extends GirafActivity {
         catList = searcher.getAllCategories(splitInput, getChildID());
         ArrayList<Tag> tagList = searcher.getAllTags(splitInput);
 
-        ArrayList<Pictogram> pictogramsByTags =  searcher.getPictogramByTags(splitInput, tagList);
-
+        ArrayList<Pictogram> pictogramsByTags =  searcher.getPictogramByTags(tagList);
 
         ArrayList<Object> allList = new ArrayList<Object>();
         allList.addAll(pictoList);

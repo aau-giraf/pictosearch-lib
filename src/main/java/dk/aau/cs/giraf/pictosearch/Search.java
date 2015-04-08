@@ -98,23 +98,17 @@ public class Search {
 
     // TODO insert comment
     public ArrayList<Pictogram> getPictogramByTags(String[] input, ArrayList<Tag> listOfTags) {
+    public ArrayList<Pictogram> getPictogramByTags(ArrayList<Tag> listOfTags) {
         ArrayList<Integer> tagIDs = new ArrayList<Integer>();
+        ArrayList<Pictogram> result = new ArrayList<Pictogram>();
 
-        for (Tag t : listOfTags) {
-            for (String s : input) {
-                if (t.getName() != null) {
-                    if (t.getName().toLowerCase().contains(s)) {
-                        tagIDs.add(t.getId());
-                    }
-                }
-            }
+        for (Tag t : listOfTags){
+            tagIDs.add(t.getId());
         }
 
         if (tagIDs.isEmpty()) {
-            return new ArrayList<Pictogram>();
+            return result;
         }
-
-        ArrayList<Pictogram> result = new ArrayList<Pictogram>();
 
         PictogramTagController pictogramTagController = new PictogramTagController(context);
         PictogramController pictogramController = new PictogramController(context);
