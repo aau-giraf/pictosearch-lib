@@ -77,7 +77,14 @@
     <!--Newest added strings to design-->
     <string name="category_view_count">Kategori:</string>
     <string name="pictogram_view_count">Pictogram:</string>
-
+    <string name="search_result">Din søgning gav</string>
+    <string name="pictograms_single_lowercase">piktogram</string>
+    <string name="pictograms_multi_lowercase">piktogrammer</string>
+    <string name="categories_single_lowercase">kategori</string>
+    <string name="categories_multi_lowercase">kategorier</string>
+    <string name="no_search_done">Du har ikke foretaget en søgning endnu.</string>
+    <string name="and">og</string>
+    <string name="category_contains">Denne kategori indeholder</string>
 
 
     <!--SAMPLES, not to be used in the project-->

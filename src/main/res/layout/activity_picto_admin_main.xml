@@ -73,11 +73,26 @@
             android:layout_height="50dp"
             android:gravity="center" >
 
-            <ImageView
-                android:id="@+id/invisibleImageSearchBar"
-                android:layout_width="400dp"
-                android:layout_height="match_parent"
-                android:contentDescription="InvisibleBar"/>
+            <GridLayout
+                android:layout_margin="5dp"
+                android:layout_width="500dp"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:layout_row="0"/>
+
+                <TextView
+                    android:id="@+id/search_summary_count"
+                    android:layout_width="500dp"
+                    android:layout_height="25dp"
+                    android:textSize="15sp"
+                    android:text="@string/no_search_done"
+                    android:layout_row="1"
+                    android:layout_column="0"/>
+
+            </GridLayout>
 
             <Spinner
                 android:id="@+id/category_dropdown"

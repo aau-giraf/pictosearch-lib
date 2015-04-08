@@ -186,8 +186,10 @@ public class PictoAdminMain extends GirafActivity {
 
                 if (selectedItem.equals(getString(R.string.category_colon))) {
                     loadCategoryPictogramIntoGridView(searchTemp);
+                    onSearchSummaryCount(searchTemp);
                 } else {
                     loadCategoryPictogramIntoGridView(currentViewSearch);
+                    onEnterCategoryCount(currentViewSearch);
                 }
 
 
@@ -478,6 +480,45 @@ public class PictoAdminMain extends GirafActivity {
         pictogramBox.setText(getString(R.string.pictogram_colon) + (checkoutList.size() - checkoutCat.size()));
     }
 
+    public void onSearchSummaryCount(ArrayList<Object> sTemp) {
+        int countCatTemp = 0;
+        int countPicTemp = 0;
+
+        CategoryController cController = new CategoryController(getApplicationContext());
+        List<Category> cTemp = cController.getCategories();
+
+        for (Category c : cTemp) {
+            for (Object o : sTemp) {
+                if (o.equals(c)) {
+                    countCatTemp++;
+                } else {
+                    countPicTemp++;
+                }
+            }
+        }
+
+        TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
+
+        if (countPicTemp == 1 && countCatTemp == 1) {
+            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
+        } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
+            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
+        } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
+            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+        } else {
+            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+        }
+    }
+
+    public void onEnterCategoryCount(ArrayList<Object> pTemp) {
+        TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
+        if (pTemp.size() == 1){
+            searchSummaryText.setText(getString(R.string.category_contains) + " " + pTemp.size() + " " + getString(R.string.pictograms_single_lowercase));
+        }
+        else {
+            searchSummaryText.setText(getString(R.string.category_contains) + " " + pTemp.size() + " " + getString(R.string.pictograms_multi_lowercase));
+        }
+    }
 
     /**
      * Open the application PictoCreator if the application is installed.
