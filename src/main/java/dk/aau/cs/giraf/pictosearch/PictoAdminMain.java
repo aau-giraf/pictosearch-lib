@@ -234,7 +234,10 @@ public class PictoAdminMain extends GirafActivity {
             guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
-    // TODO Insert comment
+    /**
+     * Get the child ID
+     * @return The child id
+     */
     public int getChildID() {
         return guardianInfo_ChildId;
     }
@@ -292,8 +295,7 @@ public class PictoAdminMain extends GirafActivity {
         catList = searcher.getAllCategories(splitInput, getChildID());
         ArrayList<Tag> tagList = searcher.getAllTags(splitInput);
 
-        ArrayList<Pictogram> pictogramsByTags =  searcher.getPictogramByTags(splitInput, tagList);
-
+        ArrayList<Pictogram> pictogramsByTags =  searcher.getPictogramByTags(tagList);
 
         ArrayList<Object> allList = new ArrayList<Object>();
         allList.addAll(pictoList);
