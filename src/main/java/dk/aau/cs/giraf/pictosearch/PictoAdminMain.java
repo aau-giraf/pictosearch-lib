@@ -483,21 +483,8 @@ public class PictoAdminMain extends GirafActivity {
     }
 
     public void onSearchSummaryCount(ArrayList<Object> sTemp) {
-        int countCatTemp = 0;
-        int countPicTemp = 0;
-
-        CategoryController cController = new CategoryController(getApplicationContext());
-        List<Category> cTemp = cController.getCategories();
-
-        for (Category c : cTemp) {
-            for (Object o : sTemp) {
-                if (o.equals(c)) {
-                    countCatTemp++;
-                } else {
-                    countPicTemp++;
-                }
-            }
-        }
+        int countCatTemp = catList.size();
+        int countPicTemp = pictoList.size();
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
 
