@@ -16,7 +16,9 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.PictogramTag;
 import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
-// TODO insert comment
+/**
+ * Search class used to search for pictograms and/or categories
+ */
 public class Search {
     private Context context;
 
@@ -26,8 +28,9 @@ public class Search {
 
 
     /**
-     * gets all pictograms with one of the input words from the database
-     * @param pictogramNames string array with each search word.
+     * Gets all pictograms matching one of the input words from the database
+     * @param pictogramNames string array with each search word
+     * @return List of all pictogram matching the search names
      */
     public ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
@@ -50,7 +53,12 @@ public class Search {
         return pictoList;
     }
 
-    // TODO insert comment
+    /**
+     * Gets all categories matching one of the input words from the database
+     * @param categoryNames String array with each search word
+     * @param childID ID of the citizen
+     * @return List of all categories matching the search names
+     */
     public ArrayList<Category> getAllCategories(String[] categoryNames, int childID) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
@@ -73,7 +81,11 @@ public class Search {
         return catList;
     }
 
-    // TODO insert comment
+    /**
+     * Get all tags matching one of the input words from the database
+     * @param tagCaptions String array with each search word
+     * @return List of all tags matching the search names
+     */
     public ArrayList<Tag> getAllTags(String[] tagCaptions) {
         ArrayList<Tag> tagList = new ArrayList<Tag>();
 
@@ -96,8 +108,11 @@ public class Search {
         return tagList;
     }
 
-    // TODO insert comment
-    public ArrayList<Pictogram> getPictogramByTags(String[] input, ArrayList<Tag> listOfTags) {
+    /**
+     * Get pictogram by tags
+     * @param listOfTags list of tags that matches the search words
+     * @return list of pictogram that has a matching tag.
+     */
     public ArrayList<Pictogram> getPictogramByTags(ArrayList<Tag> listOfTags) {
         ArrayList<Integer> tagIDs = new ArrayList<Integer>();
         ArrayList<Pictogram> result = new ArrayList<Pictogram>();
