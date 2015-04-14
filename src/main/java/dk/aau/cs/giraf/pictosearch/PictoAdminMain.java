@@ -70,8 +70,8 @@ public class PictoAdminMain extends GirafActivity {
         // Actionbar buttons created
         GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
         GirafButton accept = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_accept));
-        GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.collections_view_as_list));
-        GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.croc_icon));
+        GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_camera));
+        GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_camera));
 
         // Example of an onclicklistener
 
@@ -103,7 +103,7 @@ public class PictoAdminMain extends GirafActivity {
         });
 
         //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
-        //addGirafButtonToActionBar(help, LEFT);
+        addGirafButtonToActionBar(help, LEFT);
         addGirafButtonToActionBar(accept, LEFT);
         addGirafButtonToActionBar(categoryTool, RIGHT);
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
@@ -186,10 +186,10 @@ public class PictoAdminMain extends GirafActivity {
 
                 if (selectedItem.equals(getString(R.string.category_colon))) {
                     loadCategoryPictogramIntoGridView(searchTemp);
-                    onSearchSummaryCount(searchTemp);
+                    //onSearchSummaryCount(searchTemp);
                 } else {
                     loadCategoryPictogramIntoGridView(currentViewSearch);
-                    onEnterCategoryCount(currentViewSearch);
+                    //onEnterCategoryCount(currentViewSearch);
                 }
 
 
