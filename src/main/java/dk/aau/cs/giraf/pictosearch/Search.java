@@ -40,14 +40,9 @@ public class Search {
         }
 
         PictogramController pictogramController = new PictogramController(context);
-        List<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
         for (String s : pictogramNames) {
-            pictoTemp.addAll(pictogramController.getPictogramsByName(s));
-        }
-
-        for (Pictogram p : pictoTemp) {
-            pictoList.add(p);
+            pictoList.addAll(pictogramController.getPictogramsByName(s));
         }
 
         return pictoList;
@@ -93,16 +88,10 @@ public class Search {
             return tagList;
         }
 
-
         TagController tagController = new TagController(context);
-        List<Tag> tagTemp = new ArrayList<Tag>();
 
         for (String s : tagCaptions) {
-            tagTemp.addAll(tagController.getTagsByCaption(s));
-        }
-
-        for (Tag t : tagTemp) {
-            tagList.add(t);
+            tagList.addAll(tagController.getTagsByCaption(s));
         }
 
         return tagList;
