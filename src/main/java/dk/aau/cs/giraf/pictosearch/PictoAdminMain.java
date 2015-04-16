@@ -22,6 +22,7 @@ import java.util.List;
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
@@ -70,8 +71,10 @@ public class PictoAdminMain extends GirafActivity {
         // Actionbar buttons created
         GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
         GirafButton accept = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_accept));
-        GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_camera));
-        GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_camera));
+        GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
+        GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
+
+        GirafConfirmDialog helpDialogBox = new GirafConfirmDialog();
 
         // Example of an onclicklistener
 
