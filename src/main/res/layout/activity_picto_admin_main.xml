@@ -8,7 +8,6 @@
     android:orientation="horizontal"
     android:background="@drawable/gbackground"> <!-- Change this to global -->
 
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -133,11 +132,12 @@
                 android:background="@drawable/icon_search"/>
 
         </LinearLayout>
-
-        <dk.aau.cs.giraf.gui.GViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/ViewPager"
+        
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="570dp"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/border_round"
+            android:layout_margin="5dp">
 
         <com.viewpagerindicator.CirclePageIndicator
             android:id="@+id/pageIndicator"
@@ -147,7 +147,14 @@
             android:layout_margin="3dp"
             android:padding="3dp"/>
 
+        <dk.aau.cs.giraf.gui.GViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/viewPager"
+            android:layout_above="@id/pageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="570dp"
+            android:layout_margin="5dp"/>
 
+        </RelativeLayout>
 
     </LinearLayout>
 
