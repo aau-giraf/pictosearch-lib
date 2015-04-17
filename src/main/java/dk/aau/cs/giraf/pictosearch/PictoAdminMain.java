@@ -3,9 +3,11 @@ package dk.aau.cs.giraf.pictosearch;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,15 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+
+import com.viewpagerindicator.PageIndicator;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -49,6 +60,10 @@ public class PictoAdminMain extends GirafActivity {
 
     private String purpose;
 
+    public PageIndicator mIndicator;
+    private ViewPager vPager;
+    private PagerAdapter pAdapter;
+
     /*
      *  Request from another group. It should be possible to only send one pictogram,
      *  and therefore only display one pictogram in the checkout list. isSingle is used
@@ -67,6 +82,9 @@ public class PictoAdminMain extends GirafActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
+
+        vPager = (ViewPager) findViewById(R.id.ViewPager);
+        mIndicator = (PageIndicator) findViewById(R.id.pageIndicator);
 
         // Actionbar buttons created
         GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
@@ -188,7 +206,12 @@ public class PictoAdminMain extends GirafActivity {
                 gridViewString = selectedItem;
 
                 if (selectedItem.equals(getString(R.string.category_colon))) {
-                    loadCategoryPictogramIntoGridView(searchTemp);
+                    if (searchTemp.isEmpty()) {
+
+                    }
+                    else {
+                        loadCategoryPictogramIntoGridView(searchTemp);
+                    }
                     //onSearchSummaryCount(searchTemp);
                 } else {
                     loadCategoryPictogramIntoGridView(currentViewSearch);
@@ -319,10 +342,15 @@ public class PictoAdminMain extends GirafActivity {
 
         if(searchList.size() > 0) {
             pictoGrid.setAdapter(new PictoAdapter(searchList, this));
+            vPager.setAdapter(pAdapter);
+            mIndicator.setViewPager(vPager);
         }
         else {
             //updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
             pictoGrid.setAdapter(new PictoAdapter(searchList, this));
+            vPager.setAdapter(pAdapter);
+            mIndicator.setViewPager(vPager);
+
         }
     }
 
