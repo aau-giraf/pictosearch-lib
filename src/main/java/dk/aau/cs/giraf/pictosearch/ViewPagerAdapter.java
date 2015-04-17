@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,10 @@ public class ViewPagerAdapter extends PagerAdapter{
     private int coloumnSize = 8;
     LayoutInflater mLayoutInflater;
 
-    ViewPagerAdapter(ArrayList<Object> objectInfoList) {
+    public ViewPagerAdapter(ArrayList<Object> objectInfoList) {
         this.objectInfoList = objectInfoList;
     }
+
 
     @Override
     public int getCount() {
@@ -34,14 +36,16 @@ public class ViewPagerAdapter extends PagerAdapter{
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        //Object imageObjectView = objectInfoList.get(position);
         View objectView = mLayoutInflater.inflate(R.layout.pictogramview, container, false);
 
+        ViewPager pager = (ViewPager) container;
+
         GridView gridView = (GridView) objectView.findViewById(R.id.pictogram_displayer);
-        //imageView.setImageResource();
 
-        container.addView(objectView);
+        pager.addView(objectView);
 
-        return super.instantiateItem(container, position);
+        return gridView;
 
     }
 
