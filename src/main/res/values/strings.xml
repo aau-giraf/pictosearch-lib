@@ -23,7 +23,7 @@
     <string name="picture">Default picture content description</string>
     <string name="title_activity_help_menu">HelpMenu</string>
     <string name="title_activity_admin_category">AdminCategory</string>
-    <string name="title_activity_picto_main">Søg Pictogrammer</string>
+    <string name="title_activity_picto_main">Pikto Søger</string>
 
     <!--Common nouns and verbs-->
     <string name="choice_colon">Valg: </string>
