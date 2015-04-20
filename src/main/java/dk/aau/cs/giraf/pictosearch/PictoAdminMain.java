@@ -131,7 +131,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         currentViewSearch = new ArrayList<Object>();
 
         updateGuardianInfo();
-        getPurpose();
+        //getPurpose();
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
         loadCategoriesIntoCategorySpinner();
@@ -190,10 +190,10 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
                     else {
                         loadCategoryPictogramIntoGridView(searchTemp);
                     }
-                    //onSearchSummaryCount(searchTemp);
+                    onSearchSummaryCount(searchTemp);
                 } else {
                     loadCategoryPictogramIntoGridView(currentViewSearch);
-                    //onEnterCategoryCount(currentViewSearch);
+                    onEnterCategoryCount(currentViewSearch);
                 }
 
 
@@ -250,6 +250,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      * Get the purpose from the calling application and displays a message to the user
      * describing what to do in the application and how to finish
      */
+	/* This is commented out as it's not needed currently.
 	private void getPurpose()
     {
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
@@ -268,7 +269,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 			}
             searchTerm.setHint(purpose);
         }
-    }
+    }*/
 
     /**
      * Called when pressing search_button
@@ -487,15 +488,19 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         int countPicTemp = pictoList.size();
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
-
-        if (countPicTemp == 1 && countCatTemp == 1) {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-        } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-        } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
-        } else {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+        if (sTemp.isEmpty()) {
+            searchSummaryText.setText("");
+        }
+        else {
+            if (countPicTemp == 1 && countCatTemp == 1) {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
+            } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
+            } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+            } else {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+            }
         }
     }
 
