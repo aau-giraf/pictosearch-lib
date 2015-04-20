@@ -58,7 +58,7 @@ public class ViewPagerAdapter extends PagerAdapter{
 
         GridView page = (GridView) LayoutInflater.from(context).inflate(R.layout.grid_view, null);
 
-        page.setBackgroundDrawable(container.getResources().getDrawable(R.drawable.border_round));
+        //page.setBackgroundDrawable(container.getResources().getDrawable(R.drawable.border_round));
 
         final int from = pageIndex * rowSize * coloumnSize;
         final int to = ((pageIndex + 1) * rowSize * coloumnSize);

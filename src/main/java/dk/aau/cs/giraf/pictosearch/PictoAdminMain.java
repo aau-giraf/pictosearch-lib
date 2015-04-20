@@ -219,7 +219,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
-        ImageButton btnSearch = (ImageButton) findViewById(R.id.search_button);
+        GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,14 +306,14 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        allList = searcher.SortPictogramsAndCategories(allList, searchString, splitInput);
+        searchList = searcher.SortPictogramsAndCategories(allList, searchString, splitInput);
 
-        for (Object o : allList) {
+        /*for (Object o : allList) {
             this.searchList.add(o);
             if(this.searchList.size() >= 48) {
                 break;
             }
-        }
+        }*/
 
         searchTemp = searchList;
 
@@ -561,7 +561,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     public void positionClicked(int position) {
         // if single pictogram requested, only one pictogram is displayed in checkout
 
-        Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
         if (isSingle) {
             checkoutList.clear();
         }

@@ -7,8 +7,8 @@
 
         <ImageView
             android:id="@+id/pictogrambitmap"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_gravity="center"
             android:layout_marginBottom="3dp"/>
 
