@@ -94,7 +94,7 @@
 
             </GridLayout>
 
-            <Spinner
+            <dk.aau.cs.giraf.gui.GirafSpinner
                 android:id="@+id/category_dropdown"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
@@ -104,7 +104,7 @@
                 android:entries="@array/category_example">
 
 
-            </Spinner>
+            </dk.aau.cs.giraf.gui.GirafSpinner>
 
             <LinearLayout
                 android:layout_margin="5dp"

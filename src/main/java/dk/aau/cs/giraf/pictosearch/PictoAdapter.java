@@ -101,7 +101,7 @@ public class PictoAdapter extends BaseAdapter {
         View view;
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.pictogramview, null);
+            view = layoutInflater.inflate(R.layout.giraf_pictogram, null);
         } else {
             view = convertView;
         }
@@ -119,11 +119,11 @@ public class PictoAdapter extends BaseAdapter {
             if (categoryNew != null) textLabel = categoryNew.getName();
         }
 
-        final ImageView pictoImageView = (ImageView) view.findViewById(R.id.pictogrambitmap);
+        final ImageView pictoImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
         //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
         //pictoImageView.setLayoutParams(layoutParams);
 
-        final TextView pictoNameTextView = (TextView) view.findViewById(R.id.pictogramtext);
+        final TextView pictoNameTextView = (TextView) view.findViewById(R.id.pictogram_title);
         pictoNameTextView.setText(textLabel);
 
         if (pictogramNew != null) {

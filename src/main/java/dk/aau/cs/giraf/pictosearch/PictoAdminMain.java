@@ -30,6 +30,7 @@ import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
+import dk.aau.cs.giraf.gui.GirafSpinner;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
@@ -152,7 +153,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         viewPagerAdapter = new ViewPagerAdapter(searchList);
         pictoPager.setAdapter(viewPagerAdapter);
 
-        Spinner searchSpinner = (Spinner) findViewById(R.id.category_dropdown);
+        GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
