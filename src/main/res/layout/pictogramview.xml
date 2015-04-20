@@ -5,12 +5,10 @@
     android:orientation="vertical"
     android:id="@+id/pictogramViewLinearLayout">
 
-
-
         <ImageView
             android:id="@+id/pictogrambitmap"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginBottom="3dp"/>
 
@@ -20,8 +18,5 @@
             android:layout_height="fill_parent"
             android:gravity="center_horizontal"
             android:textColor="#FF000000"/>
-
-
-
 
 </LinearLayout>

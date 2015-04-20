@@ -3,9 +3,11 @@ package dk.aau.cs.giraf.pictosearch;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,11 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+
+import com.viewpagerindicator.PageIndicator;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -33,7 +40,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
  * @author SW605f13 Parrot-group
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
-public class PictoAdminMain extends GirafActivity {
+public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.OnPositionClickListener {
     private int guardianInfo_ChildId = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
@@ -45,9 +52,12 @@ public class PictoAdminMain extends GirafActivity {
     private String gridViewString;
 
     public GridView checkoutGrid;
-    private GridView pictoGrid;
+    private ViewPager pictoPager;
+    private ViewPagerAdapter viewPagerAdapter;
 
     private String purpose;
+
+    public PageIndicator mIndicator;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -67,6 +77,8 @@ public class PictoAdminMain extends GirafActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
+
+        mIndicator = (PageIndicator) findViewById(R.id.pageIndicator);
 
         // Actionbar buttons created
         GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
@@ -119,7 +131,7 @@ public class PictoAdminMain extends GirafActivity {
         currentViewSearch = new ArrayList<Object>();
 
         updateGuardianInfo();
-        getPurpose();
+        //getPurpose();
         onUpdatedCheckoutCount();
         onUpdatedSearchField();
         loadCategoriesIntoCategorySpinner();
@@ -134,27 +146,11 @@ public class PictoAdminMain extends GirafActivity {
             }
         });
 
-        pictoGrid = (GridView) findViewById(R.id.pictogram_displayer);
-        pictoGrid.setDrawingCacheEnabled(false);
-        pictoGrid.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
-                // if single pictogram requested, only one pictogram is displayed in checkout
-                if (isSingle) {
-                    checkoutList.clear();
-                }
+        pictoPager = (ViewPager) findViewById(R.id.viewPager);
 
-                if (gridViewString.equals(getString(R.string.category_colon))) {
-                    checkoutList.add(searchTemp.get(position));
-                }
-                else {
-                    checkoutList.add(currentViewSearch.get(position));
-                }
 
-                onUpdatedCheckoutCount();
-                checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
-            }
-        });
+        viewPagerAdapter = new ViewPagerAdapter(searchList);
+        pictoPager.setAdapter(viewPagerAdapter);
 
         Spinner searchSpinner = (Spinner) findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -188,11 +184,16 @@ public class PictoAdminMain extends GirafActivity {
                 gridViewString = selectedItem;
 
                 if (selectedItem.equals(getString(R.string.category_colon))) {
-                    loadCategoryPictogramIntoGridView(searchTemp);
-                    //onSearchSummaryCount(searchTemp);
+                    if (searchTemp.isEmpty()) {
+
+                    }
+                    else {
+                        loadCategoryPictogramIntoGridView(searchTemp);
+                    }
+                    onSearchSummaryCount(searchTemp);
                 } else {
                     loadCategoryPictogramIntoGridView(currentViewSearch);
-                    //onEnterCategoryCount(currentViewSearch);
+                    onEnterCategoryCount(currentViewSearch);
                 }
 
 
@@ -218,7 +219,7 @@ public class PictoAdminMain extends GirafActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
-        ImageButton btnSearch = (ImageButton) findViewById(R.id.search_button);
+        GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,6 +250,7 @@ public class PictoAdminMain extends GirafActivity {
      * Get the purpose from the calling application and displays a message to the user
      * describing what to do in the application and how to finish
      */
+	/* This is commented out as it's not needed currently.
 	private void getPurpose()
     {
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
@@ -267,7 +269,7 @@ public class PictoAdminMain extends GirafActivity {
 			}
             searchTerm.setHint(purpose);
         }
-    }
+    }*/
 
     /**
      * Called when pressing search_button
@@ -286,7 +288,7 @@ public class PictoAdminMain extends GirafActivity {
      * them.
      */
     private void loadPictogramIntoGridView() {
-        pictoGrid.setAdapter(null);
+        // pictoPager.setAdapter(null);
         searchList.clear();
         Search searcher = new Search(getApplicationContext());
 
@@ -305,31 +307,27 @@ public class PictoAdminMain extends GirafActivity {
         allList.addAll(catList);
         allList.addAll(pictogramsByTags);
 
-        allList = searcher.SortPictogramsAndCategories(allList, searchString, splitInput);
+        searchList = searcher.SortPictogramsAndCategories(allList, searchString, splitInput);
 
-        for (Object o : allList) {
+        /*for (Object o : allList) {
             this.searchList.add(o);
             if(this.searchList.size() >= 48) {
                 break;
             }
-        }
+        }*/
 
         searchTemp = searchList;
 
+        pictoPager.setAdapter(new ViewPagerAdapter(searchList));
+        pictoPager.setAdapter(viewPagerAdapter);
+        mIndicator.setViewPager(pictoPager);
 
-        if(searchList.size() > 0) {
-            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
-        }
-        else {
-            //updateErrorMessage(getString(R.string.pictogram_do_not_exist_in_datebase), R.drawable.action_about);
-            pictoGrid.setAdapter(new PictoAdapter(searchList, this));
-        }
     }
 
     // TODO Insert comment
     private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
-        pictoGrid.setAdapter(null);
-        pictoGrid.setAdapter(new PictoAdapter(cpList, this));
+        // pictoPager.setAdapter(null);
+        pictoPager.setAdapter(new ViewPagerAdapter(cpList));
 
     }
 
@@ -490,15 +488,19 @@ public class PictoAdminMain extends GirafActivity {
         int countPicTemp = pictoList.size();
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
-
-        if (countPicTemp == 1 && countCatTemp == 1) {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-        } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-        } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
-        } else {
-            searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+        if (sTemp.isEmpty()) {
+            searchSummaryText.setText("");
+        }
+        else {
+            if (countPicTemp == 1 && countCatTemp == 1) {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
+            } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
+            } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+            } else {
+                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
+            }
         }
     }
 
@@ -558,5 +560,25 @@ public class PictoAdminMain extends GirafActivity {
     public void onUpdatedSearchField() {
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         Editable s = searchTerm.getText();
+    }
+
+    @Override
+    public void positionClicked(int position) {
+        // if single pictogram requested, only one pictogram is displayed in checkout
+
+        //Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
+        if (isSingle) {
+            checkoutList.clear();
+        }
+
+        if (gridViewString.equals(getString(R.string.category_colon))) {
+            checkoutList.add(searchTemp.get(position));
+        }
+        else {
+            checkoutList.add(currentViewSearch.get(position));
+        }
+
+        onUpdatedCheckoutCount();
+        checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
     }
 }
