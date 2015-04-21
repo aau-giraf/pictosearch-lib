@@ -24,6 +24,7 @@ public class PictoAdapter extends BaseAdapter {
     private final Context context;
     private final List<Object> pictograms;
     private boolean displayText = true;
+    private ImageView categoryIndicator;
 
     /**
      * Assigns pictograms to class instance.
@@ -101,10 +102,13 @@ public class PictoAdapter extends BaseAdapter {
         View view;
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.giraf_pictogram, null);
+            view = layoutInflater.inflate(R.layout.pictogram, null);
         } else {
             view = convertView;
         }
+
+        final ImageView pictoImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+        final ImageView catIndiImageView = (ImageView) view.findViewById(R.id.category_indicator);
 
         final Object object = pictograms.get(position);
         String textLabel = context.getString(R.string.pictoCreator);
@@ -116,12 +120,16 @@ public class PictoAdapter extends BaseAdapter {
             if (pictogramNew != null) textLabel = pictogramNew.getName();
         } else if (object instanceof Category) {
             categoryNew = (Category) pictograms.get(position);
+            catIndiImageView.setVisibility(View.VISIBLE);
             if (categoryNew != null) textLabel = categoryNew.getName();
         }
 
-        final ImageView pictoImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
         //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
         //pictoImageView.setLayoutParams(layoutParams);
+
+
+
 
         final TextView pictoNameTextView = (TextView) view.findViewById(R.id.pictogram_title);
         pictoNameTextView.setText(textLabel);
