@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.pictosearch;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -19,21 +20,24 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
 /**
  * Search class used to search for pictograms and/or categories
  */
-public class Search {
+public class Search extends AsyncTask<String, Void, List<Object>> {
     private Context context;
+    private int childID;
 
-    public Search(Context context){
+    public AsyncResponse delegate = null;//Call back interface
+
+    public Search(Context context, int childID) {
         this.context = context;
+        this.childID = childID;
     }
-
 
     /**
      * Gets all pictograms matching one of the input words from the database
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
      */
-    public ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
-        ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+    public List<Pictogram> getAllPictograms(String[] pictogramNames) {
+        List<Pictogram> pictoList = new ArrayList<Pictogram>();
 
         if (pictogramNames[0].isEmpty()) {
             return pictoList;
@@ -54,8 +58,8 @@ public class Search {
      * @param childID ID of the citizen
      * @return List of all categories matching the search names
      */
-    public ArrayList<Category> getAllCategories(String[] categoryNames, int childID) {
-        ArrayList<Category> catList = new ArrayList<Category>();
+    public List<Category> getAllCategories(String[] categoryNames, int childID) {
+        List<Category> catList = new ArrayList<Category>();
 
         if (childID < 0 || categoryNames[0].isEmpty()) {
             return catList;
@@ -81,8 +85,8 @@ public class Search {
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
-    public ArrayList<Tag> getAllTags(String[] tagCaptions) {
-        ArrayList<Tag> tagList = new ArrayList<Tag>();
+    public List<Tag> getAllTags(String[] tagCaptions) {
+        List<Tag> tagList = new ArrayList<Tag>();
 
         if (tagCaptions[0].isEmpty()) {
             return tagList;
@@ -102,9 +106,9 @@ public class Search {
      * @param listOfTags list of tags that matches the search words
      * @return list of pictogram that has a matching tag.
      */
-    public ArrayList<Pictogram> getPictogramByTags(ArrayList<Tag> listOfTags) {
-        ArrayList<Integer> tagIDs = new ArrayList<Integer>();
-        ArrayList<Pictogram> result = new ArrayList<Pictogram>();
+    public List<Pictogram> getPictogramByTags(List<Tag> listOfTags) {
+        List<Integer> tagIDs = new ArrayList<Integer>();
+        List<Pictogram> result = new ArrayList<Pictogram>();
 
         for (Tag t : listOfTags){
             tagIDs.add(t.getId());
@@ -137,8 +141,8 @@ public class Search {
      *                     pictogram or category
      * @return sorted list according to the relevance from the searchString
      */
-    public ArrayList<Object> SortPictogramsAndCategories(ArrayList<Object>allList, String searchString, String[] splitInput) {
-        ArrayList<Object> result = new ArrayList<Object>();
+    public List<Object> SortPictogramsAndCategories(List<Object>allList, String searchString, String[] splitInput) {
+        List<Object> result = new ArrayList<Object>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
         List<Pair<Object, Integer>> pairList = new ArrayList<Pair<Object, Integer>>();
@@ -200,5 +204,28 @@ public class Search {
         }
 
         return result;
+    }
+
+    @Override
+    protected List<Object> doInBackground(String... params) {
+        List<Object> result = new ArrayList<Object>();
+
+        String searchString = params[0];
+        String[] splitInput = searchString.split("\\s+");
+
+        result.addAll(getAllPictograms(splitInput));
+
+        result.addAll(getAllCategories(splitInput, childID));
+
+        List<Tag> tagList = getAllTags(splitInput);
+        result.addAll(getPictogramByTags(tagList));
+
+        result = SortPictogramsAndCategories(result, searchString, splitInput);
+
+        return result;
+    }
+
+    protected void onPostExecute(ArrayList<Object> result) {
+        delegate.processFinish(result);
     }
 }

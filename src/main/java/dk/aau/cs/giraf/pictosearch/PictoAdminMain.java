@@ -41,12 +41,12 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
  * @author SW605f13 Parrot-group
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
-public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.OnPositionClickListener {
+public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.OnPositionClickListener, AsyncResponse {
     private int guardianInfo_ChildId = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
-    private ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
-    private ArrayList<Category> catList = new ArrayList<Category>();
+    //private ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+    //private ArrayList<Category> catList = new ArrayList<Category>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
@@ -125,8 +125,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
 
         checkoutList = new ArrayList<Object>();
-        pictoList = new ArrayList<Pictogram>();
-        catList = new ArrayList<Category>();
+        //pictoList = new ArrayList<Pictogram>();
+        //catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
         searchTemp = new ArrayList<Object>();
         currentViewSearch = new ArrayList<Object>();
@@ -288,26 +288,14 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
-        // pictoPager.setAdapter(null);
         searchList.clear();
-        Search searcher = new Search(getApplicationContext());
+        Search searcher = new Search(getApplicationContext(), getChildID());
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
-        String[] splitInput = searchString.split("\\s+");
 
-        pictoList = searcher.getAllPictograms(splitInput);
-        catList = searcher.getAllCategories(splitInput, getChildID());
-        ArrayList<Tag> tagList = searcher.getAllTags(splitInput);
-
-        ArrayList<Pictogram> pictogramsByTags =  searcher.getPictogramByTags(tagList);
-
-        ArrayList<Object> allList = new ArrayList<Object>();
-        allList.addAll(pictoList);
-        allList.addAll(catList);
-        allList.addAll(pictogramsByTags);
-
-        searchList = searcher.SortPictogramsAndCategories(allList, searchString, splitInput);
+        searcher.execute(searchString);
+        searcher.delegate = this;
 
         searchTemp = searchList;
 
@@ -477,8 +465,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     }
 
     public void onSearchSummaryCount(ArrayList<Object> sTemp) {
-        int countCatTemp = catList.size();
-        int countPicTemp = pictoList.size();
+        int countCatTemp = 1337;//catList.size();
+        int countPicTemp = 1337;//pictoList.size();
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (sTemp.isEmpty()) {
@@ -573,5 +561,11 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
         onUpdatedCheckoutCount();
         checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
+    }
+
+    @Override
+    public void processFinish(ArrayList<Object> output) {
+        searchList = output;
+        System.out.println("Nu er jeg i processFinish");
     }
 }
