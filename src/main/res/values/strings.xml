@@ -71,6 +71,7 @@
     <string name="fix_now">Fix nu!!!!!</string>
     <string name="current_child_id">currentChildID</string>
     <string name="checkout_ids">checkoutIds</string>
+    <string name="empty_search">Din søgning gav intet resultat</string>
 
 
 

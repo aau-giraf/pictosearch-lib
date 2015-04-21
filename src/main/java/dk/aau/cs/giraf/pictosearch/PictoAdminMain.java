@@ -463,12 +463,12 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     }
 
     public void onSearchSummaryCount(ArrayList<Object> sTemp) {
-        int countCatTemp = 1337;//catList.size();
-        int countPicTemp = 1337;//pictoList.size();
+        int countCatTemp = CountCategories(sTemp);
+        int countPicTemp = CountPictograms(sTemp);
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (sTemp.isEmpty()) {
-            searchSummaryText.setText("");
+            searchSummaryText.setText(R.string.empty_search);
         }
         else {
             if (countPicTemp == 1 && countCatTemp == 1) {
@@ -481,6 +481,30 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
                 searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
             }
         }
+    }
+
+    private int CountPictograms(ArrayList<Object> pTemp) {
+        int count = 0;
+
+        for (Object o : pTemp){
+            if (o instanceof Pictogram){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private int CountCategories(ArrayList<Object> cTemp) {
+        int count = 0;
+
+        for (Object o : cTemp){
+            if (o instanceof Category){
+                count++;
+            }
+        }
+
+        return count;
     }
 
     public void onEnterCategoryCount(ArrayList<Object> pTemp) {
