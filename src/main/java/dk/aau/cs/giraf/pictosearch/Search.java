@@ -4,6 +4,7 @@ package dk.aau.cs.giraf.pictosearch;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -207,6 +208,12 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     @Override
+    protected void onPreExecute() {
+        // TODO: make progress bar instead of a toast.
+        Toast.makeText(context, "I am searching now", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected ArrayList<Object> doInBackground(String... params) {
         ArrayList<Object> result = new ArrayList<Object>();
 
@@ -227,8 +234,10 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPostExecute(ArrayList<Object> result) {
-            if (delegate != null){
-                delegate.processFinish(result);
-            }
+        Toast.makeText(context, "I am done searching now", Toast.LENGTH_SHORT).show();
+
+        if (delegate != null){
+            delegate.processFinish(result);
+        }
     }
 }

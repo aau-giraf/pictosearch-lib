@@ -289,7 +289,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
-        searchList.clear();
+        //searchList.clear();
 
         Search searcher = new Search(getApplicationContext(), getChildID());
 
@@ -300,13 +300,11 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
         if (!searchString.equals("")) {
             searcher.execute(searchString);
-
-            searchTemp = searchList;
+        }
 
             pictoPager.setAdapter(new ViewPagerAdapter(searchList));
             pictoPager.setAdapter(viewPagerAdapter);
             mIndicator.setViewPager(pictoPager);
-        }
     }
 
     // TODO Insert comment
@@ -570,5 +568,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     @Override
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
+        searchTemp = searchList;
     }
 }
