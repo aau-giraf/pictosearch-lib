@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -55,6 +59,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     public GridView checkoutGrid;
     private ViewPager pictoPager;
     private ViewPagerAdapter viewPagerAdapter;
+    private LinearLayout mainLayout;
 
     private String purpose;
 
@@ -94,6 +99,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 Toast.makeText(PictoAdminMain.this,"Hjælp kommer snarest muligt.",Toast.LENGTH_SHORT).show();
             }
         });
@@ -102,18 +108,21 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 sendContent(getCurrentFocus());
             }
         });
         categoryTool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 LaunchCategoryTool(true);
             }
         });
         pictoCreatorTool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 LaunchPictoCreator(true);
             }
         });
@@ -131,6 +140,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         searchTemp = new ArrayList<Object>();
         currentViewSearch = new ArrayList<Object>();
 
+        mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
+
         updateGuardianInfo();
         //getPurpose();
         onUpdatedCheckoutCount();
@@ -141,6 +152,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         checkoutGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
+                hideKeyboard();
                 checkoutList.remove(position);
                 onUpdatedCheckoutCount();
                 checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
@@ -148,7 +160,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         });
 
         pictoPager = (ViewPager) findViewById(R.id.viewPager);
-
 
         viewPagerAdapter = new ViewPagerAdapter(searchList);
         pictoPager.setAdapter(viewPagerAdapter);
@@ -159,6 +170,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
+                hideKeyboard();
 
                 CategoryController cController = new CategoryController(getApplicationContext());
                 List<Category> cTemp = cController.getCategories();
@@ -202,13 +214,14 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard();
                 loadPictogramIntoGridView();
             }
         });
 
         loadPictogramIntoGridView();
 
-        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
+        final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 onUpdatedSearchField();
@@ -224,9 +237,21 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 searchForPictogram(v);
             }
+
         });
+
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(searchTerm
+                        .getWindowToken(), 0);
+                return true;
+            }
+        });
+
     }
 
     /**
@@ -328,6 +353,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     // TODO Insert comment
     private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
         // pictoPager.setAdapter(null);
+        hideKeyboard();
         pictoPager.setAdapter(new ViewPagerAdapter(cpList));
 
     }
@@ -581,5 +607,14 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
         onUpdatedCheckoutCount();
         checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }
