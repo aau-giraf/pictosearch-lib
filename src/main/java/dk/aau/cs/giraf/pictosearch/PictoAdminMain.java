@@ -135,7 +135,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         updateGuardianInfo();
         //getPurpose();
         onUpdatedCheckoutCount();
-        onUpdatedSearchField();
+        //onUpdatedSearchField();
         loadCategoriesIntoCategorySpinner();
 
         checkoutGrid = (GridView) findViewById(R.id.checkout);
@@ -184,9 +184,11 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
                 currentViewSearch = allList;
                 gridViewString = selectedItem;
-
                 if (selectedItem.equals(getString(R.string.category_colon))) {
                     if (searchTemp.isEmpty()) {
+                        currentViewSearch.clear();
+                        loadCategoryPictogramIntoGridView(currentViewSearch);
+
 
                     }
                     else {
@@ -208,7 +210,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         });
 
         loadPictogramIntoGridView();
-
+/*
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -220,7 +222,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-        });
+        });*/
         GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -560,10 +562,12 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     /**
      * Hide clearSearchFieldButton if no text has been entered
      */
+    /*
     public void onUpdatedSearchField() {
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         Editable s = searchTerm.getText();
     }
+    */
 
     @Override
     public void positionClicked(int position) {
