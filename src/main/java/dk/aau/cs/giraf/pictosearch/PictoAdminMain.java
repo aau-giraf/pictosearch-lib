@@ -183,9 +183,11 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
                 currentViewSearch = allList;
                 gridViewString = selectedItem;
-
                 if (selectedItem.equals(getString(R.string.category_colon))) {
                     if (searchTemp.isEmpty()) {
+                        currentViewSearch.clear();
+                        loadCategoryPictogramIntoGridView(currentViewSearch);
+
 
                     }
                     else {
