@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.viewpagerindicator.PageIndicator;
 
+import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
  * @author SW605f13 Parrot-group
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
-public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.OnPositionClickListener, AsyncResponse {
+public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.OnPositionClickListener, AsyncResponse{
     private int guardianInfo_ChildId = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
@@ -289,20 +290,23 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      */
     private void loadPictogramIntoGridView() {
         searchList.clear();
+
         Search searcher = new Search(getApplicationContext(), getChildID());
+
+        searcher.delegate = this;
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
 
-        searcher.execute(searchString);
-        searcher.delegate = this;
+        if (!searchString.equals("")) {
+            searcher.execute(searchString);
 
-        searchTemp = searchList;
+            searchTemp = searchList;
 
-        pictoPager.setAdapter(new ViewPagerAdapter(searchList));
-        pictoPager.setAdapter(viewPagerAdapter);
-        mIndicator.setViewPager(pictoPager);
-
+            pictoPager.setAdapter(new ViewPagerAdapter(searchList));
+            pictoPager.setAdapter(viewPagerAdapter);
+            mIndicator.setViewPager(pictoPager);
+        }
     }
 
     // TODO Insert comment
@@ -566,6 +570,5 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     @Override
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
-        System.out.println("Nu er jeg i processFinish");
     }
 }

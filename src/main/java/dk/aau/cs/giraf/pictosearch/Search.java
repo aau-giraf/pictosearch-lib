@@ -20,11 +20,11 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
 /**
  * Search class used to search for pictograms and/or categories
  */
-public class Search extends AsyncTask<String, Void, List<Object>> {
+public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private Context context;
     private int childID;
 
-    public AsyncResponse delegate = null;//Call back interface
+    public AsyncResponse delegate = null;
 
     public Search(Context context, int childID) {
         this.context = context;
@@ -36,8 +36,8 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
      */
-    public List<Pictogram> getAllPictograms(String[] pictogramNames) {
-        List<Pictogram> pictoList = new ArrayList<Pictogram>();
+    private ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
+        ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
 
         if (pictogramNames[0].isEmpty()) {
             return pictoList;
@@ -58,8 +58,8 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
      * @param childID ID of the citizen
      * @return List of all categories matching the search names
      */
-    public List<Category> getAllCategories(String[] categoryNames, int childID) {
-        List<Category> catList = new ArrayList<Category>();
+    private ArrayList<Category> getAllCategories(String[] categoryNames, int childID) {
+        ArrayList<Category> catList = new ArrayList<Category>();
 
         if (childID < 0 || categoryNames[0].isEmpty()) {
             return catList;
@@ -85,8 +85,8 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
-    public List<Tag> getAllTags(String[] tagCaptions) {
-        List<Tag> tagList = new ArrayList<Tag>();
+    private ArrayList<Tag> getAllTags(String[] tagCaptions) {
+        ArrayList<Tag> tagList = new ArrayList<Tag>();
 
         if (tagCaptions[0].isEmpty()) {
             return tagList;
@@ -106,9 +106,9 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
      * @param listOfTags list of tags that matches the search words
      * @return list of pictogram that has a matching tag.
      */
-    public List<Pictogram> getPictogramByTags(List<Tag> listOfTags) {
-        List<Integer> tagIDs = new ArrayList<Integer>();
-        List<Pictogram> result = new ArrayList<Pictogram>();
+    private ArrayList<Pictogram> getPictogramByTags(List<Tag> listOfTags) {
+        ArrayList<Integer> tagIDs = new ArrayList<Integer>();
+        ArrayList<Pictogram> result = new ArrayList<Pictogram>();
 
         for (Tag t : listOfTags){
             tagIDs.add(t.getId());
@@ -141,8 +141,8 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
      *                     pictogram or category
      * @return sorted list according to the relevance from the searchString
      */
-    public List<Object> SortPictogramsAndCategories(List<Object>allList, String searchString, String[] splitInput) {
-        List<Object> result = new ArrayList<Object>();
+    private ArrayList<Object> SortPictogramsAndCategories(List<Object>allList, String searchString, String[] splitInput) {
+        ArrayList<Object> result = new ArrayList<Object>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
         List<Pair<Object, Integer>> pairList = new ArrayList<Pair<Object, Integer>>();
@@ -207,8 +207,8 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
     }
 
     @Override
-    protected List<Object> doInBackground(String... params) {
-        List<Object> result = new ArrayList<Object>();
+    protected ArrayList<Object> doInBackground(String... params) {
+        ArrayList<Object> result = new ArrayList<Object>();
 
         String searchString = params[0];
         String[] splitInput = searchString.split("\\s+");
@@ -225,7 +225,10 @@ public class Search extends AsyncTask<String, Void, List<Object>> {
         return result;
     }
 
+    @Override
     protected void onPostExecute(ArrayList<Object> result) {
-        delegate.processFinish(result);
+            if (delegate != null){
+                delegate.processFinish(result);
+            }
     }
 }
