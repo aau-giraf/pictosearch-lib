@@ -234,8 +234,6 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPostExecute(ArrayList<Object> result) {
-        Toast.makeText(context, "I am done searching now", Toast.LENGTH_SHORT).show();
-
         if (delegate != null){
             delegate.processFinish(result);
         }

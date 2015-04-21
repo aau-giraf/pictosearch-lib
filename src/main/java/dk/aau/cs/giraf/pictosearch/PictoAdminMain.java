@@ -301,10 +301,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         if (!searchString.equals("")) {
             searcher.execute(searchString);
         }
-
-            pictoPager.setAdapter(new ViewPagerAdapter(searchList));
-            pictoPager.setAdapter(viewPagerAdapter);
-            mIndicator.setViewPager(pictoPager);
     }
 
     // TODO Insert comment
@@ -569,5 +565,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
         searchTemp = searchList;
+
+        pictoPager.setAdapter(new ViewPagerAdapter(searchList));
+        mIndicator.setViewPager(pictoPager);
     }
 }
