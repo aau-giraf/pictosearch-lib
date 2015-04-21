@@ -309,13 +309,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
         searchList = searcher.SortPictogramsAndCategories(allList, searchString, splitInput);
 
-        /*for (Object o : allList) {
-            this.searchList.add(o);
-            if(this.searchList.size() >= 48) {
-                break;
-            }
-        }*/
-
         searchTemp = searchList;
 
         pictoPager.setAdapter(new ViewPagerAdapter(searchList));
