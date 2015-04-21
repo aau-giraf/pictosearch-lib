@@ -285,8 +285,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     }
 
     /**
-     * load all pictograms containing words from the searchString and display a limited amount of
-     * them.
+     * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
         // pictoPager.setAdapter(null);
