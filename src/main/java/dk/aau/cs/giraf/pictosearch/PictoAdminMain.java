@@ -225,7 +225,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         loadPictogramIntoGridView();
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
-        searchTerm.addTextChangedListener(new TextWatcher() {
+        /*searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 onUpdatedSearchField();
             }
@@ -496,7 +496,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (sTemp.isEmpty()) {
-            searchSummaryText.setText(R.string.empty_search);
+            searchSummaryText.setText("");
         }
         else {
             if (countPicTemp == 1 && countCatTemp == 1) {
@@ -614,6 +614,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         onUpdatedCheckoutCount();
         checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
     }
+
     private void hideKeyboard() {
         // Check if no view has focus:
         View view = this.getCurrentFocus();
@@ -622,9 +623,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-}
 
- @Override
+    @Override
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
         searchTemp = searchList;
