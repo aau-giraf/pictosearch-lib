@@ -34,6 +34,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Gets all pictograms matching one of the input words from the database
+     *
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
      */
@@ -46,8 +47,16 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         PictogramController pictogramController = new PictogramController(context);
 
+        List<Pictogram> pictoTemp = new ArrayList<Pictogram>();
+
         for (String s : pictogramNames) {
-            pictoList.addAll(pictogramController.getPictogramsByName(s));
+            pictoTemp.addAll(pictogramController.getPictogramsByName(s));
+        }
+
+        for (Pictogram p : pictoTemp) {
+            if (!pictoList.contains(p)) {
+                pictoList.add(p);
+            }
         }
 
         return pictoList;
@@ -55,8 +64,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Gets all categories matching one of the input words from the database
+     *
      * @param categoryNames String array with each search word
-     * @param childID ID of the citizen
+     * @param childID       ID of the citizen
      * @return List of all categories matching the search names
      */
     private ArrayList<Category> getAllCategories(String[] categoryNames, int childID) {
@@ -72,7 +82,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         for (String s : categoryNames) {
             for (Category c : catTemp) {
-                if (c.getName().toLowerCase().contains(s)) {
+                if (c.getName().toLowerCase().contains(s) && !catList.contains(c)) {
                     catList.add(c);
                 }
             }
@@ -83,6 +93,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Get all tags matching one of the input words from the database
+     *
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
@@ -104,6 +115,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Get pictogram by tags
+     *
      * @param listOfTags list of tags that matches the search words
      * @return list of pictogram that has a matching tag.
      */
@@ -111,7 +123,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         ArrayList<Integer> tagIDs = new ArrayList<Integer>();
         ArrayList<Pictogram> result = new ArrayList<Pictogram>();
 
-        for (Tag t : listOfTags){
+        for (Tag t : listOfTags) {
             tagIDs.add(t.getId());
         }
 
@@ -122,13 +134,29 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         PictogramTagController pictogramTagController = new PictogramTagController(context);
         PictogramController pictogramController = new PictogramController(context);
 
+        List<Pictogram> temp = new ArrayList<Pictogram>();
+
         List<PictogramTag> pictogramTagList = pictogramTagController.getListOfPictogramTags();
+
+        /*for (PictogramTag pt : pictogramTagList) {
+            for (Integer tagID : tagIDs) {
+                if (pt.getTagId() == tagID) {
+                    temp.add(pictogramController.getPictogramById(pt.getTagId()));
+                }
+            }
+        }*/
 
         for (PictogramTag pt : pictogramTagList) {
             for (int i = 0; i < tagIDs.size(); i++) {
                 if (pt.getTagId() == tagIDs.get(i)) {
-                    result.add(pictogramController.getPictogramById(pt.getPictogramId()));
+                    temp.add(pictogramController.getPictogramById(pt.getPictogramId()));
                 }
+            }
+        }
+
+        for (Pictogram p : temp) {
+            if (!result.contains(p)) {
+                result.add(p);
             }
         }
 
@@ -137,12 +165,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Method that sorts the list of pictograms and category before sending it to the view
-     * @param allList the list that needs to be sorted
+     *
+     * @param allList      the list that needs to be sorted
      * @param searchString the search string that is used to evaluate the relevance for each
      *                     pictogram or category
      * @return sorted list according to the relevance from the searchString
      */
-    private ArrayList<Object> SortPictogramsAndCategories(List<Object>allList, String searchString, String[] splitInput) {
+    private ArrayList<Object> SortPictogramsAndCategories(List<Object> allList, String searchString, String[] splitInput) {
         ArrayList<Object> result = new ArrayList<Object>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
@@ -151,7 +180,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         // Calculate for each pictogram or category, their relevance according to the search string
         for (Object o : allList) {
             if (o instanceof Pictogram) {
-                Pictogram p = (Pictogram)o;
+                Pictogram p = (Pictogram) o;
 
                 int number = Math.abs(p.getName().compareToIgnoreCase(searchString));
 
@@ -165,9 +194,8 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
                 pairList.add(new Pair<Object, Integer>(p, number));
 
-            }
-            else if (o instanceof Category) {
-                Category c = (Category)o;
+            } else if (o instanceof Category) {
+                Category c = (Category) o;
 
                 int number = Math.abs(c.getName().compareToIgnoreCase(searchString));
 
@@ -215,18 +243,31 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected ArrayList<Object> doInBackground(String... params) {
-        ArrayList<Object> result = new ArrayList<Object>();
-
         String searchString = params[0];
         String[] splitInput = searchString.split("\\s+");
 
+        ArrayList<Object> result = new ArrayList<Object>();
+
+        ArrayList<Pictogram> pictoTagList = new ArrayList<Pictogram>();
+
+        // Get all pictograms where the name matches the split input
         result.addAll(getAllPictograms(splitInput));
 
+        // Get all pictograms where the tag matches the split input, in a temporary variable
+        List<Tag> tagList = getAllTags(splitInput);
+        pictoTagList.addAll(getPictogramByTags(tagList));
+
+        // Insert all pictograms from the tags if they are not in the result list
+        for (Pictogram p : pictoTagList) {
+            if (!result.contains(p)) {
+                result.add(p);
+            }
+        }
+
+        // Insert all categories where the name matches the split input
         result.addAll(getAllCategories(splitInput, childID));
 
-        List<Tag> tagList = getAllTags(splitInput);
-        result.addAll(getPictogramByTags(tagList));
-
+        // Sort the pictograms and categories
         result = SortPictogramsAndCategories(result, searchString, splitInput);
 
         return result;
@@ -234,7 +275,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPostExecute(ArrayList<Object> result) {
-        if (delegate != null){
+        if (delegate != null) {
             delegate.processFinish(result);
         }
     }
