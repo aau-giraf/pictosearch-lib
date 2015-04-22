@@ -296,7 +296,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     public void searchForPictogram(View view) {
         //updateErrorMessage("", 0); // Reset purpose
         loadPictogramIntoGridView();
-        loadCategoriesIntoCategorySpinner();
     }
 
     /**
@@ -612,7 +611,10 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         searchList = output;
         searchTemp = searchList;
 
+        onSearchSummaryCount(searchList);
+
         pictoPager.setAdapter(new ViewPagerAdapter(searchList));
         mIndicator.setViewPager(pictoPager);
+        loadCategoriesIntoCategorySpinner();
     }
 }
