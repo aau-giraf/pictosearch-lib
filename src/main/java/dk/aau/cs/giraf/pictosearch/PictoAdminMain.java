@@ -3,19 +3,13 @@ package dk.aau.cs.giraf.pictosearch;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Menu;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,11 +17,9 @@ import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
 
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.viewpagerindicator.PageIndicator;
 
-import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +32,6 @@ import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-import dk.aau.cs.giraf.oasis.lib.models.Tag;
 
 /**
  * @author SW605f13 Parrot-group
