@@ -124,8 +124,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
 
         checkoutList = new ArrayList<Object>();
-        //pictoList = new ArrayList<Pictogram>();
-        //catList = new ArrayList<Category>();
         searchList = new ArrayList<Object>();
         searchTemp = new ArrayList<Object>();
         currentViewSearch = new ArrayList<Object>();
