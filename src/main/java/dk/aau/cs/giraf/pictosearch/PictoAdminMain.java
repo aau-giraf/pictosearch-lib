@@ -307,9 +307,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
 
-        if (!searchString.equals("")) {
-            searcher.execute(searchString);
-        }
+        searcher.execute(searchString);
     }
 
     // TODO Insert comment
