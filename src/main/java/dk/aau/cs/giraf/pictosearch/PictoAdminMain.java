@@ -305,9 +305,7 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
-        Search searcher = new Search(getApplicationContext(), getChildID());
-
-        searcher.delegate = this;
+        Search searcher = new Search(getApplicationContext(), getChildID(), this);
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();

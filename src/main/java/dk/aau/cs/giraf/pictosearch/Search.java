@@ -24,12 +24,12 @@ import dk.aau.cs.giraf.oasis.lib.models.Tag;
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private Context context;
     private int childID;
+    private AsyncResponse delegate;
 
-    public AsyncResponse delegate = null;
-
-    public Search(Context context, int childID) {
+    public Search(Context context, int childID, AsyncResponse delegate) {
         this.context = context;
         this.childID = childID;
+        this.delegate = delegate;
     }
 
     /**
