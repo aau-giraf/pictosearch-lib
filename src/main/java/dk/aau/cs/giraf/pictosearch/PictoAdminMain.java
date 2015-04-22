@@ -41,8 +41,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     private int guardianInfo_ChildId = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
-    //private ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
-    //private ArrayList<Category> catList = new ArrayList<Category>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
@@ -307,8 +305,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
-        //searchList.clear();
-
         Search searcher = new Search(getApplicationContext(), getChildID());
 
         searcher.delegate = this;
