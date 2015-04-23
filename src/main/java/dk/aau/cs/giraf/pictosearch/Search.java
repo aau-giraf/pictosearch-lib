@@ -182,32 +182,32 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             if (o instanceof Pictogram) {
                 Pictogram p = (Pictogram) o;
 
-                int number = Math.abs(p.getName().compareToIgnoreCase(searchString));
+                int relevance = Math.abs(p.getName().compareToIgnoreCase(searchString));
 
                 // Check to see if each string in the split input is more relevant than the whole
                 // search string
                 for (String s : splitInput) {
-                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < number) {
-                        number = Math.abs(p.getName().compareToIgnoreCase(s));
+                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < relevance) {
+                        relevance = Math.abs(p.getName().compareToIgnoreCase(s));
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(p, number));
+                pairList.add(new Pair<Object, Integer>(p, relevance));
 
             } else if (o instanceof Category) {
                 Category c = (Category) o;
 
-                int number = Math.abs(c.getName().compareToIgnoreCase(searchString));
+                int relevance = Math.abs(c.getName().compareToIgnoreCase(searchString));
 
                 // Check to see if each string in the split input is more relevant than the whole
                 // search string
                 for (String s : splitInput) {
-                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < number) {
-                        number = Math.abs(c.getName().compareToIgnoreCase(s));
+                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < relevance) {
+                        relevance = Math.abs(c.getName().compareToIgnoreCase(s));
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(c, number));
+                pairList.add(new Pair<Object, Integer>(c, relevance));
             }
         }
 
