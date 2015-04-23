@@ -41,7 +41,7 @@ public class DeleteClass {
 
         //Delete pictogram
         PictogramController pictogramController = new PictogramController(context);
-        pictogramController.removePictogramById(pictogramId);
+        //pictogramController.removePictogramById(pictogramId);
     }
 
     /**
