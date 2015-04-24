@@ -16,10 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
 
-import android.support.v4.view.ViewPager;
-
-import com.viewpagerindicator.PageIndicator;
-
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +33,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
  * @author SW605f13 Parrot-group
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
-public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.OnPositionClickListener, AsyncResponse{
+public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     private int guardianInfo_ChildId = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
@@ -47,13 +43,12 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     private String gridViewString;
 
     public GridView checkoutGrid;
-    private ViewPager pictoPager;
-    private ViewPagerAdapter viewPagerAdapter;
+    private PictoAdapter pictoAdapter;
+    private GridView pictoGrid;
     private LinearLayout mainLayout;
 
     private String purpose;
 
-    public PageIndicator mIndicator;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -73,8 +68,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
-
-        mIndicator = (PageIndicator) findViewById(R.id.pageIndicator);
 
         // Actionbar buttons created
         GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
@@ -147,10 +140,14 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
             }
         });
 
-        pictoPager = (ViewPager) findViewById(R.id.viewPager);
+        pictoGrid = (GridView) findViewById(R.id.pictogram_displayer);
 
-        viewPagerAdapter = new ViewPagerAdapter(searchList);
-        pictoPager.setAdapter(viewPagerAdapter);
+        pictoGrid.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                positionClicked(position);
+            }
+        });
 
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -312,9 +309,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
 
     // TODO Insert comment
     private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
-        // pictoPager.setAdapter(null);
         hideKeyboard();
-        pictoPager.setAdapter(new ViewPagerAdapter(cpList));
+        pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
 
     }
 
@@ -575,7 +571,6 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
     }
     */
 
-    @Override
     public void positionClicked(int position) {
         // if single pictogram requested, only one pictogram is displayed in checkout
 
@@ -609,10 +604,8 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
         searchList = output;
         searchTemp = searchList;
 
+        pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
         onSearchSummaryCount(searchList);
-
-        pictoPager.setAdapter(new ViewPagerAdapter(searchList));
-        mIndicator.setViewPager(pictoPager);
         loadCategoriesIntoCategorySpinner();
     }
 }

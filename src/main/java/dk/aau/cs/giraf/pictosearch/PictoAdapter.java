@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.gui.GirafPictogramItemView;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
@@ -22,32 +25,49 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
  */
 public class PictoAdapter extends BaseAdapter {
     private final Context context;
-    private final List<Object> pictograms;
+    private List<Object> objectList;
     private boolean displayText = true;
-    private ImageView categoryIndicator;
+
+    Pictogram pictogramTemp;
+    Category categoryTemp;
+
+
 
     /**
      * Assigns pictograms to class instance.
      *
-     * @param pictograms ArrayList of pictograms
+     * @param objectList ArrayList of pictograms
      * @param context    provides access to the databases.
      */
-    public PictoAdapter(final List<Object> pictograms, final Context context) {
+    public PictoAdapter(List<Object> objectList, final Context context) {
         super();
-        this.pictograms = pictograms;
+
+        if (objectList == null) {
+            this.objectList = new ArrayList<Object>();
+        }
+        else {
+            this.objectList = objectList;
+        }
+
         this.context = context;
     }
 
     /**
      * Assigns pictograms to class instance.
      *
-     * @param pictograms ArrayList of pictograms
+     * @param objectList ArrayList of pictograms
      * @param display    boolean, set view visibility.
      * @param context    provides access to the databases.
      */
-    public PictoAdapter(final List<Object> pictograms, final boolean display, final Context context) {
+    public PictoAdapter(final List<Object> objectList, final boolean display, final Context context) {
         super();
-        this.pictograms = pictograms;
+
+        if (objectList == null) {
+            this.objectList = new ArrayList<Object>();
+        }
+        else {
+            this.objectList = objectList;
+        }
         this.displayText = display;
         this.context = context;
     }
@@ -59,7 +79,7 @@ public class PictoAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return pictograms.size();
+        return objectList.size();
     }
 
     /**
@@ -71,7 +91,7 @@ public class PictoAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(final int position) {
-        return pictograms.get(position);
+        return objectList.get(position);
     }
 
     /**
@@ -83,7 +103,16 @@ public class PictoAdapter extends BaseAdapter {
      */
     @Override
     public long getItemId(final int position) {
-        return 0;
+
+        if (objectList.get(position) instanceof Pictogram){
+            pictogramTemp = (Pictogram) objectList.get(position);
+            return pictogramTemp.getId();
+        }
+        else {
+            categoryTemp = (Category) objectList.get(position);
+            return categoryTemp.getId();
+        }
+
     }
 
 
@@ -99,7 +128,63 @@ public class PictoAdapter extends BaseAdapter {
     // Todo: handle NullPointerException
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        View view;
+        //View view;
+        final Object object = objectList.get(position);
+
+
+
+        //LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //view = layoutInflater.inflate(R.layout.pictogram, null);
+        //ImageView catIndiImageView = (ImageView) view.findViewById(R.id.category_indicator);
+
+
+
+        if (convertView == null) {
+            GirafPictogramItemView pictogramItemView;
+            if (object instanceof Pictogram) {
+
+                Pictogram pictogramNew = (Pictogram) objectList.get(position);
+                pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
+
+            } else {
+                Category categoryNew = (Category) objectList.get(position);
+                //catIndiImageView.setVisibility(View.VISIBLE);
+                pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
+            }
+
+            pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
+            return pictogramItemView;
+
+        } else {
+            GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) convertView;
+            pictogramItemView.resetPictogramView();
+
+            if (object instanceof Pictogram) {
+                Pictogram pictogramNew = (Pictogram) objectList.get(position);
+                pictogramItemView.setImageModel(pictogramNew);
+                pictogramItemView.setTitle(pictogramNew.getName());
+            } else {
+                Category categoryNew = (Category) objectList.get(position);
+                pictogramItemView.setImageModel(categoryNew);
+                pictogramItemView.setTitle(categoryNew.getName());
+                //catIndiImageView.setVisibility(View.VISIBLE);
+            }
+            return pictogramItemView;
+
+        }
+    }
+
+
+    public void swap(List<Object> objectList) {
+        this.objectList = objectList;
+
+        // Flag the current data as invalid. After this the view will be re-rendered
+        this.notifyDataSetInvalidated();
+    }
+}
+
+
+        /*View view;
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.pictogram, null);
@@ -110,16 +195,16 @@ public class PictoAdapter extends BaseAdapter {
         final ImageView pictoImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
         final ImageView catIndiImageView = (ImageView) view.findViewById(R.id.category_indicator);
 
-        final Object object = pictograms.get(position);
+        final Object object = objectList.get(position);
         String textLabel = context.getString(R.string.pictoCreator);
 
         Pictogram pictogramNew = null;
         Category categoryNew = null;
         if (object instanceof Pictogram) {
-            pictogramNew = (Pictogram) pictograms.get(position);
+            pictogramNew = (Pictogram) objectList.get(position);
             if (pictogramNew != null) textLabel = pictogramNew.getName();
         } else if (object instanceof Category) {
-            categoryNew = (Category) pictograms.get(position);
+            categoryNew = (Category) objectList.get(position);
             catIndiImageView.setVisibility(View.VISIBLE);
             if (categoryNew != null) textLabel = categoryNew.getName();
         }
@@ -154,6 +239,6 @@ public class PictoAdapter extends BaseAdapter {
             pictoNameTextView.setVisibility(View.GONE);
         }
 
-        return view;
-    }
-}
+        return view;*/
+
+

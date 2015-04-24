@@ -134,30 +134,24 @@
                 app:icon="@drawable/icon_search"/>
 
         </LinearLayout>
-        
-        <RelativeLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/border_round"
             android:layout_margin="5dp">
 
-        <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/pageIndicator"
+        <GridView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_margin="5dp"
+            android:id="@+id/pictogram_displayer"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="3dp"
-            android:padding="3dp"
-            app:radius="6dp"/>
+            android:layout_height="match_parent"
+            android:numColumns="8"
+            android:stretchMode="columnWidth">
 
-        <dk.aau.cs.giraf.gui.GViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/viewPager"
-            android:layout_above="@id/pageIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="570dp"
-            android:layout_margin="5dp"/>
-
-        </RelativeLayout>
+        </GridView>
+        </LinearLayout>
 
     </LinearLayout>
 
