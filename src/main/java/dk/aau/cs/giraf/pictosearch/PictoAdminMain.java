@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -28,6 +29,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
+import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
@@ -250,7 +252,11 @@ public class PictoAdminMain extends GirafActivity implements ViewPagerAdapter.On
      */
     private void updateGuardianInfo() {
         guardianInfo_ChildId = -1;
-        if (getIntent().hasExtra(getString(R.string.current_child_id)))
+        //If user is a monkey, set the childId to the first child in the list
+        if (ActivityManager.isUserAMonkey()) {
+            guardianInfo_ChildId = new Helper(this).profilesHelper.getChildren().get(0).getId();
+        }
+        else if (getIntent().hasExtra(getString(R.string.current_child_id)))
             guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
