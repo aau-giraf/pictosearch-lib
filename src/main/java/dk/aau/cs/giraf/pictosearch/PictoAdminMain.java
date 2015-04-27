@@ -206,8 +206,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             }
         });
 
-        loadPictogramIntoGridView();
-
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         /*searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
