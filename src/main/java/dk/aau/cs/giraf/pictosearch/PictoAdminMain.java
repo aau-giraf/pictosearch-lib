@@ -19,15 +19,19 @@ import android.view.inputmethod.InputMethodManager;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
+
 import dk.aau.cs.giraf.activity.GirafActivity;
+import dk.aau.cs.giraf.dblib.controllers.CategoryController;
+import dk.aau.cs.giraf.dblib.controllers.PictogramController;
+import dk.aau.cs.giraf.dblib.models.Category;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
-import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
-import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
-import dk.aau.cs.giraf.oasis.lib.models.Category;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+
+
+
 
 /**
  * @author SW605f13 Parrot-group
@@ -206,7 +210,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             }
         });
 
-        loadPictogramIntoGridView();
+        //loadPictogramIntoGridView();
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         /*searchTerm.addTextChangedListener(new TextWatcher() {
