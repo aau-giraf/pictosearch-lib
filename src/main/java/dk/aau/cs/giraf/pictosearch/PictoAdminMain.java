@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
+import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
@@ -70,12 +72,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
 
         // Actionbar buttons created
-        GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
+        final GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
         GirafButton accept = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_accept));
         GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
         GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
-
-        GirafConfirmDialog helpDialogBox = new GirafConfirmDialog();
 
         // Example of an onclicklistener
 
@@ -83,7 +83,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                Toast.makeText(PictoAdminMain.this,"Hjælp kommer snarest muligt.",Toast.LENGTH_SHORT).show();
+                GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("For at fungere ordentligt i søgerne får du lige noget hjælp! :D"), R.layout.help_grid);
+                helpDialogBox.show(getSupportFragmentManager(), "");
+
             }
         });
 
