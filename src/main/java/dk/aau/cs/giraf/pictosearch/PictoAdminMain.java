@@ -112,9 +112,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
         //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
         addGirafButtonToActionBar(help, LEFT);
-        addGirafButtonToActionBar(accept, LEFT);
         addGirafButtonToActionBar(categoryTool, RIGHT);
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
+        addGirafButtonToActionBar(accept, RIGHT);
 
         checkoutList = new ArrayList<Object>();
         searchList = new ArrayList<Object>();
