@@ -9,14 +9,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
-import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
-import dk.aau.cs.giraf.oasis.lib.controllers.PictogramTagController;
-import dk.aau.cs.giraf.oasis.lib.controllers.TagController;
-import dk.aau.cs.giraf.oasis.lib.models.Category;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-import dk.aau.cs.giraf.oasis.lib.models.PictogramTag;
-import dk.aau.cs.giraf.oasis.lib.models.Tag;
+import dk.aau.cs.giraf.dblib.controllers.CategoryController;
+import dk.aau.cs.giraf.dblib.controllers.PictogramController;
+import dk.aau.cs.giraf.dblib.controllers.PictogramTagController;
+import dk.aau.cs.giraf.dblib.controllers.TagController;
+import dk.aau.cs.giraf.dblib.models.Category;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
+import dk.aau.cs.giraf.dblib.models.PictogramTag;
+import dk.aau.cs.giraf.dblib.models.Tag;
+
 
 /**
  * Search class used to search for pictograms and/or categories
