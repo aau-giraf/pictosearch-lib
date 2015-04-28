@@ -84,7 +84,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("For at fungere ordentligt i søgerne får du lige noget hjælp! :D"), R.layout.help_grid);
+                GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("Kort overblik over funktionerne i Pikto Søger."), R.layout.help_grid);
                 helpDialogBox.show(getSupportFragmentManager(), "");
 
             }
@@ -114,7 +114,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         });
 
         //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
-        //addGirafButtonToActionBar(help, LEFT);
+        addGirafButtonToActionBar(help, LEFT);
         addGirafButtonToActionBar(categoryTool, RIGHT);
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
         addGirafButtonToActionBar(accept, RIGHT);
