@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 
+
 /**
  * BitmapWorker is used to loading the bitmaps into memory and displaying them in the pictogramGrid
  * when they are to be posted. This is happening off the UI Thread via AsyncTask.

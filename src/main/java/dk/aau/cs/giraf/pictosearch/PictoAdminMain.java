@@ -32,7 +32,6 @@ import dk.aau.cs.giraf.gui.GirafSpinner;
 
 
 
-
 /**
  * @author SW605f13 Parrot-group
  * The main class in PictoSearch. Contains almost all methods relating to search.
