@@ -327,8 +327,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         List<Category> catTemp = cController.getCategoriesByProfileId(childID);
 
         ArrayList<String> catNames = new ArrayList<String>();
-        catNames.add(getString(R.string.category_colon));
-
 
         if (searchList.isEmpty()) {
             for (Category c : catTemp) {
@@ -343,6 +341,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             }
         }
         Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER); //Sorts in alphabetical order.
+        catNames.add(0, getString(R.string.category_colon));
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
 
