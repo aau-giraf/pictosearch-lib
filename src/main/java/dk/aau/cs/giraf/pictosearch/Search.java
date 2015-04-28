@@ -1,14 +1,19 @@
 package dk.aau.cs.giraf.pictosearch;
 
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
 import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
@@ -184,7 +189,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     @Override
     protected void onPreExecute() {
         // TODO: make progress bar instead of a toast.
-        Toast.makeText(context, "I am searching now", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "I am searching now", Toast.LENGTH_SHORT).show();
     }
 
     @Override

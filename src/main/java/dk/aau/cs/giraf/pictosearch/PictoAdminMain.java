@@ -2,10 +2,13 @@ package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -41,6 +44,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
+    private ArrayList<Object> emptyList = new ArrayList<Object>();
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
     private String gridViewString;
@@ -49,6 +53,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     private PictoAdapter pictoAdapter;
     private GridView pictoGrid;
     private LinearLayout mainLayout;
+    Animation startingAnimation;
+    Animation loadAnimation;
+    private Context context;
 
     private String purpose;
 
@@ -123,6 +130,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         searchList = new ArrayList<Object>();
         searchTemp = new ArrayList<Object>();
         currentViewSearch = new ArrayList<Object>();
+        emptyList = new ArrayList<Object>();
 
         mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
 
@@ -226,6 +234,22 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             @Override
             public void onClick(View v) {
                 hideKeyboard();
+
+                pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
+
+                //boolean showAnimation = true;
+                findViewById(R.id.progressLoader).setVisibility(View.VISIBLE);
+
+                //startingAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_once);
+                loadAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_infinite);
+
+                //startingAnimation.setDuration(2000);
+                loadAnimation.setDuration(2000);
+
+
+                //findViewById(R.id.giraficon).startAnimation(startingAnimation);
+                findViewById(R.id.giraficon).startAnimation(loadAnimation);
+
                 searchForPictogram(v);
             }
 
@@ -608,6 +632,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
         searchTemp = searchList;
+        findViewById(R.id.progressLoader).setVisibility(View.INVISIBLE);
+        findViewById(R.id.giraficon).clearAnimation();
 
         pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
         onSearchSummaryCount(searchList);

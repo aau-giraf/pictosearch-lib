@@ -141,7 +141,12 @@
             android:background="@drawable/border_round"
             android:layout_margin="5dp">
 
-        <GridView
+            <RelativeLayout
+                android:id="@+id/relative_pictogrid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <GridView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_margin="5dp"
             android:id="@+id/pictogram_displayer"
@@ -150,7 +155,39 @@
             android:numColumns="8"
             android:stretchMode="columnWidth">
 
-        </GridView>
+            </GridView>
+
+            <GridLayout
+                android:id="@+id/progressLoader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:id="@+id/giraficon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/giraf_loading"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="175dp"/>
+
+                <TextView
+                    android:id="@+id/welcome_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:text="Søger!"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#ff9b5100"
+                    android:textStyle="bold" />
+
+                </GridLayout>
+
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>
