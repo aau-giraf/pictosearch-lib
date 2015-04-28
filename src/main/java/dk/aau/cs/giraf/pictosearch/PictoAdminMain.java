@@ -48,6 +48,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
     private String gridViewString;
+    public int progressLoad = 0;
 
     public GridView checkoutGrid;
     private PictoAdapter pictoAdapter;
@@ -240,15 +241,22 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
                 //boolean showAnimation = true;
                 findViewById(R.id.progressLoader).setVisibility(View.VISIBLE);
 
-                //startingAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_once);
+                startingAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_once);
                 loadAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_infinite);
 
-                //startingAnimation.setDuration(2000);
-                loadAnimation.setDuration(2000);
+                if (progressLoad == 0){
+                    startingAnimation.setDuration(2000);
+                    findViewById(R.id.giraficon).startAnimation(startingAnimation);
+                    progressLoad++;
+                }
+                else {
+                    loadAnimation.setDuration(2000);
+                    findViewById(R.id.giraficon).startAnimation(loadAnimation);
+                }
 
 
-                //findViewById(R.id.giraficon).startAnimation(startingAnimation);
-                findViewById(R.id.giraficon).startAnimation(loadAnimation);
+
+
 
                 searchForPictogram(v);
             }
