@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -28,9 +29,12 @@ import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
+import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
-
-
+import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
+import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
+import dk.aau.cs.giraf.oasis.lib.models.Category;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
  * @author SW605f13 Parrot-group
@@ -73,12 +77,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
 
         // Actionbar buttons created
-        GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
+        final GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
         GirafButton accept = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_accept));
         GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
         GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
-
-        GirafConfirmDialog helpDialogBox = new GirafConfirmDialog();
 
         // Example of an onclicklistener
 
@@ -86,7 +88,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                Toast.makeText(PictoAdminMain.this,"Hjælp kommer snarest muligt.",Toast.LENGTH_SHORT).show();
+                GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("For at fungere ordentligt i søgerne får du lige noget hjælp! :D"), R.layout.help_grid);
+                helpDialogBox.show(getSupportFragmentManager(), "");
+
             }
         });
 
@@ -114,10 +118,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         });
 
         //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
-        addGirafButtonToActionBar(help, LEFT);
-        addGirafButtonToActionBar(accept, LEFT);
+        //addGirafButtonToActionBar(help, LEFT);
         addGirafButtonToActionBar(categoryTool, RIGHT);
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
+        addGirafButtonToActionBar(accept, RIGHT);
 
         checkoutList = new ArrayList<Object>();
         searchList = new ArrayList<Object>();
@@ -209,8 +213,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             }
         });
 
-        //loadPictogramIntoGridView();
-
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         /*searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -250,7 +252,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      */
     private void updateGuardianInfo() {
         guardianInfo_ChildId = -1;
-        if (getIntent().hasExtra(getString(R.string.current_child_id)))
+        //If user is a monkey, set the childId to the first child in the list
+        if (ActivityManager.isUserAMonkey()) {
+            guardianInfo_ChildId = new Helper(this).profilesHelper.getChildren().get(0).getId();
+        }
+        else if (getIntent().hasExtra(getString(R.string.current_child_id)))
             guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
@@ -325,8 +331,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         List<Category> catTemp = cController.getCategoriesByProfileId(childID);
 
         ArrayList<String> catNames = new ArrayList<String>();
-        catNames.add(getString(R.string.category_colon));
-
 
         if (searchList.isEmpty()) {
             for (Category c : catTemp) {
@@ -341,6 +345,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             }
         }
         Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER); //Sorts in alphabetical order.
+        catNames.add(0, getString(R.string.category_colon));
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
 

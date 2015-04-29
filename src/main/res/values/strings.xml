@@ -86,6 +86,11 @@
     <string name="no_search_done">Du har ikke foretaget en søgning endnu.</string>
     <string name="and">og</string>
     <string name="category_contains">Denne kategori indeholder</string>
+    <string name="help_accept">Når du har fundet de rigtige piktogrammer klikker du på denn knap for at komme tilbage igen.</string>
+    <string name="help_pictocreater">Hvis du mangler et Piktogram klikker du på denne knap. Den åbner så PictoCreater.</string>
+    <string name="help_cat_tool">Hvis du mangler en kategori klikker du på denne knap. Den åbner så Kategori værktøjet.</string>
+    <string name="help_cat_indicator">Hvis et ikon har denne indikator på sig, er dette en kategori.</string>
+    <string name="help_spinner">De kategorier den valgte borger har, og som matcher søgeorderne, kan findes og åbnes her.</string>
 
 
     <!--SAMPLES, not to be used in the project-->

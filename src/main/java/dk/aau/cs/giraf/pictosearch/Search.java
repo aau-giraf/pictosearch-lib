@@ -67,19 +67,19 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * Gets all categories matching one of the input words from the database
      *
      * @param categoryNames String array with each search word
-     * @param childID       ID of the citizen
-     * @return List of all categories matching the search names
+     * @param citizenID       ID of the citizen
+     * @return List of all categories with a matching name
      */
-    private ArrayList<Category> getAllCategories(String[] categoryNames, int childID) {
+    private ArrayList<Category> getAllCategories(String[] categoryNames, int citizenID) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
-        if (childID < 0 || categoryNames[0].isEmpty()) {
+        if (citizenID < 0 || categoryNames[0].isEmpty()) {
             return catList;
         }
 
         CategoryController categoryController = new CategoryController(context);
 
-        List<Category> catTemp = categoryController.getCategoriesByProfileId(childID);
+        List<Category> catTemp = categoryController.getCategoriesByProfileId(citizenID);
 
         for (String s : categoryNames) {
             for (Category c : catTemp) {
@@ -98,70 +98,23 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
-    private ArrayList<Tag> getAllTags(String[] tagCaptions) {
-        ArrayList<Tag> tagList = new ArrayList<Tag>();
+    private ArrayList<Pictogram> getPictogramByTags(String[] tagCaptions) {
+        ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+        ArrayList<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
-        if (tagCaptions[0].isEmpty()) {
-            return tagList;
-        }
-
-        TagController tagController = new TagController(context);
-
-        for (String s : tagCaptions) {
-            tagList.addAll(tagController.getTagsByCaption(s));
-        }
-
-        return tagList;
-    }
-
-    /**
-     * Get pictogram by tags
-     *
-     * @param listOfTags list of tags that matches the search words
-     * @return list of pictogram that has a matching tag.
-     */
-    private ArrayList<Pictogram> getPictogramByTags(List<Tag> listOfTags) {
-        ArrayList<Long> tagIDs = new ArrayList<Long>();
-        ArrayList<Pictogram> result = new ArrayList<Pictogram>();
-
-        for (Tag t : listOfTags) {
-            tagIDs.add(t.getId());
-        }
-
-        if (tagIDs.isEmpty()) {
-            return result;
-        }
-
-        PictogramTagController pictogramTagController = new PictogramTagController(context);
         PictogramController pictogramController = new PictogramController(context);
 
-        List<Pictogram> temp = new ArrayList<Pictogram>();
+        for (String s : tagCaptions) {
+            pictoTemp.addAll(pictogramController.getPictogramsWithTagName(s));
+        }
 
-        List<PictogramTag> pictogramTagList = pictogramTagController.getListOfPictogramTags();
-
-        /*for (PictogramTag pt : pictogramTagList) {
-            for (Integer tagID : tagIDs) {
-                if (pt.getTagId() == tagID) {
-                    temp.add(pictogramController.getPictogramById(pt.getTagId()));
-                }
-            }
-        }*/
-
-        for (PictogramTag pt : pictogramTagList) {
-            for (int i = 0; i < tagIDs.size(); i++) {
-                if (pt.getTagId() == tagIDs.get(i)) {
-                    temp.add(pictogramController.getPictogramById(pt.getPictogramId()));
-                }
+        for (Pictogram p : pictoTemp) {
+            if (!pictoList.contains(p)) {
+                pictoList.add(p);
             }
         }
 
-        for (Pictogram p : temp) {
-            if (!result.contains(p)) {
-                result.add(p);
-            }
-        }
-
-        return result;
+        return pictoList;
     }
 
     /**
@@ -183,41 +136,40 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             if (o instanceof Pictogram) {
                 Pictogram p = (Pictogram) o;
 
-                int number = Math.abs(p.getName().compareToIgnoreCase(searchString));
+                int relevance = Math.abs(p.getName().compareToIgnoreCase(searchString));
 
                 // Check to see if each string in the split input is more relevant than the whole
                 // search string
                 for (String s : splitInput) {
-                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < number) {
-                        number = Math.abs(p.getName().compareToIgnoreCase(s));
+                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < relevance) {
+                        relevance = Math.abs(p.getName().compareToIgnoreCase(s));
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(p, number));
+                pairList.add(new Pair<Object, Integer>(p, relevance));
 
             } else if (o instanceof Category) {
                 Category c = (Category) o;
 
-                int number = Math.abs(c.getName().compareToIgnoreCase(searchString));
+                int relevance = Math.abs(c.getName().compareToIgnoreCase(searchString));
 
                 // Check to see if each string in the split input is more relevant than the whole
                 // search string
                 for (String s : splitInput) {
-                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < number) {
-                        number = Math.abs(c.getName().compareToIgnoreCase(s));
+                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < relevance) {
+                        relevance = Math.abs(c.getName().compareToIgnoreCase(s));
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(c, number));
+                pairList.add(new Pair<Object, Integer>(c, relevance));
             }
         }
 
-        int index = 0;
-        int relevance;
-
         // Find the lowest number (the most relevant) and insert it into the result list
         while (!pairList.isEmpty()) {
-            relevance = pairList.get(index).second;
+            int index = 0;
+            int relevance = pairList.get(index).second;
+
 
             if (relevance != 0) {
                 for (int j = 0; j < pairList.size(); j++) {
@@ -230,7 +182,6 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
             result.add(pairList.get(index).first);
             pairList.remove(index);
-            index = 0;
         }
 
         return result;
@@ -254,9 +205,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         // Get all pictograms where the name matches the split input
         result.addAll(getAllPictograms(splitInput));
 
-        // Get all pictograms where the tag matches the split input, in a temporary variable
-        List<Tag> tagList = getAllTags(splitInput);
-        pictoTagList.addAll(getPictogramByTags(tagList));
+        pictoTagList.addAll(getPictogramByTags(splitInput));
 
         // Insert all pictograms from the tags if they are not in the result list
         for (Pictogram p : pictoTagList) {
