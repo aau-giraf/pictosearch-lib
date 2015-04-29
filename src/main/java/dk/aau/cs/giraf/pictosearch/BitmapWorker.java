@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+
+import dk.aau.cs.giraf.dblib.models.Pictogram;
+
 
 /**
  * BitmapWorker is used to loading the bitmaps into memory and displaying them in the pictogramGrid
