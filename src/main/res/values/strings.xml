@@ -65,8 +65,8 @@
     <!--Unknown group of strings-->
     <string name="set_class_name_pictoCreator">dk.aau.cs.giraf.pictocreator</string>
     <string name="set_class_name_pictoCreator_mainActivity">dk.aau.cs.giraf.pictocreator.MainActivity</string>
-    <string name="set_class_name_categoryTool">dk.aau.cs.giraf.pictoadmin</string>
-    <string name="set_class_name_categoryTool_mainActivity">dk.aau.cs.giraf.pictoadmin.CategoryActivity</string>
+    <string name="set_class_name_categoryTool">dk.aau.cs.giraf.categorymanager</string>
+    <string name="set_class_name_categoryTool_mainActivity">dk.aau.cs.giraf.categorymanager.CategoryActivity</string>
     <string name="exception_colon">Exception: </string>
     <string name="fix_now">Fix nu!!!!!</string>
     <string name="current_child_id">currentChildID</string>
