@@ -121,7 +121,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @return list of pictogram that has a matching tag.
      */
     private ArrayList<Pictogram> getPictogramByTags(List<Tag> listOfTags) {
-        ArrayList<Integer> tagIDs = new ArrayList<Integer>();
+        ArrayList<Long> tagIDs = new ArrayList<Long>();
         ArrayList<Pictogram> result = new ArrayList<Pictogram>();
 
         for (Tag t : listOfTags) {

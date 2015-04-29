@@ -370,12 +370,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * Assess the checkout gridView and load the pictograms into an ArrayList
      * @return ArrayList of checkout pictograms
      */
-    private int[] getCheckoutPictogramIDsArray() {
-        ArrayList<Integer> pictogramIDs = getCheckoutPictogramIDs();
-        int[] checkout = new int[pictogramIDs.size()];
-        int i = 0;
-        for (int p : pictogramIDs) {
-            checkout[i] = p;
+    private long[] getCheckoutPictogramIDsArray() {
+        ArrayList<Long> pictogramIDs = getCheckoutPictogramIDs();
+        long[] checkout = new long[pictogramIDs.size()];
+        long i = 0;
+        for (long p : pictogramIDs) {
+            checkout[((int) i)] = p;
             i++;
         }
         return checkout;
@@ -385,19 +385,19 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * get the pictogram IDs from all checkout items
      * @return pictogram ID of all pictograms and pictograms in the categories in the checkout list
      */
-    private ArrayList<Integer> getCheckoutPictogramIDs() {
-        ArrayList<Integer> pictogramCheckoutIDs = new ArrayList<Integer>();
+    private ArrayList<Long> getCheckoutPictogramIDs() {
+        ArrayList<Long> pictogramCheckoutIDs = new ArrayList<Long>();
         ArrayList<Object> checkoutObjects = getCheckoutObjects();
 
         PictogramController pictogramController = new PictogramController(this);
 
         for(Object o : checkoutObjects) {
             if (o instanceof Pictogram) {
-                Pictogram p = (Pictogram)o;
+                Pictogram p = (Pictogram) o;
                 pictogramCheckoutIDs.add(p.getId());
             }
             else if (o instanceof Category) {
-                Category catNew = (Category)o;
+                Category catNew = (Category) o;
 
                 List<Pictogram> pictogramsInCategory = pictogramController.getPictogramsByCategory(catNew);
 
@@ -438,7 +438,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * @param view: This must be included for the function to work
      */
     public void sendContent(View view) {
-        int[] output = getCheckoutPictogramIDsArray();
+        long[] output = getCheckoutPictogramIDsArray();
         Intent data = this.getIntent();
 
         data.putExtra(getString(R.string.checkout_ids), output);
