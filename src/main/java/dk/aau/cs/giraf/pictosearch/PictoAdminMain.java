@@ -2,7 +2,6 @@ package dk.aau.cs.giraf.pictosearch;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -17,7 +16,6 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.Collections;
@@ -26,7 +24,6 @@ import java.util.List;
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
-import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 import dk.aau.cs.giraf.oasis.lib.Helper;
@@ -36,11 +33,10 @@ import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
- * @author SW605f13 Parrot-group
- * The main class in PictoSearch. Contains almost all methods relating to search.
+ *  The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends GirafActivity implements AsyncResponse{
-    private int guardianInfo_ChildId = -1;
+    private int citizenID = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
@@ -51,15 +47,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public int progressLoad = 0;
 
     public GridView checkoutGrid;
-    private PictoAdapter pictoAdapter;
     private GridView pictoGrid;
     private LinearLayout mainLayout;
     Animation startingAnimation;
     Animation loadAnimation;
-    private Context context;
-
-    private String purpose;
-
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -279,21 +270,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * Otherwise the standard value of childId is -1 (invalid)
      */
     private void updateGuardianInfo() {
-        guardianInfo_ChildId = -1;
+        citizenID = -1;
         //If user is a monkey, set the childId to the first child in the list
         if (ActivityManager.isUserAMonkey()) {
-            guardianInfo_ChildId = new Helper(this).profilesHelper.getChildren().get(0).getId();
+            citizenID = new Helper(this).profilesHelper.getChildren().get(0).getId();
         }
         else if (getIntent().hasExtra(getString(R.string.current_child_id)))
-            guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
-    }
-
-    /**
-     * Get the child ID
-     * @return The child id
-     */
-    public int getChildID() {
-        return guardianInfo_ChildId;
+            citizenID = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
     }
 
     /**
@@ -336,7 +319,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
-        Search searcher = new Search(getApplicationContext(), getChildID(), this);
+        Search searcher = new Search(getApplicationContext(), citizenID, this);
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
@@ -353,10 +336,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     // TODO Insert comment
     private void loadCategoriesIntoCategorySpinner() {
-        int childID = getChildID();
-
         CategoryController cController = new CategoryController(getApplicationContext());
-        List<Category> catTemp = cController.getCategoriesByProfileId(childID);
+        List<Category> catTemp = cController.getCategoriesByProfileId(citizenID);
 
         ArrayList<String> catNames = new ArrayList<String>();
         catNames.add(getString(R.string.category_colon));
@@ -503,6 +484,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         pictogramBox.setText(getString(R.string.pictogram_colon) + (checkoutList.size() - checkoutCat.size()));
     }
 
+    // TODO: comment this
     public void onSearchSummaryCount(ArrayList<Object> sTemp) {
         int countCatTemp = CountCategories(sTemp);
         int countPicTemp = CountPictograms(sTemp);
@@ -524,6 +506,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
+    // TODO: comment this
     private int CountPictograms(ArrayList<Object> pTemp) {
         int count = 0;
 
@@ -536,6 +519,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         return count;
     }
 
+    // TODO: comment this
     private int CountCategories(ArrayList<Object> cTemp) {
         int count = 0;
 
@@ -548,6 +532,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         return count;
     }
 
+    // TODO: comment this
     public void onEnterCategoryCount(ArrayList<Object> pTemp) {
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (pTemp.size() == 1){
@@ -608,6 +593,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     }
     */
 
+    // TODO: comment this
     public void positionClicked(int position) {
         // if single pictogram requested, only one pictogram is displayed in checkout
 
@@ -627,6 +613,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
     }
 
+    // TODO: comment this
     private void hideKeyboard() {
         // Check if no view has focus:
         View view = this.getCurrentFocus();
@@ -636,6 +623,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
+
+    // TODO: comment this
     @Override
     public void processFinish(ArrayList<Object> output) {
         searchList = output;

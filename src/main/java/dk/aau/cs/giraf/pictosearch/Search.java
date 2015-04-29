@@ -24,12 +24,12 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private Context context;
-    private int childID;
+    private int citizenID;
     private AsyncResponse delegate;
 
-    public Search(Context context, int childID, AsyncResponse delegate) {
+    public Search(Context context, int citizenID, AsyncResponse delegate) {
         this.context = context;
-        this.childID = childID;
+        this.citizenID = citizenID;
         this.delegate = delegate;
     }
 
@@ -214,7 +214,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         }
 
         // Insert all categories where the name matches the split input
-        result.addAll(getAllCategories(splitInput, childID));
+        result.addAll(getAllCategories(splitInput, citizenID));
 
         // Sort the pictograms and categories
         result = SortPictogramsAndCategories(result, searchString, splitInput);
