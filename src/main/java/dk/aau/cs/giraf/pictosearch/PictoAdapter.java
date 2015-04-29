@@ -140,8 +140,8 @@ public class PictoAdapter extends BaseAdapter {
         catIndicatorView.setImageResource(R.drawable.icon_category);
         catIndicatorView.setVisibility(View.INVISIBLE);
 
-        RelativeLayout r1 = (RelativeLayout) convertView.findViewById(R.id.pictogram_icon_container);
-        r1.addView(catIndicatorView);
+        //RelativeLayout r1 = (RelativeLayout) convertView.findViewById(R.id.pictogram_icon_container);
+        //r1.addView(catIndicatorView);
 
         //LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //view = layoutInflater.inflate(R.layout.pictogram, null);
