@@ -24,10 +24,10 @@ import dk.aau.cs.giraf.dblib.models.Tag;
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private Context context;
-    private int childID;
+    private long childID;
     private AsyncResponse delegate;
 
-    public Search(Context context, int childID, AsyncResponse delegate) {
+    public Search(Context context, long childID, AsyncResponse delegate) {
         this.context = context;
         this.childID = childID;
         this.delegate = delegate;
@@ -70,7 +70,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param citizenID       ID of the citizen
      * @return List of all categories with a matching name
      */
-    private ArrayList<Category> getAllCategories(String[] categoryNames, int citizenID) {
+    private ArrayList<Category> getAllCategories(String[] categoryNames, long citizenID) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
         if (citizenID < 0 || categoryNames[0].isEmpty()) {

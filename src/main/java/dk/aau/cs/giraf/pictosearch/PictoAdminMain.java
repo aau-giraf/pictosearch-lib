@@ -22,26 +22,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.activity.GirafActivity;
+import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.controllers.CategoryController;
 import dk.aau.cs.giraf.dblib.controllers.PictogramController;
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
-import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
-import dk.aau.cs.giraf.oasis.lib.controllers.CategoryController;
-import dk.aau.cs.giraf.oasis.lib.controllers.PictogramController;
-import dk.aau.cs.giraf.oasis.lib.models.Category;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
  * @author SW605f13 Parrot-group
  * The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends GirafActivity implements AsyncResponse{
-    private int guardianInfo_ChildId = -1;
+    private long guardianInfo_ChildId = -1;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
@@ -264,7 +260,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * Get the child ID
      * @return The child id
      */
-    public int getChildID() {
+    public long getChildID() {
         return guardianInfo_ChildId;
     }
 
@@ -325,7 +321,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     // TODO Insert comment
     private void loadCategoriesIntoCategorySpinner() {
-        int childID = getChildID();
+        long childID = getChildID();
 
         CategoryController cController = new CategoryController(getApplicationContext());
         List<Category> catTemp = cController.getCategoriesByProfileId(childID);
