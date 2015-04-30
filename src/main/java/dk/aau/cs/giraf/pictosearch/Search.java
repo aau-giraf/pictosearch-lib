@@ -187,8 +187,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPreExecute() {
-        // TODO: make progress bar instead of a toast.
-        Toast.makeText(context, "I am searching now", Toast.LENGTH_SHORT).show();
+        // TODO: make progress bar
     }
 
     @Override

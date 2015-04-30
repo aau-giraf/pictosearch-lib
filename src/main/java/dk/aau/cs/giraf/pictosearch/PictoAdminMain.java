@@ -238,6 +238,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             public void onClick(View v) {
                 hideKeyboard();
 
+                TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
+                emptySearchTextView.setVisibility(View.INVISIBLE);
+
                 pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
 
                 //boolean showAnimation = true;
@@ -649,13 +652,19 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     // TODO: comment this
     @Override
     public void processFinish(ArrayList<Object> output) {
-        searchList = output;
-        searchTemp = searchList;
         findViewById(R.id.progressLoader).setVisibility(View.INVISIBLE);
         findViewById(R.id.giraficon).clearAnimation();
 
-        pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
-        onSearchSummaryCount(searchList);
-        loadCategoriesIntoCategorySpinner();
+        if (!output.isEmpty()) {
+            searchList = output;
+            searchTemp = searchList;
+
+            pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
+            onSearchSummaryCount(searchList);
+            loadCategoriesIntoCategorySpinner();
+        }
+        else {
+            findViewById(R.id.empty_search_result).setVisibility(View.VISIBLE);
+        }
     }
 }

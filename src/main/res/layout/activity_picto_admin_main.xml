@@ -157,6 +157,15 @@
 
             </GridView>
 
+            <TextView
+                android:id="@+id/empty_search_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/pictogram_displayer"
+                android:layout_alignRight="@+id/pictogram_displayer"
+                android:visibility="invisible"
+                android:text="Søgningen gav ingen resultater"/>
+
             <GridLayout
                 android:id="@+id/progressLoader"
                 android:layout_width="match_parent"
