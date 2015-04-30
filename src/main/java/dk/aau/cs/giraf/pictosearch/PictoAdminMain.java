@@ -40,7 +40,8 @@ import dk.aau.cs.giraf.gui.GirafSpinner;
  *  The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends GirafActivity implements AsyncResponse{
-    private int citizenID = -1;
+    private long citizenID;
+    private long guardianID;
 
     public ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
@@ -72,6 +73,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        updateGuardianInfo();
+
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
 
@@ -130,7 +134,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
         mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
 
-        updateGuardianInfo();
         //getPurpose();
         onUpdatedCheckoutCount();
         //onUpdatedSearchField();
@@ -274,13 +277,22 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * Otherwise the standard value of childId is -1 (invalid)
      */
     private void updateGuardianInfo() {
-        citizenID = -1;
         //If user is a monkey, set the childId to the first child in the list
         if (ActivityManager.isUserAMonkey()) {
             citizenID = new Helper(this).profilesHelper.getChildren().get(0).getId();
         }
-        else if (getIntent().hasExtra(getString(R.string.current_child_id)))
-            citizenID = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
+        else {
+            guardianID = getIntent().getLongExtra(getString(R.string.current_guardian_id), -1);
+            citizenID = getIntent().getLongExtra(getString(R.string.current_child_id), -1);
+
+            if (guardianID == -1) {
+                Toast.makeText(getApplicationContext(), "Missing guardian ID", Toast.LENGTH_LONG).show();
+            }
+
+            if (citizenID == -1) {
+                Toast.makeText(getApplicationContext(), "Missing child ID", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /**
@@ -572,10 +584,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * @return return false if unable to open CategoryTool.
      */
     private boolean LaunchCategoryTool(boolean allow_error_msg) {
+        Intent intent = new Intent();
         try {
-            Intent i = new Intent();
-            i.setClassName(getString(R.string.set_class_name_categoryTool), getString(R.string.set_class_name_categoryTool_mainActivity));
-            startActivity(i);
+            intent.setComponent(new ComponentName(getString(R.string.set_class_name_categoryTool), getString(R.string.set_class_name_categoryTool_mainActivity)));
+            intent.putExtra(getString(R.string.current_child_id), citizenID);
+            intent.putExtra(getString(R.string.current_guardian_id), guardianID);
+            startActivity(intent);
+
             return true;
         } catch (android.content.ActivityNotFoundException e) {
             if (allow_error_msg) {
