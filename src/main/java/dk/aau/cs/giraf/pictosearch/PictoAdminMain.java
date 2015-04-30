@@ -73,6 +73,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         super.onCreate(savedInstanceState);
 
         updateGuardianInfo();
+        getPurpose();
 
         setContentView(R.layout.activity_picto_admin_main);
         findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
@@ -296,29 +297,18 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     }
 
     /**
-     * Get the purpose from the calling application and displays a message to the user
-     * describing what to do in the application and how to finish
+     * Get the purpose from the calling application to know if they need a single pictogram
      */
-	/* This is commented out as it's not needed currently.
 	private void getPurpose()
     {
-        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
-
-		if(getIntent().hasExtra(getString(R.string.purpose))) {
-			if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))) {
-				isSingle = true;
-                purpose = getString(R.string.choose_a_pictogram_press_ok);
-			}
-			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.multi))) {
-				isSingle = false;
-				purpose = getString(R.string.choose_a_pictograms_press_ok);
-			}
-			else if(getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.CAT))) {
-				purpose = getString(R.string.choose_a_pictograms_add_to_category_press_ok);
-			}
-            searchTerm.setHint(purpose);
+        if (getIntent().hasExtra(getString(R.string.purpose))) {
+            if (getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))) {
+                isSingle = true;
+            } else if (getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.multi))){
+                isSingle = false;
+            }
         }
-    }*/
+    }
 
     /**
      * Called when pressing search_button
