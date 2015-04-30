@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
-
 
 /**
  *  The main class in PictoSearch. Contains almost all methods relating to search.
@@ -52,6 +52,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public int progressLoad = 0;
 
     public GridView checkoutGrid;
+    private PictoAdapter pictoAdapter;
     private GridView pictoGrid;
     private LinearLayout mainLayout;
     Animation startingAnimation;
