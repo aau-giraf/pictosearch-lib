@@ -19,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-import android.view.inputmethod.InputMethodManager;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -52,9 +51,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public int progressLoad = 0;
 
     public GridView checkoutGrid;
-    private PictoAdapter pictoAdapter;
     private GridView pictoGrid;
-    private LinearLayout mainLayout;
     Animation startingAnimation;
     Animation loadAnimation;
 
@@ -133,9 +130,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         currentViewSearch = new ArrayList<Object>();
         emptyList = new ArrayList<Object>();
 
-        mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
 
-        //getPurpose();
         onUpdatedCheckoutCount();
         //onUpdatedSearchField();
         loadCategoriesIntoCategorySpinner();
