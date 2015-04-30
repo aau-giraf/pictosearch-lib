@@ -336,7 +336,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * Load all pictograms containing words from the searchString and display them.
      */
     private void loadPictogramIntoGridView() {
-        Search searcher = new Search(getApplicationContext(), citizenID, this);
+        Search searcher;
+
+        if (citizenID != -1) {
+            searcher = new Search(getApplicationContext(), citizenID, this);
+        }
+        else {
+            searcher = new Search(getApplicationContext(), guardianID, this);
+        }
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
