@@ -81,7 +81,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         for (String s : categoryNames) {
             for (Category c : catTemp) {
-                if (c.getName().toLowerCase().contains(s) && !catList.contains(c)) {
+                if (c.getName().toLowerCase().startsWith(s.toLowerCase()) && !catList.contains(c)) {
                     catList.add(c);
                 }
             }
