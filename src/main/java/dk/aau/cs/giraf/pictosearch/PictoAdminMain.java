@@ -253,7 +253,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             guardianInfo_ChildId = new Helper(this).profilesHelper.getChildren().get(0).getId();
         }
         else if (getIntent().hasExtra(getString(R.string.current_child_id)))
-            guardianInfo_ChildId = getIntent().getIntExtra(getString(R.string.current_child_id), -1);
+            guardianInfo_ChildId = getIntent().getLongExtra(getString(R.string.current_child_id), -1);
     }
 
     /**
