@@ -1,13 +1,8 @@
 package dk.aau.cs.giraf.pictosearch;
 
-
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -15,23 +10,18 @@ import java.util.List;
 
 import dk.aau.cs.giraf.dblib.controllers.CategoryController;
 import dk.aau.cs.giraf.dblib.controllers.PictogramController;
-import dk.aau.cs.giraf.dblib.controllers.PictogramTagController;
-import dk.aau.cs.giraf.dblib.controllers.TagController;
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
-import dk.aau.cs.giraf.dblib.models.PictogramTag;
-import dk.aau.cs.giraf.dblib.models.Tag;
-
 
 /**
  * Search class used to search for pictograms and/or categories
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private Context context;
-    private int citizenID;
+    private long citizenID;
     private AsyncResponse delegate;
 
-    public Search(Context context, int citizenID, AsyncResponse delegate) {
+    public Search(Context context, long citizenID, AsyncResponse delegate) {
         this.context = context;
         this.citizenID = citizenID;
         this.delegate = delegate;
@@ -71,10 +61,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * Gets all categories matching one of the input words from the database
      *
      * @param categoryNames String array with each search word
-     * @param citizenID       ID of the citizen
      * @return List of all categories with a matching name
      */
-    private ArrayList<Category> getAllCategories(String[] categoryNames, int citizenID) {
+    private ArrayList<Category> getAllCategories(String[] categoryNames) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
         if (citizenID < 0 || categoryNames[0].isEmpty()) {
@@ -219,7 +208,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         }
 
         // Insert all categories where the name matches the split input
-        result.addAll(getAllCategories(splitInput, citizenID));
+        result.addAll(getAllCategories(splitInput));
 
         // Sort the pictograms and categories
         result = SortPictogramsAndCategories(result, searchString, splitInput);
