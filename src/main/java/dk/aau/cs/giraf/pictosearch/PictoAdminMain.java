@@ -165,10 +165,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
                 hideKeyboard();
 
                 CategoryController cController = new CategoryController(getApplicationContext());
-                List<Category> cTemp = cController.getCategories();
+
+                List<Category> cTemp;
+
+                if (citizenID != -1) {
+                    cTemp = cController.getCategoriesByProfileId(citizenID);
+                } else {
+                    cTemp = cController.getCategoriesByProfileId(guardianID);
+                }
 
                 Category cat = new Category();
-
 
                 if (!selectedItem.equals(getString(R.string.category_colon))) {
                     for (Category c : cTemp) {
@@ -354,7 +360,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     // TODO Insert comment
     private void loadCategoriesIntoCategorySpinner() {
         CategoryController cController = new CategoryController(getApplicationContext());
-        List<Category> catTemp = cController.getCategoriesByProfileId(citizenID);
+        List<Category> catTemp;
+
+        if (citizenID != -1) {
+            catTemp = cController.getCategoriesByProfileId(citizenID);
+        } else {
+            catTemp = cController.getCategoriesByProfileId(guardianID);
+        }
+
 
         ArrayList<String> catNames = new ArrayList<String>();
 
