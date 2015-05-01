@@ -27,15 +27,6 @@
             android:padding="5dp"
             android:scaleType="centerInside" />
 
-        <ImageView
-            android:id="@+id/category_indicator"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:scaleType="centerInside"
-            android:layout_alignBottom="@+id/pictogram_icon_local"
-            android:layout_alignRight="@+id/pictogram_icon_local"
-            android:background="@drawable/icon_category"
-            android:visibility="invisible" />
 
         </RelativeLayout>
 
