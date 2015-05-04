@@ -18,7 +18,7 @@
     <string name="send">Send</string>
 	<string name="checkoutList">Checkout list:</string>
 	<string name="pictogram_colon">Pictogram: </string>
-    <string name="category_colon">Kategori: </string>
+    <string name="category_colon">Vælg kategori: </string>
     
     <string name="picture">Default picture content description</string>
     <string name="title_activity_help_menu">HelpMenu</string>
