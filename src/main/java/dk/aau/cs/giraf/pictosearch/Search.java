@@ -1,33 +1,30 @@
 package dk.aau.cs.giraf.pictosearch;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.dblib.controllers.CategoryController;
 import dk.aau.cs.giraf.dblib.controllers.PictogramController;
-import dk.aau.cs.giraf.dblib.controllers.PictogramTagController;
-import dk.aau.cs.giraf.dblib.controllers.TagController;
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
-import dk.aau.cs.giraf.dblib.models.PictogramTag;
-import dk.aau.cs.giraf.dblib.models.Tag;
-
+import dk.aau.cs.giraf.gui.GirafWaitingDialog;
 
 /**
  * Search class used to search for pictograms and/or categories
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
-    private Context context;
     private long citizenID;
     private AsyncResponse delegate;
+    private GirafActivity mainActivity;
+    private GirafWaitingDialog waitingDialog;
+    private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES";
 
-    public Search(Context context, long citizenID, AsyncResponse delegate) {
-        this.context = context;
+    public Search(GirafActivity mainActivity, long citizenID, AsyncResponse delegate) {
+        this.mainActivity = mainActivity;
         this.citizenID = citizenID;
         this.delegate = delegate;
     }
@@ -45,7 +42,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             return pictoList;
         }
 
-        PictogramController pictogramController = new PictogramController(context);
+        PictogramController pictogramController = new PictogramController(mainActivity.getApplicationContext());
 
         List<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
@@ -75,7 +72,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             return catList;
         }
 
-        CategoryController categoryController = new CategoryController(context);
+        CategoryController categoryController = new CategoryController(mainActivity.getApplicationContext());
 
         List<Category> catTemp = categoryController.getCategoriesByProfileId(citizenID);
 
@@ -100,7 +97,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
         ArrayList<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
-        PictogramController pictogramController = new PictogramController(context);
+        PictogramController pictogramController = new PictogramController(mainActivity.getApplicationContext());
 
         for (String s : tagCaptions) {
             pictoTemp.addAll(pictogramController.getPictogramsWithTagName(s));
@@ -187,8 +184,8 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPreExecute() {
-        // TODO: make progress bar instead of a toast.
-        Toast.makeText(context, "I am searching now", Toast.LENGTH_SHORT).show();
+        waitingDialog = GirafWaitingDialog.newInstance(mainActivity.getString(R.string.searching_title), mainActivity.getString(R.string.searching_description));
+        waitingDialog.show(mainActivity.getSupportFragmentManager(), SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES);
     }
 
     @Override
@@ -223,6 +220,8 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPostExecute(ArrayList<Object> result) {
+        waitingDialog.dismiss();
+
         if (delegate != null) {
             delegate.processFinish(result);
         }
