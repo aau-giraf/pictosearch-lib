@@ -79,8 +79,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
         GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
 
-        // Example of an onclicklistener
-
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +88,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
             }
         });
-
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +151,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
@@ -348,7 +344,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
                 }
             }
         }
-        Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER); //Sorts in alphabetical order.
+
+        //Sorts in alphabetical order.
+        Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER);
         catNames.add(0, getString(R.string.category_colon));
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
@@ -593,8 +591,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     // TODO: comment this
     public void positionClicked(int position) {
         // if single pictogram requested, only one pictogram is displayed in checkout
-
-        //Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
         if (isSingle) {
             checkoutList.clear();
         }
@@ -626,8 +622,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
         searchTemp = searchList;
-        //findViewById(R.id.progressLoader).setVisibility(View.INVISIBLE);
-        //findViewById(R.id.giraficon).clearAnimation();
 
         pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
         onSearchSummaryCount(searchList);
