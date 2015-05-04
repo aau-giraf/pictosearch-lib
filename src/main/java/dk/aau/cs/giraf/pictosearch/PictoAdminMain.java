@@ -52,8 +52,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     public GridView checkoutGrid;
     private GridView pictoGrid;
-    Animation startingAnimation;
-    Animation loadAnimation;
+    //Animation startingAnimation;
+    //Animation loadAnimation;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -240,26 +240,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
                 pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
 
-                //boolean showAnimation = true;
-                findViewById(R.id.progressLoader).setVisibility(View.VISIBLE);
-
-                startingAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_once);
-                loadAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_infinite);
-
-                if (progressLoad == 0){
-                    startingAnimation.setDuration(2000);
-                    findViewById(R.id.giraficon).startAnimation(startingAnimation);
-                    progressLoad++;
-                }
-                else {
-                    loadAnimation.setDuration(2000);
-                    findViewById(R.id.giraficon).startAnimation(loadAnimation);
-                }
-
-
-
-
-
                 searchForPictogram(v);
             }
 
@@ -328,10 +308,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         Search searcher;
 
         if (citizenID != -1) {
-            searcher = new Search(getApplicationContext(), citizenID, this);
+            searcher = new Search(this, citizenID, this);
         }
         else {
-            searcher = new Search(getApplicationContext(), guardianID, this);
+            searcher = new Search(this, guardianID, this);
         }
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
@@ -651,8 +631,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public void processFinish(ArrayList<Object> output) {
         searchList = output;
         searchTemp = searchList;
-        findViewById(R.id.progressLoader).setVisibility(View.INVISIBLE);
-        findViewById(R.id.giraficon).clearAnimation();
+        //findViewById(R.id.progressLoader).setVisibility(View.INVISIBLE);
+        //findViewById(R.id.giraficon).clearAnimation();
 
         pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
         onSearchSummaryCount(searchList);
