@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -48,12 +46,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
     private String gridViewString;
-    public int progressLoad = 0;
 
     public GridView checkoutGrid;
     private GridView pictoGrid;
-    //Animation startingAnimation;
-    //Animation loadAnimation;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
