@@ -3,10 +3,8 @@ package dk.aau.cs.giraf.pictosearch;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.ArrayList;
