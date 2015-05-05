@@ -571,7 +571,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     /**
      * Open the application PictoCreator if the application is installed.
      * @param allow_error_msg boolean for allowing error messages to be displayed to user
-     * @return return false if unable to open PictoCreator.
      */
     private void LaunchPictoCreator(boolean allow_error_msg) {
         try {
@@ -589,7 +588,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     /**
      * Open the application CategoryTool if the application is installed.
      * @param allow_error_msg boolean for allowing error messages to be displayed to user
-     * @return return false if unable to open CategoryTool.
      */
     private void LaunchCategoryTool(boolean allow_error_msg) {
         Intent intent = new Intent();
