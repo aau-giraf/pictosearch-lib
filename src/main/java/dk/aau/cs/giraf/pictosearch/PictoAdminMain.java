@@ -5,8 +5,10 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -232,6 +234,18 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         });
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
+
+        searchTerm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    clickedSearch(v);
+                }
+                return false;
+            }
+
+        });
+
         /*searchTerm.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 onUpdatedSearchField();
@@ -247,14 +261,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideKeyboard();
-
-                TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
-                emptySearchTextView.setVisibility(View.INVISIBLE);
-
-                pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
-
-                searchForPictogram(v);
+                clickedSearch(v);
             }
 
         });
@@ -301,6 +308,17 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 isSingle = false;
             }
         }
+    }
+
+    public void clickedSearch(View v) {
+        hideKeyboard();
+
+        TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
+        emptySearchTextView.setVisibility(View.INVISIBLE);
+
+        pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
+
+        searchForPictogram(v);
     }
 
     /**
