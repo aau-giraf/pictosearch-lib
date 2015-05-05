@@ -35,11 +35,12 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
+import dk.aau.cs.giraf.pictosearch.showcase.ShowcaseManager;
 
 /**
  *  The main class in PictoSearch. Contains almost all methods relating to search.
  */
-public class PictoAdminMain extends GirafActivity implements AsyncResponse{
+public class PictoAdminMain extends GirafActivity implements AsyncResponse, ShowcaseManager.ShowcaseCapable{
     private long citizenID;
     private long guardianID;
 
@@ -54,6 +55,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     private GridView pictoGrid;
     public RelativeLayout r1;
     public ImageView catIndicatorView;
+    private ShowcaseManager showcaseManager;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -659,5 +661,26 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     public void setVisibility() {
         //RelativeLayout r1 = (RelativeLayout) findViewById(R.id.category_indicator_local);
         r1.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public synchronized void showShowcase() {
+    }
+
+    @Override
+    public synchronized void toggleShowcase() {
+        if (showcaseManager != null) {
+            hideShowcase();
+        } else {
+            showShowcase();
+        }
+    }
+
+    @Override
+    public synchronized void hideShowcase() {
+        if (showcaseManager != null) {
+            showcaseManager.stop();
+            showcaseManager = null;
+        }
     }
 }
