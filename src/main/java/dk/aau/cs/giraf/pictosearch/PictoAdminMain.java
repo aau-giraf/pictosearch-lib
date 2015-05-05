@@ -53,8 +53,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     public GridView checkoutGrid;
     private GridView pictoGrid;
-    public RelativeLayout r1;
-    public ImageView catIndicatorView;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
