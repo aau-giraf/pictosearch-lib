@@ -283,7 +283,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
             if (guardianID == -1) {
                 Toast.makeText(getApplicationContext(), "Missing guardian ID, please fix ASAP", Toast.LENGTH_LONG).show();
-                //throw new IllegalArgumentException("Need guardian ID")
             }
         }
     }
