@@ -345,42 +345,42 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Load all the categories into the category spinner
      */
-    private void loadCategoriesIntoCategorySpinner() {
-        CategoryController cController = new CategoryController(getApplicationContext());
-        List<Category> catTemp;
+   private void loadCategoriesIntoCategorySpinner() {
+       CategoryController cController = new CategoryController(getApplicationContext());
+       List<Category> catTemp;
 
-        if (citizenID != -1) {
-            catTemp = cController.getCategoriesByProfileId(citizenID);
-        } else {
-            catTemp = cController.getCategoriesByProfileId(guardianID);
-        }
+       if (citizenID != -1) {
+           catTemp = cController.getCategoriesByProfileId(citizenID);
+       } else {
+           catTemp = cController.getCategoriesByProfileId(guardianID);
+       }
 
 
-        ArrayList<String> catNames = new ArrayList<String>();
+       ArrayList<String> catNames = new ArrayList<String>();
 
-        if (searchList.isEmpty()) {
-            for (Category c : catTemp) {
-                catNames.add(c.getName());
-            }
-        }
-        else {
-            for (Object o : searchList) {
-                if (o instanceof Category) {
-                    catNames.add(((Category) o).getName());
-                }
-            }
-        }
+       if (searchList.isEmpty()) {
+           for (Category c : catTemp) {
+               catNames.add(c.getName());
+           }
+       }
+       else {
+           for (Object o : searchList) {
+               if (o instanceof Category) {
+                   catNames.add(((Category) o).getName());
+               }
+           }
+       }
 
-        //Sorts in alphabetical order.
-        Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER);
-        catNames.add(0, getString(R.string.choose_category_colon));
+       //Sorts in alphabetical order.
+       Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER);
+       catNames.add(0, getString(R.string.choose_category_colon));
 
-        Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
+       Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        catSpinner.setAdapter(spinnerArrayAdapter);
-    }
+       ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
+       spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       catSpinner.setAdapter(spinnerArrayAdapter);
+   }
 
     /**
      * Gets the pictograms and categories from the checkout list.
