@@ -1,18 +1,15 @@
 package dk.aau.cs.giraf.pictosearch;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.text.Layout;
-import android.view.LayoutInflater;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,6 @@ import java.util.List;
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
-
 
 
 /**
@@ -36,7 +32,7 @@ public class PictoAdapter extends BaseAdapter {
     private Pictogram pictogramTemp;
     private Category categoryTemp;
 
-    PictoAdminMain addViewer;
+
 
 
 
@@ -123,7 +119,6 @@ public class PictoAdapter extends BaseAdapter {
 
     }
 
-
     /**
      * Get a View that displays the data at the specified position in the data set.
      * Create an imageView for each pictogram in the list.
@@ -138,64 +133,43 @@ public class PictoAdapter extends BaseAdapter {
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
         final Object object = objectList.get(position);
+        Drawable catIndicator = context.getResources().getDrawable( R.drawable.icon_category );
 
-        RelativeLayout r1 = new RelativeLayout(context);
-        ImageView iv = new ImageView(context);
-
-        iv.setImageResource(R.drawable.icon_category);
-
-
-
-
-
-
-        //if (convertView == null) {
+        if (convertView == null) {
             GirafPictogramItemView pictogramItemView;
             if (object instanceof Pictogram) {
 
                 Pictogram pictogramNew = (Pictogram) objectList.get(position);
                 pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
-                r1.addView(pictogramItemView);
-
             } else {
                 Category categoryNew = (Category) objectList.get(position);
                 pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
-                r1.addView(pictogramItemView);
-                r1.addView(iv);
-
-
+                pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
             }
 
-            pictogramItemView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-            return r1;
+            pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
+            return pictogramItemView;
 
-        /*} else {
-            RelativeLayout rl = (RelativeLayout) convertView;
-            GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) rl.getChildAt(0);
-            ((ViewGroup)pictogramItemView.getParent()).removeView(pictogramItemView);
+        } else {
+            GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) convertView;
             pictogramItemView.resetPictogramView();
 
             if (object instanceof Pictogram) {
                 Pictogram pictogramNew = (Pictogram) objectList.get(position);
                 pictogramItemView.setImageModel(pictogramNew);
                 pictogramItemView.setTitle(pictogramNew.getName());
-                r1.addView(pictogramItemView);
-
 
             } else {
                 Category categoryNew = (Category) objectList.get(position);
                 pictogramItemView.setImageModel(categoryNew);
                 pictogramItemView.setTitle(categoryNew.getName());
-                r1.addView(pictogramItemView);
-                r1.addView(iv);
+                pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
 
             }
-            return r1;
+            return pictogramItemView;
 
-        }*/
+        }
     }
-
-
     public void swap(List<Object> objectList) {
         this.objectList = objectList;
 
@@ -203,63 +177,5 @@ public class PictoAdapter extends BaseAdapter {
         this.notifyDataSetInvalidated();
     }
 }
-
-
-        /*View view;
-        if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.pictogram, null);
-        } else {
-            view = convertView;
-        }
-
-        final ImageView pictoImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
-        final ImageView catIndiImageView = (ImageView) view.findViewById(R.id.category_indicator);
-
-        final Object object = objectList.get(position);
-        String textLabel = context.getString(R.string.pictoCreator);
-
-        Pictogram pictogramNew = null;
-        Category categoryNew = null;
-        if (object instanceof Pictogram) {
-            pictogramNew = (Pictogram) objectList.get(position);
-            if (pictogramNew != null) textLabel = pictogramNew.getName();
-        } else if (object instanceof Category) {
-            categoryNew = (Category) objectList.get(position);
-            catIndiImageView.setVisibility(View.VISIBLE);
-            if (categoryNew != null) textLabel = categoryNew.getName();
-        }
-
-
-        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
-        //pictoImageView.setLayoutParams(layoutParams);
-
-
-
-
-        final TextView pictoNameTextView = (TextView) view.findViewById(R.id.pictogram_title);
-        pictoNameTextView.setText(textLabel);
-
-        if (pictogramNew != null) {
-            Bitmap bitmap = pictogramNew.getImage();
-            if (bitmap != null) {
-                pictoImageView.setImageBitmap(bitmap);
-            }
-        } else if (categoryNew != null) {
-            Bitmap b = categoryNew.getImage();
-            if (b != null) {
-                pictoImageView.setImageBitmap(b);
-            }
-        }
-
-        view.setPadding(5, 5, 5, 5);
-
-        if (displayText) {
-            pictoNameTextView.setVisibility(View.VISIBLE);
-        } else {
-            pictoNameTextView.setVisibility(View.GONE);
-        }
-
-        return view;*/
 
 
