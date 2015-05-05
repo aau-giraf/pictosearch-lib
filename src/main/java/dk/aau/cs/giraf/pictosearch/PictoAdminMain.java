@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -56,8 +57,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     private GridView pictoGrid;
     Animation startingAnimation;
     Animation loadAnimation;
-    public RelativeLayout r1;
-    public ImageView catIndicatorView;
+    private RelativeLayout r1;
+    private ImageView catIndicatorView;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -136,6 +137,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         emptyList = new ArrayList<Object>();
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
+
 
         onUpdatedCheckoutCount();
         //onUpdatedSearchField();
@@ -663,23 +665,4 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
-    public void addView(){
-
-        ImageView catIndicatorView = (ImageView) findViewById(R.id.category_indicator_local);
-
-        RelativeLayout r1 = (RelativeLayout) findViewById(R.id.pictogram_icon_container);
-
-        //RelativeLayout.LayoutParams layoutParams =
-        //        (RelativeLayout.LayoutParams) catIndicatorView.getLayoutParams();
-        //layoutParams.addRule(RelativeLayout.ALIGN_RIGHT, R.id.pictogram_icon);
-        //layoutParams.addRule(RelativeLayout.ABOVE, R.id.pictogram_icon);
-        //layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.pictogram_icon);
-
-        r1.addView(catIndicatorView);
-    }
-
-    public void setVisibility() {
-        //RelativeLayout r1 = (RelativeLayout) findViewById(R.id.category_indicator_local);
-        r1.setVisibility(View.VISIBLE);
-    }
 }

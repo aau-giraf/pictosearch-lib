@@ -139,42 +139,60 @@ public class PictoAdapter extends BaseAdapter {
 
         final Object object = objectList.get(position);
 
-        //addViewer = new PictoAdminMain();
-        //addViewer.addView();
+        RelativeLayout r1 = new RelativeLayout(context);
+        ImageView iv = new ImageView(context);
 
-        if (convertView == null) {
+        iv.setImageResource(R.drawable.icon_category);
+
+
+
+
+
+
+        //if (convertView == null) {
             GirafPictogramItemView pictogramItemView;
             if (object instanceof Pictogram) {
 
                 Pictogram pictogramNew = (Pictogram) objectList.get(position);
                 pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
+                r1.addView(pictogramItemView);
 
             } else {
                 Category categoryNew = (Category) objectList.get(position);
-                //addViewer.setVisibility();
                 pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
+                r1.addView(pictogramItemView);
+                r1.addView(iv);
+
+
             }
 
-            pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
-            return pictogramItemView;
+            pictogramItemView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+            return r1;
 
-        } else {
-            GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) convertView;
+        /*} else {
+            RelativeLayout rl = (RelativeLayout) convertView;
+            GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) rl.getChildAt(0);
+            ((ViewGroup)pictogramItemView.getParent()).removeView(pictogramItemView);
             pictogramItemView.resetPictogramView();
 
             if (object instanceof Pictogram) {
                 Pictogram pictogramNew = (Pictogram) objectList.get(position);
                 pictogramItemView.setImageModel(pictogramNew);
                 pictogramItemView.setTitle(pictogramNew.getName());
+                r1.addView(pictogramItemView);
+
+
             } else {
                 Category categoryNew = (Category) objectList.get(position);
                 pictogramItemView.setImageModel(categoryNew);
                 pictogramItemView.setTitle(categoryNew.getName());
-                //addViewer.setVisibility();
-            }
-            return pictogramItemView;
+                r1.addView(pictogramItemView);
+                r1.addView(iv);
 
-        }
+            }
+            return r1;
+
+        }*/
     }
 
 
