@@ -175,7 +175,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
                 Category cat = new Category();
 
-                if (!selectedItem.equals(getString(R.string.category_colon))) {
+                if (!selectedItem.equals(getString(R.string.choose_category_colon))) {
                     for (Category c : cTemp) {
                         if (selectedItem.equals(c.getName())) {
                             cat = c;
@@ -192,7 +192,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
                 currentViewSearch = allList;
                 gridViewString = selectedItem;
-                if (selectedItem.equals(getString(R.string.category_colon))) {
+                if (selectedItem.equals(getString(R.string.choose_category_colon))) {
                     if (searchTemp.isEmpty()) {
                         currentViewSearch.clear();
                         loadCategoryPictogramIntoGridView(currentViewSearch);
@@ -363,7 +363,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
         //Sorts in alphabetical order.
         Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER);
-        catNames.add(0, getString(R.string.category_colon));
+        catNames.add(0, getString(R.string.choose_category_colon));
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
 
@@ -631,7 +631,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             checkoutList.clear();
         }
 
-        if (gridViewString.equals(getString(R.string.category_colon))) {
+        if (gridViewString.equals(getString(R.string.choose_category_colon))) {
             checkoutList.add(searchTemp.get(position));
         }
         else {
