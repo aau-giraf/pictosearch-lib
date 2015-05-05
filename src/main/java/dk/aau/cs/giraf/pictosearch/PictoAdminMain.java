@@ -101,10 +101,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 hideKeyboard();
 
                 if (checkoutList.isEmpty()) {
-                    GirafConfirmDialog closeNoResults = GirafConfirmDialog.newInstance("Luk uden resultat?","Vil du lukke PiktoSøger uden at have et søgeresultat?", ACCEPT_NO_PICTOGRAMS);
+                    GirafConfirmDialog closeNoResults = GirafConfirmDialog.newInstance(
+                            getString(R.string.close_no_result_title),
+                            getString(R.string.close_no_result_context), ACCEPT_NO_PICTOGRAMS);
                     closeNoResults.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
                 } else if (checkCheckoutListForCategories()) {
-                    GirafConfirmDialog acceptWithCategories = GirafConfirmDialog.newInstance("Send kategori tilbage?","Vil du sende en hele kategori(er) med tilbage?" + "\n" + "Disse kategorier kan indeholder mange piktogrammer", ACCEPT_WITH_CATEGORIES);
+                    GirafConfirmDialog acceptWithCategories = GirafConfirmDialog.newInstance(
+                            getString(R.string.close_with_categories_title),
+                            getString(R.string.close_with_categories_context), ACCEPT_WITH_CATEGORIES);
                     acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
                 } else {
                     sendContent(getCurrentFocus());
