@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.pictosearch;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -12,7 +13,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
@@ -49,6 +52,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     public GridView checkoutGrid;
     private GridView pictoGrid;
+    public RelativeLayout r1;
+    public ImageView catIndicatorView;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -228,6 +233,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             @Override
             public void onClick(View v) {
                 hideKeyboard();
+
+                TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
+                emptySearchTextView.setVisibility(View.INVISIBLE);
 
                 pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
 
@@ -620,11 +628,36 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     // TODO: comment this
     @Override
     public void processFinish(ArrayList<Object> output) {
-        searchList = output;
-        searchTemp = searchList;
+        if (!output.isEmpty()) {
+            searchList = output;
+            searchTemp = searchList;
 
-        pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
-        onSearchSummaryCount(searchList);
-        loadCategoriesIntoCategorySpinner();
+            pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
+            onSearchSummaryCount(searchList);
+            loadCategoriesIntoCategorySpinner();
+        }
+        else {
+            findViewById(R.id.empty_search_result).setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void addView(){
+
+        ImageView catIndicatorView = (ImageView) findViewById(R.id.category_indicator_local);
+
+        RelativeLayout r1 = (RelativeLayout) findViewById(R.id.pictogram_icon_container);
+
+        //RelativeLayout.LayoutParams layoutParams =
+        //        (RelativeLayout.LayoutParams) catIndicatorView.getLayoutParams();
+        //layoutParams.addRule(RelativeLayout.ALIGN_RIGHT, R.id.pictogram_icon);
+        //layoutParams.addRule(RelativeLayout.ABOVE, R.id.pictogram_icon);
+        //layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.pictogram_icon);
+
+        r1.addView(catIndicatorView);
+    }
+
+    public void setVisibility() {
+        //RelativeLayout r1 = (RelativeLayout) findViewById(R.id.category_indicator_local);
+        r1.setVisibility(View.VISIBLE);
     }
 }

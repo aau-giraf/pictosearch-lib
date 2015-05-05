@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.pictosearch;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ public class PictoAdapter extends BaseAdapter {
 
     Pictogram pictogramTemp;
     Category categoryTemp;
+
+    PictoAdminMain addViewer;
 
 
 
@@ -133,21 +136,11 @@ public class PictoAdapter extends BaseAdapter {
     // Todo: handle NullPointerException
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        //View view;
+
         final Object object = objectList.get(position);
 
-        ImageView catIndicatorView = new ImageView(context);
-        catIndicatorView.setImageResource(R.drawable.icon_category);
-        catIndicatorView.setVisibility(View.INVISIBLE);
-
-        //RelativeLayout r1 = (RelativeLayout) convertView.findViewById(R.id.pictogram_icon_container);
-        //r1.addView(catIndicatorView);
-
-        //LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //view = layoutInflater.inflate(R.layout.pictogram, null);
-        //ImageView catIndiImageView = (ImageView) view.findViewById(R.id.category_indicator);
-
-
+        //addViewer = new PictoAdminMain();
+        //addViewer.addView();
 
         if (convertView == null) {
             GirafPictogramItemView pictogramItemView;
@@ -158,7 +151,7 @@ public class PictoAdapter extends BaseAdapter {
 
             } else {
                 Category categoryNew = (Category) objectList.get(position);
-                catIndicatorView.setVisibility(View.VISIBLE);
+                //addViewer.setVisibility();
                 pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
             }
 
@@ -177,7 +170,7 @@ public class PictoAdapter extends BaseAdapter {
                 Category categoryNew = (Category) objectList.get(position);
                 pictogramItemView.setImageModel(categoryNew);
                 pictogramItemView.setTitle(categoryNew.getName());
-                catIndicatorView.setVisibility(View.VISIBLE);
+                //addViewer.setVisibility();
             }
             return pictogramItemView;
 
