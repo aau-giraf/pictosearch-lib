@@ -35,7 +35,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
      */
-    private ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
+    private ArrayList<Pictogram> GetAllPictograms(String[] pictogramNames) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
 
         if (pictogramNames[0].isEmpty()) {
@@ -65,7 +65,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param categoryNames String array with each search word
      * @return List of all categories with a matching name
      */
-    private ArrayList<Category> getAllCategories(String[] categoryNames) {
+    private ArrayList<Category> GetAllCategories(final String[] categoryNames) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
         if (citizenID < 0 || categoryNames[0].isEmpty()) {
@@ -93,7 +93,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
-    private ArrayList<Pictogram> getPictogramByTags(String[] tagCaptions) {
+    private ArrayList<Pictogram> GetPictogramByTags(String[] tagCaptions) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
         ArrayList<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
