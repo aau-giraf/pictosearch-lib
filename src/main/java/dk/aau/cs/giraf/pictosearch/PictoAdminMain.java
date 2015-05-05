@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -280,7 +281,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
             if (guardianID == -1) {
                 Toast.makeText(getApplicationContext(), "Missing guardian ID, please fix ASAP", Toast.LENGTH_LONG).show();
-                //throw new IllegalArgumentException("Need guardian ID")
             }
         }
     }
