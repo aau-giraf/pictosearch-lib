@@ -17,7 +17,7 @@ import dk.aau.cs.giraf.gui.GirafWaitingDialog;
  * Search class used to search for pictograms and/or categories
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
-    private long citizenID;
+    private final long citizenID;
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
