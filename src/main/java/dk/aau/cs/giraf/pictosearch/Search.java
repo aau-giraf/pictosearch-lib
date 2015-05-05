@@ -120,7 +120,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      *                     pictogram or category
      * @return sorted list according to the relevance from the searchString
      */
-    private ArrayList<Object> SortPictogramsAndCategories(List<Object> allList, String searchString, String[] splitInput) {
+    private ArrayList<Object> SortPictogramsAndCategories(List<Object> allList, String searchString) {
         ArrayList<Object> result = new ArrayList<Object>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
@@ -133,28 +133,12 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
                 int relevance = Math.abs(p.getName().compareToIgnoreCase(searchString));
 
-                // Check to see if each string in the split input is more relevant than the whole
-                // search string
-                for (String s : splitInput) {
-                    if (Math.abs(p.getName().compareToIgnoreCase(s)) < relevance) {
-                        relevance = Math.abs(p.getName().compareToIgnoreCase(s));
-                    }
-                }
-
                 pairList.add(new Pair<Object, Integer>(p, relevance));
 
             } else if (o instanceof Category) {
                 Category c = (Category) o;
 
                 int relevance = Math.abs(c.getName().compareToIgnoreCase(searchString));
-
-                // Check to see if each string in the split input is more relevant than the whole
-                // search string
-                for (String s : splitInput) {
-                    if (Math.abs(c.getName().compareToIgnoreCase(s)) < relevance) {
-                        relevance = Math.abs(c.getName().compareToIgnoreCase(s));
-                    }
-                }
 
                 pairList.add(new Pair<Object, Integer>(c, relevance));
             }
@@ -164,7 +148,6 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         while (!pairList.isEmpty()) {
             int index = 0;
             int relevance = pairList.get(index).second;
-
 
             if (relevance != 0) {
                 for (int j = 0; j < pairList.size(); j++) {
@@ -198,9 +181,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         ArrayList<Pictogram> pictoTagList = new ArrayList<Pictogram>();
 
         // Get all pictograms where the name matches the split input
-        result.addAll(getAllPictograms(splitInput));
+        result.addAll(GetAllPictograms(splitInput));
 
-        pictoTagList.addAll(getPictogramByTags(splitInput));
+        pictoTagList.addAll(GetPictogramByTags(splitInput));
 
         // Insert all pictograms from the tags if they are not in the result list
         for (Pictogram p : pictoTagList) {
@@ -210,10 +193,10 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         }
 
         // Insert all categories where the name matches the split input
-        result.addAll(getAllCategories(splitInput));
+        result.addAll(GetAllCategories(splitInput));
 
         // Sort the pictograms and categories
-        result = SortPictogramsAndCategories(result, searchString, splitInput);
+        result = SortPictogramsAndCategories(result, searchString);
 
         return result;
     }
