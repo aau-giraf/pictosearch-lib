@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -55,10 +53,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
     public GridView checkoutGrid;
     private GridView pictoGrid;
-    Animation startingAnimation;
-    Animation loadAnimation;
-    private RelativeLayout r1;
-    private ImageView catIndicatorView;
+    public RelativeLayout r1;
+    public ImageView catIndicatorView;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -89,8 +85,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
         GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
 
-        // Example of an onclicklistener
-
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +94,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
             }
         });
-
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +158,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
@@ -249,17 +241,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
                 pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
 
-                //boolean showAnimation = true;
-                findViewById(R.id.progressLoader).setVisibility(View.VISIBLE);
-
-                //startingAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_once);
-                loadAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.main_activity_rotatelogo_infinite);
-
-                //startingAnimation.setDuration(2000);
-                //findViewById(R.id.giraficon).startAnimation(startingAnimation);
-                loadAnimation.setDuration(2000);
-                findViewById(R.id.giraficon).startAnimation(loadAnimation);
-
                 searchForPictogram(v);
             }
 
@@ -328,10 +309,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         Search searcher;
 
         if (citizenID != -1) {
-            searcher = new Search(getApplicationContext(), citizenID, this);
+            searcher = new Search(this, citizenID, this);
         }
         else {
-            searcher = new Search(getApplicationContext(), guardianID, this);
+            searcher = new Search(this, guardianID, this);
         }
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
@@ -340,14 +321,20 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         searcher.execute(searchString);
     }
 
-    // TODO Insert comment
-    private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
+    /**
+     * Load all pictograms within a the selected category into the gridView.
+     * @param cpList List of pictograms and categories from opening and closing a category.
+     */
+   private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
         hideKeyboard();
+        findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
         pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
 
     }
 
-    // TODO Insert comment
+    /**
+     * Load all the categories into the category spinner
+     */
     private void loadCategoriesIntoCategorySpinner() {
         CategoryController cController = new CategoryController(getApplicationContext());
         List<Category> catTemp;
@@ -373,7 +360,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
                 }
             }
         }
-        Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER); //Sorts in alphabetical order.
+
+        //Sorts in alphabetical order.
+        Collections.sort(catNames, String.CASE_INSENSITIVE_ORDER);
         catNames.add(0, getString(R.string.category_colon));
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
@@ -383,7 +372,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         catSpinner.setAdapter(spinnerArrayAdapter);
     }
 
-    // TODO insert comments
+    /**
+     * Gets the pictograms and categories from the checkout list.
+     * @return ArrayList object checkout list
+     */
     private ArrayList<Object> getCheckoutObjects() {
         ArrayList<Object> checkout = new ArrayList<Object>();
 
@@ -503,7 +495,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         pictogramBox.setText(getString(R.string.pictogram_colon) + (checkoutList.size() - checkoutCat.size()));
     }
 
-    // TODO: comment this
+    /**
+     * Build search summary list
+     * @param sTemp temporary object list with pictograms and categories.
+     */
     public void onSearchSummaryCount(ArrayList<Object> sTemp) {
         int countCatTemp = CountCategories(sTemp);
         int countPicTemp = CountPictograms(sTemp);
@@ -525,7 +520,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
-    // TODO: comment this
+    /**
+     * Counts the amount of pictograms in an object list.
+     * @param pTemp object list
+     * @return
+     */
     private int CountPictograms(ArrayList<Object> pTemp) {
         int count = 0;
 
@@ -538,7 +537,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         return count;
     }
 
-    // TODO: comment this
+    /**
+     * Counts the amount of categories in an object list.
+     * @param cTemp object list
+     * @return
+     */
     private int CountCategories(ArrayList<Object> cTemp) {
         int count = 0;
 
@@ -551,7 +554,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         return count;
     }
 
-    // TODO: comment this
+    /**
+     * counts the amount of pictograms when entering a category
+     * @param pTemp object list
+     */
     public void onEnterCategoryCount(ArrayList<Object> pTemp) {
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (pTemp.size() == 1){
@@ -615,11 +621,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     }
     */
 
-    // TODO: comment this
+    /**
+     * add pictograms and categories to checkout list
+     * @param position position clicked on screen
+     */
     public void positionClicked(int position) {
         // if single pictogram requested, only one pictogram is displayed in checkout
-
-        //Toast.makeText(this,position+"",Toast.LENGTH_SHORT).show();
         if (isSingle) {
             checkoutList.clear();
         }
@@ -635,7 +642,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
     }
 
-    // TODO: comment this
+    /**
+     * Hide the keyboard when pressing area outside keyboard
+     */
     private void hideKeyboard() {
         // Check if no view has focus:
         View view = this.getCurrentFocus();
@@ -646,12 +655,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     }
 
 
-    // TODO: comment this
+    /**
+     * Process called after searching. 
+     * @param output object list of pictograms and categories from search
+     */
     @Override
     public void processFinish(ArrayList<Object> output) {
-        findViewById(R.id.progressLoader).setVisibility(View.INVISIBLE);
-        findViewById(R.id.giraficon).clearAnimation();
-
         if (!output.isEmpty()) {
             searchList = output;
             searchTemp = searchList;

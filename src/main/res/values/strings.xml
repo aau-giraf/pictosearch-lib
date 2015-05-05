@@ -18,7 +18,7 @@
     <string name="send">Send</string>
 	<string name="checkoutList">Checkout list:</string>
 	<string name="pictogram_colon">Pictogram: </string>
-    <string name="category_colon">Kategori: </string>
+    <string name="category_colon">Vælg kategori: </string>
     
     <string name="picture">Default picture content description</string>
     <string name="title_activity_help_menu">HelpMenu</string>
@@ -91,7 +91,8 @@
     <string name="help_cat_tool">Hvis du mangler en kategori klikker du på denne knap. Den åbner så Kategori værktøjet.</string>
     <string name="help_cat_indicator">Hvis et ikon har denne indikator på sig, er dette en kategori.</string>
     <string name="help_spinner">De kategorier den valgte borger har, og som matcher søgeorderne, kan findes og åbnes her.</string>
-
+    <string name="searching_title">Søger</string>
+    <string name="searching_description">Søger efter piktogrammer og kategorier.</string>
 
     <!--SAMPLES, not to be used in the project-->
     <string-array name="category_example">
