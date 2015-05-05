@@ -319,15 +319,20 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         searcher.execute(searchString);
     }
 
-    // TODO Insert comment
-    private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
+    /**
+     * Load all pictograms within a the selected category into the gridView.
+     * @param cpList List of pictograms and categories from opening and closing a category.
+     */
+   private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
         hideKeyboard();
         findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
         pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
 
     }
 
-    // TODO Insert comment
+    /**
+     * Load all the categories into the category spinner
+     */
     private void loadCategoriesIntoCategorySpinner() {
         CategoryController cController = new CategoryController(getApplicationContext());
         List<Category> catTemp;
@@ -365,7 +370,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         catSpinner.setAdapter(spinnerArrayAdapter);
     }
 
-    // TODO insert comments
+    /**
+     * Gets the pictograms and categories from the checkout list.
+     * @return ArrayList object checkout list
+     */
     private ArrayList<Object> getCheckoutObjects() {
         ArrayList<Object> checkout = new ArrayList<Object>();
 
@@ -485,7 +493,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         pictogramBox.setText(getString(R.string.pictogram_colon) + (checkoutList.size() - checkoutCat.size()));
     }
 
-    // TODO: comment this
+    /**
+     * Build search summary list
+     * @param sTemp temporary object list with pictograms and categories.
+     */
     public void onSearchSummaryCount(ArrayList<Object> sTemp) {
         int countCatTemp = CountCategories(sTemp);
         int countPicTemp = CountPictograms(sTemp);
@@ -507,7 +518,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
-    // TODO: comment this
+    /**
+     * Counts the amount of pictograms in an object list.
+     * @param pTemp object list
+     * @return
+     */
     private int CountPictograms(ArrayList<Object> pTemp) {
         int count = 0;
 
@@ -520,7 +535,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         return count;
     }
 
-    // TODO: comment this
+    /**
+     * Counts the amount of categories in an object list.
+     * @param cTemp object list
+     * @return
+     */
     private int CountCategories(ArrayList<Object> cTemp) {
         int count = 0;
 
@@ -533,7 +552,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         return count;
     }
 
-    // TODO: comment this
+    /**
+     * counts the amount of pictograms when entering a category
+     * @param pTemp object list
+     */
     public void onEnterCategoryCount(ArrayList<Object> pTemp) {
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (pTemp.size() == 1){
@@ -597,7 +619,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     }
     */
 
-    // TODO: comment this
+    /**
+     * add pictograms and categories to checkout list
+     * @param position position clicked on screen
+     */
     public void positionClicked(int position) {
         // if single pictogram requested, only one pictogram is displayed in checkout
         if (isSingle) {
@@ -615,7 +640,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         checkoutGrid.setAdapter(new PictoAdapter(checkoutList, getApplicationContext()));
     }
 
-    // TODO: comment this
+    /**
+     * Hide the keyboard when pressing area outside keyboard
+     */
     private void hideKeyboard() {
         // Check if no view has focus:
         View view = this.getCurrentFocus();
@@ -626,7 +653,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     }
 
 
-    // TODO: comment this
+    /**
+     * Process called after searching. 
+     * @param output object list of pictograms and categories from search
+     */
     @Override
     public void processFinish(ArrayList<Object> output) {
         if (!output.isEmpty()) {
