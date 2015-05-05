@@ -322,6 +322,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     // TODO Insert comment
     private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
         hideKeyboard();
+        findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
         pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
 
     }
