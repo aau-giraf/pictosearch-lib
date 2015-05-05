@@ -33,8 +33,8 @@ public class PictoAdapter extends BaseAdapter {
     private List<Object> objectList;
     private boolean displayText = true;
 
-    Pictogram pictogramTemp;
-    Category categoryTemp;
+    private Pictogram pictogramTemp;
+    private Category categoryTemp;
 
     PictoAdminMain addViewer;
 

@@ -521,7 +521,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     /**
      * Counts the amount of pictograms in an object list.
      * @param pTemp object list
-     * @return
+     * @return returns the count
      */
     private int CountPictograms(ArrayList<Object> pTemp) {
         int count = 0;
@@ -538,7 +538,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
     /**
      * Counts the amount of categories in an object list.
      * @param cTemp object list
-     * @return
+     * @return return the counts
      */
     private int CountCategories(ArrayList<Object> cTemp) {
         int count = 0;
@@ -571,18 +571,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * @param allow_error_msg boolean for allowing error messages to be displayed to user
      * @return return false if unable to open PictoCreator.
      */
-    private boolean LaunchPictoCreator(boolean allow_error_msg) {
+    private void LaunchPictoCreator(boolean allow_error_msg) {
         try {
             Intent i = new Intent();
             i.setClassName(getString(R.string.set_class_name_pictoCreator), getString(R.string.set_class_name_pictoCreator_mainActivity));
             startActivity(i);
-            return true;
         } catch (android.content.ActivityNotFoundException e) {
             if (allow_error_msg) {
                 MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch_pictoCreator));
                 message.show(getFragmentManager(), getString(R.string.pictoCreator));
             }
-            return false;
         }
     }
 
@@ -591,7 +589,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
      * @param allow_error_msg boolean for allowing error messages to be displayed to user
      * @return return false if unable to open CategoryTool.
      */
-    private boolean LaunchCategoryTool(boolean allow_error_msg) {
+    private void LaunchCategoryTool(boolean allow_error_msg) {
         Intent intent = new Intent();
         try {
             intent.setComponent(new ComponentName(getString(R.string.set_class_name_categoryTool), getString(R.string.set_class_name_categoryTool_mainActivity)));
@@ -599,13 +597,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             intent.putExtra(getString(R.string.current_guardian_id), guardianID);
             startActivity(intent);
 
-            return true;
         } catch (android.content.ActivityNotFoundException e) {
             if (allow_error_msg) {
                 MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch_categoryTool));
                 message.show(getFragmentManager(), getString(R.string.categoryTool));
             }
-            return false;
         }
     }
 
@@ -654,7 +650,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
 
 
     /**
-     * Process called after searching. 
+     * Process called after searching.
      * @param output object list of pictograms and categories from search
      */
     @Override
