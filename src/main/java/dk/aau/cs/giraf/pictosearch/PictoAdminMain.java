@@ -31,13 +31,17 @@ import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 
 /**
  *  The main class in PictoSearch. Contains almost all methods relating to search.
  */
-public class PictoAdminMain extends GirafActivity implements AsyncResponse{
+public class PictoAdminMain extends GirafActivity implements AsyncResponse, GirafConfirmDialog.Confirmation {
+    private static final int ACCEPT_NO_PICTOGRAMS = 101;
+    private static final int ACCEPT_WITH_CATEGORIES = 102;
+
     private long citizenID;
     private long guardianID;
 
@@ -96,7 +100,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                sendContent(getCurrentFocus());
+
+                if (checkoutList.isEmpty()) {
+                    GirafConfirmDialog closeNoResults = GirafConfirmDialog.newInstance("Luk uden resultat?","Vil du lukke PiktoSøger uden at have et søgeresultat?", ACCEPT_NO_PICTOGRAMS);
+                    closeNoResults.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
+                } else if (checkCheckoutListForCategories()) {
+                    GirafConfirmDialog acceptWithCategories = GirafConfirmDialog.newInstance("Send kategori tilbage?","Vil du sende en hele kategori(er) med tilbage?" + "\n" + "Disse kategorier kan indeholder mange piktogrammer", ACCEPT_WITH_CATEGORIES);
+                    acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
+                } else {
+                    sendContent(getCurrentFocus());
+                }
             }
         });
         categoryTool.setOnClickListener(new View.OnClickListener() {
@@ -645,6 +658,15 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
+    private boolean checkCheckoutListForCategories() {
+        for (Object o : checkoutList) {
+            if (o instanceof Category) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Process called after searching.
@@ -665,4 +687,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse{
         }
     }
 
+    @Override
+    public void confirmDialog(final int methodID) {
+        if (methodID == ACCEPT_NO_PICTOGRAMS) {
+            finish();
+        } else if (methodID == ACCEPT_WITH_CATEGORIES) {
+            sendContent(getCurrentFocus());
+        }
+    }
 }
