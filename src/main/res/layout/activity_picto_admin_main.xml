@@ -122,7 +122,8 @@
                 android:hint="@string/search"
                 android:inputType="text"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="20sp">
+                android:textSize="20sp"
+                android:imeOptions="actionSearch">
             </EditText>
 
             </LinearLayout>
