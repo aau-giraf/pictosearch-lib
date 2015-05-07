@@ -21,12 +21,14 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
+    private boolean isSingle;
     private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES";
 
-    public Search(GirafActivity mainActivity, long citizenID, AsyncResponse delegate) {
+    public Search(GirafActivity mainActivity, long citizenID, AsyncResponse delegate, boolean isSingle) {
         this.mainActivity = mainActivity;
         this.citizenID = citizenID;
         this.delegate = delegate;
+        this.isSingle = isSingle;
     }
 
     /**
@@ -192,8 +194,10 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             }
         }
 
-        // Insert all categories where the name matches the split input
-        result.addAll(GetAllCategories(splitInput));
+        // If isSingle is false, insert all categories where the name matches the split input
+        if (!isSingle) {
+            result.addAll(GetAllCategories(splitInput));
+        }
 
         // Sort the pictograms and categories
         result = SortPictogramsAndCategories(result, searchString);
