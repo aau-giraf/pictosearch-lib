@@ -7,19 +7,20 @@
     android:id="@+id/mainLinearLayout"
     tools:context=".PictoAdminMain"
     android:orientation="horizontal"
-    android:background="@drawable/gbackground"
+    android:background="@color/giraf_background"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="5dp"
         android:layout_weight="0.13"
         android:orientation="vertical">
 
         <GridLayout
-            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/border_square">
@@ -51,12 +52,11 @@
 
         <GridView
             android:id="@+id/checkout"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_round">
-
-
+            android:layout_height="match_parent">
         </GridView>
 
 
@@ -65,7 +65,6 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="5dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -76,7 +75,8 @@
             android:gravity="center" >
 
             <GridLayout
-                android:layout_margin="5dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
                 android:layout_width="400dp"
                 android:layout_height="50dp">
 
@@ -90,7 +90,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:textSize="15sp"
-
                     android:layout_row="1"
                     android:layout_column="0"/>
 
@@ -108,7 +107,8 @@
             </dk.aau.cs.giraf.gui.GirafSpinner>
 
             <LinearLayout
-                android:layout_margin="5dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@drawable/border_square"
@@ -128,8 +128,8 @@
             </EditText>
 
             <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_weight=".10"
                 android:layout_gravity="center"
                 android:id="@+id/clear_search_field"
@@ -150,8 +150,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border_round"
-            android:layout_margin="5dp">
+            android:background="@color/giraf_background"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp">
 
             <RelativeLayout
                 android:id="@+id/relative_pictogrid"
@@ -160,7 +161,9 @@
 
             <GridView
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/pictogram_displayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
