@@ -2,14 +2,11 @@ package dk.aau.cs.giraf.pictosearch;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +24,6 @@ import dk.aau.cs.giraf.gui.GirafPictogramItemView;
 public class PictoAdapter extends BaseAdapter {
     private final Context context;
     private List<Object> objectList;
-    private boolean displayText = true;
-
-    private Pictogram pictogramTemp;
-    private Category categoryTemp;
-
-
-
-
 
 
     /**
@@ -53,26 +42,6 @@ public class PictoAdapter extends BaseAdapter {
             this.objectList = objectList;
         }
 
-        this.context = context;
-    }
-
-    /**
-     * Assigns pictograms to class instance.
-     *
-     * @param objectList ArrayList of pictograms
-     * @param display    boolean, set view visibility.
-     * @param context    provides access to the databases.
-     */
-    public PictoAdapter(final List<Object> objectList, final boolean display, final Context context) {
-        super();
-
-        if (objectList == null) {
-            this.objectList = new ArrayList<Object>();
-        }
-        else {
-            this.objectList = objectList;
-        }
-        this.displayText = display;
         this.context = context;
     }
 
@@ -109,11 +78,11 @@ public class PictoAdapter extends BaseAdapter {
     public long getItemId(final int position) {
 
         if (objectList.get(position) instanceof Pictogram){
-            pictogramTemp = (Pictogram) objectList.get(position);
+            Pictogram pictogramTemp = (Pictogram) objectList.get(position);
             return pictogramTemp.getId();
         }
         else {
-            categoryTemp = (Category) objectList.get(position);
+            Category categoryTemp = (Category) objectList.get(position);
             return categoryTemp.getId();
         }
 

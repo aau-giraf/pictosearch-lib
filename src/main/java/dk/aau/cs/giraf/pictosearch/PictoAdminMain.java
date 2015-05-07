@@ -50,14 +50,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private long citizenID;
     private long guardianID;
 
-    public ArrayList<Object> checkoutList = new ArrayList<Object>();
+    private ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
     private ArrayList<Object> emptyList = new ArrayList<Object>();
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
     private String gridViewString;
 
-    public GridView checkoutGrid;
+    private GridView checkoutGrid;
     private GridView pictoGrid;
 
     /*
@@ -186,11 +186,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
         });
 
-        // TODO: insert more comments
+
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
+        // OnItemSelectedListener, is used to check which item it selected at any time.
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Sets the itemSelected to local variable.
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 hideKeyboard();
 
@@ -198,6 +200,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
                 List<Category> cTemp;
 
+                // Decides which categories to use, based on citizenID or guardianID.
                 if (citizenID != -1) {
                     cTemp = cController.getCategoriesByProfileId(citizenID);
                 } else {
@@ -206,6 +209,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
                 Category cat = new Category();
 
+                // If item is not equal to default, then check which category it is equal to.
                 if (!selectedItem.equals(getString(R.string.choose_category_colon))) {
                     for (Category c : cTemp) {
                         if (selectedItem.equals(c.getName())) {
@@ -221,18 +225,25 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 ArrayList<Object> allList = new ArrayList<Object>();
                 allList.addAll(pTemp);
 
+                // Sets some global variables, used other places.
                 currentViewSearch = allList;
                 gridViewString = selectedItem;
+
+                // Checks whether it is equal to default or not.
                 if (selectedItem.equals(getString(R.string.choose_category_colon))) {
+                    // Clears the view and load the empty view, if not search have been done.
                     if (searchTemp.isEmpty()) {
                         currentViewSearch.clear();
                         loadCategoryPictogramIntoGridView(currentViewSearch);
                     }
+                    // Loads the previous search results.
                     else {
                         loadCategoryPictogramIntoGridView(searchTemp);
                     }
                     onSearchSummaryCount(searchTemp);
-                } else {
+                }
+                // Loads the pictograms inside a category into the grid.
+                else {
                     findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
                     loadCategoryPictogramIntoGridView(currentViewSearch);
                     onEnterCategoryCount(currentViewSearch);
@@ -471,26 +482,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     /**
-     * Clears the searchField and found pictograms
-     * @param view: This must be included for the function to work
-     */
-    public void clearSearchField(View view) {
-        EditText searchField = (EditText) findViewById(R.id.text_search_input);
-        searchField.setText(null);
-        searchForPictogram();
-    }
-
-    /**
-     * Clears the checkoutList
-     * @param view: This must be included for the function to work
-     */
-    public void clearCheckoutList(View view) {
-        checkoutList.clear();
-        onUpdatedCheckoutCount();
-        checkoutGrid.setAdapter(new PictoAdapter(checkoutList, this));
-    }
-
-    /**
      * Sends pictogram ids from checkoutList to appropriate calling application
      * @param view: This must be included for the function to work
      */
@@ -539,15 +530,20 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             searchSummaryText.setText("");
         }
         else {
-            if (countPicTemp == 1 && countCatTemp == 1) {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-            } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-            } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
-            } else {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
-            }
+            StringBuilder summaryText = new StringBuilder(100);
+            summaryText.append(getString(R.string.search_result)).append(" ");
+            if (countPicTemp > 0) summaryText.append(countPicTemp).append(" ");
+            if (countPicTemp == 1) {
+                summaryText.append(getString(R.string.pictograms_single_lowercase)).append(" ");}
+            else if (countPicTemp > 1) {
+                summaryText.append(getString(R.string.pictograms_multi_lowercase)).append(" ");}
+            if (countCatTemp > 0) summaryText.append(countCatTemp).append(" ");
+            if (countCatTemp == 1) {
+                summaryText.append(getString(R.string.categories_single_lowercase)).append(" ");}
+            else if (countCatTemp > 1) {
+                summaryText.append(getString(R.string.categories_multi_lowercase)).append(" ");}
+
+            searchSummaryText.setText(summaryText);
         }
     }
 
