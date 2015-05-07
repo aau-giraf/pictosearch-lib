@@ -118,8 +118,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * Method that sorts the list of pictograms and category before sending it to the view
      *
      * @param allList      the list that needs to be sorted
-     * @param splitInput the search string that is used to evaluate the relevance for each
-     *                     pictogram or category
+     * @param splitInput the split input that is used to evaluate the relevance
      * @return sorted list according to the relevance from the searchString
      */
     private ArrayList<Object> SortPictogramsAndCategories(List<Object> allList, String[] splitInput) {
