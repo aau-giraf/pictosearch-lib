@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ import dk.aau.cs.giraf.gui.GirafSpinner;
  *  The main class in PictoSearch. Contains almost all methods relating to search.
  */
 public class PictoAdminMain extends GirafActivity implements AsyncResponse, GirafConfirmDialog.Confirmation {
+    // Different method id's for notification dialogs
     private static final int ACCEPT_NO_PICTOGRAMS = 101;
     private static final int ACCEPT_WITH_CATEGORIES = 102;
     private static final int ACCEPT_MANY_RETURNS = 103;
@@ -186,6 +186,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
         });
 
+        // TODO: insert more comments
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -241,7 +242,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 hideKeyboard();
-                loadPictogramIntoGridView();
+                searchForPictogram();
             }
         });
 
@@ -251,7 +252,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                    clickedSearch(v);
+                    clickedSearch();
                 }
                 return false;
             }
@@ -268,7 +269,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickedSearch(v);
+                clickedSearch();
             }
 
         });
@@ -285,8 +286,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     /**
-     * Get the current child id if information is send by calling application
-     * Otherwise the standard value of childId is -1 (invalid)
+     * Updates different id's, throws exception if guardian ID is the default value,
+     * because guardian ID is needed for category manager
      */
     private void updateGuardianInfo() {
         //If user is a monkey, set the childId to the first child in the list
@@ -317,7 +318,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
     }
 
-    public void clickedSearch(View v) {
+    public void clickedSearch() {
         hideKeyboard();
 
         TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
@@ -329,18 +330,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     /**
-     * Called when pressing search_button
-     * Depending on search_field, search for pictoList in database
+     * Search for pictograms and categories
      */
     public void searchForPictogram() {
-        //updateErrorMessage("", 0); // Reset purpose
-        loadPictogramIntoGridView();
-    }
-
-    /**
-     * Load all pictograms containing words from the searchString and display them.
-     */
-    private void loadPictogramIntoGridView() {
         Search searcher;
 
         if (citizenID != -1) {
@@ -485,8 +477,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     public void clearSearchField(View view) {
         EditText searchField = (EditText) findViewById(R.id.text_search_input);
         searchField.setText(null);
-        //onUpdatedSearchField();
-        loadPictogramIntoGridView();
+        searchForPictogram();
     }
 
     /**
@@ -678,6 +669,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
     }
 
+    /**
+     * Check if the checkout list contains a category
+     * @return if the checkout list contains a category
+     */
     private boolean checkCheckoutListForCategories() {
         for (Object o : checkoutList) {
             if (o instanceof Category) {
@@ -688,22 +683,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         return false;
     }
 
+    /**
+     * Check if the size of the checkout list exceeds a maximum
+     * @return if the size exceeds a maximum
+     */
     private boolean checkCheckoutListForCount() {
-        int numberOfObjects = 0;
-
-        for (Object o : checkoutList) {
-            if (o instanceof Category) {
-                Category c = (Category) o;
-                PictogramController pc = new PictogramController(getApplicationContext());
-
-                numberOfObjects += pc.getPictogramsByCategory(c).size() - 1;
-
-            }
-        }
-
-        numberOfObjects += checkoutList.size();
-
-        return numberOfObjects > MAX_NUMBER_OF_RETURNS;
+        return checkoutList.size() > MAX_NUMBER_OF_RETURNS;
     }
 
     /**
@@ -725,6 +710,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
     }
 
+    /**
+     * Handles the action needed when accepting in the confirm dialogs
+     * @param methodID ID's for the different possible methods using the confirm dialog
+     */
     @Override
     public void confirmDialog(final int methodID) {
         if (methodID == ACCEPT_NO_PICTOGRAMS) {
