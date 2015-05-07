@@ -34,6 +34,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
+import dk.aau.cs.giraf.gui.GirafNotifyDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 
 /**
@@ -101,14 +102,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 hideKeyboard();
 
                 if (checkoutList.isEmpty()) {
-                    GirafConfirmDialog closeNoResults = GirafConfirmDialog.newInstance(
-                            getString(R.string.close_no_result_title),
-                            getString(R.string.close_no_result_context), ACCEPT_NO_PICTOGRAMS);
-                    closeNoResults.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
+                    GirafConfirmDialog acceptNoResults = GirafConfirmDialog.newInstance(
+                            getString(R.string.accept_no_result_title),
+                            getString(R.string.accept_no_result_context),
+                            ACCEPT_NO_PICTOGRAMS);
+                    acceptNoResults.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
                 } else if (checkCheckoutListForCategories()) {
                     GirafConfirmDialog acceptWithCategories = GirafConfirmDialog.newInstance(
-                            getString(R.string.close_with_categories_title),
-                            getString(R.string.close_with_categories_context), ACCEPT_WITH_CATEGORIES);
+                            getString(R.string.accept_with_categories_title),
+                            getString(R.string.accept_with_categories_context),
+                            ACCEPT_WITH_CATEGORIES);
                     acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
                 } else {
                     sendContent(getCurrentFocus());
@@ -144,9 +147,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
 
-
         onUpdatedCheckoutCount();
-        //onUpdatedSearchField();
         loadCategoriesIntoCategorySpinner();
 
         checkoutGrid = (GridView) findViewById(R.id.checkout);
@@ -209,8 +210,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                     if (searchTemp.isEmpty()) {
                         currentViewSearch.clear();
                         loadCategoryPictogramIntoGridView(currentViewSearch);
-
-
                     }
                     else {
                         loadCategoryPictogramIntoGridView(searchTemp);
@@ -220,8 +219,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                     loadCategoryPictogramIntoGridView(currentViewSearch);
                     onEnterCategoryCount(currentViewSearch);
                 }
-
-
             }
 
             @Override
@@ -232,17 +229,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         });
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
-        /*searchTerm.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                onUpdatedSearchField();
-            }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });*/
         GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
