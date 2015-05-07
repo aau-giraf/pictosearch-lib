@@ -186,11 +186,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
         });
 
-        // TODO: insert more comments
+
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
+        // OnItemSelectedListener, is used to check which item it selected at any time.
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Sets the itemSelected to local variable.
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 hideKeyboard();
 
@@ -198,6 +200,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
                 List<Category> cTemp;
 
+                // Decides which categories to use, based on citizenID or guardianID.
                 if (citizenID != -1) {
                     cTemp = cController.getCategoriesByProfileId(citizenID);
                 } else {
@@ -206,6 +209,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
                 Category cat = new Category();
 
+                // If item is not equal to default, then check which category it is equal to.
                 if (!selectedItem.equals(getString(R.string.choose_category_colon))) {
                     for (Category c : cTemp) {
                         if (selectedItem.equals(c.getName())) {
@@ -221,18 +225,25 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 ArrayList<Object> allList = new ArrayList<Object>();
                 allList.addAll(pTemp);
 
+                // Sets some global variables, used other places.
                 currentViewSearch = allList;
                 gridViewString = selectedItem;
+
+                // Checks whether it is equal to default or not.
                 if (selectedItem.equals(getString(R.string.choose_category_colon))) {
+                    // Clears the view and load the empty view, if not search have been done.
                     if (searchTemp.isEmpty()) {
                         currentViewSearch.clear();
                         loadCategoryPictogramIntoGridView(currentViewSearch);
                     }
+                    // Loads the previous search results.
                     else {
                         loadCategoryPictogramIntoGridView(searchTemp);
                     }
                     onSearchSummaryCount(searchTemp);
-                } else {
+                }
+                // Loads the pictograms inside a category into the grid.
+                else {
                     findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
                     loadCategoryPictogramIntoGridView(currentViewSearch);
                     onEnterCategoryCount(currentViewSearch);
