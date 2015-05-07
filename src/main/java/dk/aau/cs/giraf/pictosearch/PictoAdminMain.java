@@ -519,15 +519,20 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             searchSummaryText.setText("");
         }
         else {
-            if (countPicTemp == 1 && countCatTemp == 1) {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-            } else if ((countPicTemp == 0 || countPicTemp > 1) && countCatTemp == 1) {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_single_lowercase));
-            } else if (countPicTemp == 1 && (countCatTemp == 0 || countCatTemp > 1)) {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_single_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
-            } else {
-                searchSummaryText.setText(getString(R.string.search_result) + " " + countPicTemp + " " + getString(R.string.pictograms_multi_lowercase) + " " + getString(R.string.and) + " " + countCatTemp + " " + getString(R.string.categories_multi_lowercase));
-            }
+            StringBuilder summaryText = new StringBuilder(100);
+            summaryText.append(getString(R.string.search_result)).append(" ");
+            if (countPicTemp > 0) summaryText.append(countPicTemp).append(" ");
+            if (countPicTemp == 1) {
+                summaryText.append(getString(R.string.pictograms_single_lowercase)).append(" ");}
+            else if (countPicTemp > 1) {
+                summaryText.append(getString(R.string.pictograms_multi_lowercase)).append(" ");}
+            if (countCatTemp > 0) summaryText.append(countCatTemp).append(" ");
+            if (countCatTemp == 1) {
+                summaryText.append(getString(R.string.categories_single_lowercase)).append(" ");}
+            else if (countCatTemp > 1) {
+                summaryText.append(getString(R.string.categories_multi_lowercase)).append(" ");}
+
+            searchSummaryText.setText(summaryText);
         }
     }
 

@@ -102,4 +102,5 @@
     <string name="pictogram_is_category_icon">pictogram is a category icon</string>
     <string name="blue_down_arrow">blue down arrow</string>
     <string name="remove">Fjern</string>
+    <string name="no_results">ingen resultater</string>
 </resources>
