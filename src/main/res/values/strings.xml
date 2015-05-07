@@ -98,6 +98,16 @@
     <string name="close_no_result_context">Vil du lukke PiktoSøger uden at have et søgeresultat?</string>
     <string name="close_with_categories_title">Send kategori tilbage?</string>
     <string name="close_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
+    <string name="clear_button_description">clear</string>
+    <string name="Search_gave_no_results">Din søgning gav ingen resultater.</string>
+    <string name="Searching">Søger!</string>
+    <string name="category_indicator">Category indicator</string>
+    <string name="check_mark_icon">flueben icon</string>
+    <string name="pictocreator_icon">application pictocreator icon</string>
+    <string name="categorytool_icon">application category tool icon</string>
+    <string name="pictogram_is_category_icon">pictogram is a category icon</string>
+    <string name="blue_down_arrow">blue down arrow</string>
+    <string name="remove">Fjern</string>
 
 
     <!--SAMPLES, not to be used in the project-->
