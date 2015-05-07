@@ -98,16 +98,7 @@
     <string name="accept_no_result_context">Vil du lukke PiktoSøger uden at have et søgeresultat?</string>
     <string name="accept_with_categories_title">Send kategori tilbage?</string>
     <string name="accept_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
-
-
-    <!--SAMPLES, not to be used in the project-->
-    <string-array name="category_example">
-        <item>Dyr</item>
-        <item>Mad</item>
-        <item>Ord</item>
-    </string-array>
-
-
-
+    <string name="accept_many_returns_title">Mange piktogram.</string>
+    <string name="accept_many_returns_context">Du har valgt at sende mange piktogrammer tilbage. \nEr du sikker på det?</string>
 
 </resources>

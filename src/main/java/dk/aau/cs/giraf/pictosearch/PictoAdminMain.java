@@ -43,6 +43,9 @@ import dk.aau.cs.giraf.gui.GirafSpinner;
 public class PictoAdminMain extends GirafActivity implements AsyncResponse, GirafConfirmDialog.Confirmation {
     private static final int ACCEPT_NO_PICTOGRAMS = 101;
     private static final int ACCEPT_WITH_CATEGORIES = 102;
+    private static final int ACCEPT_MANY_RETURNS = 103;
+
+    private static final int MAX_NUMBER_OF_RETURNS = 100;
 
     private long citizenID;
     private long guardianID;
@@ -113,6 +116,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                             getString(R.string.accept_with_categories_context),
                             ACCEPT_WITH_CATEGORIES);
                     acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
+                } else if (checkCheckoutListForCount()) {
+                    GirafConfirmDialog acceptManyReturns = GirafConfirmDialog.newInstance(
+                            getString(R.string.accept_many_returns_title),
+                            getString(R.string.accept_many_returns_context),
+                            ACCEPT_MANY_RETURNS);
+                    acceptManyReturns.show(getSupportFragmentManager(), "" + ACCEPT_MANY_RETURNS);
                 } else {
                     sendContent(getCurrentFocus());
                 }
@@ -630,16 +639,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     /**
-     * Hide clearSearchFieldButton if no text has been entered
-     */
-    /*
-    public void onUpdatedSearchField() {
-        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
-        Editable s = searchTerm.getText();
-    }
-    */
-
-    /**
      * add pictograms and categories to checkout list
      * @param position position clicked on screen
      */
@@ -682,6 +681,24 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         return false;
     }
 
+    private boolean checkCheckoutListForCount() {
+        int numberOfObjects = 0;
+
+        for (Object o : checkoutList) {
+            if (o instanceof Category) {
+                Category c = (Category) o;
+                PictogramController pc = new PictogramController(getApplicationContext());
+
+                numberOfObjects += pc.getPictogramsByCategory(c).size() - 1;
+
+            }
+        }
+
+        numberOfObjects += checkoutList.size();
+
+        return numberOfObjects > MAX_NUMBER_OF_RETURNS;
+    }
+
     /**
      * Process called after searching.
      * @param output object list of pictograms and categories from search
@@ -705,7 +722,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     public void confirmDialog(final int methodID) {
         if (methodID == ACCEPT_NO_PICTOGRAMS) {
             finish();
-        } else if (methodID == ACCEPT_WITH_CATEGORIES) {
+        } else if (methodID == ACCEPT_WITH_CATEGORIES || methodID == ACCEPT_MANY_RETURNS) {
             sendContent(getCurrentFocus());
         }
     }
