@@ -17,16 +17,16 @@ import dk.aau.cs.giraf.gui.GirafWaitingDialog;
  * Search class used to search for pictograms and/or categories
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
-    private final long citizenID;
+    private final long ID;
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
-    private boolean isSingle;
+    final private boolean isSingle;
     private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES";
 
-    public Search(GirafActivity mainActivity, long citizenID, AsyncResponse delegate, boolean isSingle) {
+    public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle) {
         this.mainActivity = mainActivity;
-        this.citizenID = citizenID;
+        this.ID = ID;
         this.delegate = delegate;
         this.isSingle = isSingle;
     }
@@ -70,13 +70,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private ArrayList<Category> GetAllCategories(final String[] categoryNames) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
-        if (citizenID < 0 || categoryNames[0].isEmpty()) {
+        if (ID < 0 || categoryNames[0].isEmpty()) {
             return catList;
         }
 
         CategoryController categoryController = new CategoryController(mainActivity.getApplicationContext());
 
-        List<Category> catTemp = categoryController.getCategoriesByProfileId(citizenID);
+        List<Category> catTemp = categoryController.getCategoriesByProfileId(ID);
 
         for (String s : categoryNames) {
             for (Category c : catTemp) {
