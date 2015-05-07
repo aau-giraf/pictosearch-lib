@@ -4,4 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="giraf_button_height">40dp</dimen>
+    <dimen name="padding_standard">15dp</dimen>
+
 </resources>
