@@ -108,7 +108,7 @@
 
             </dk.aau.cs.giraf.gui.GirafSpinner>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_margin="5dp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -126,7 +126,17 @@
                 android:imeOptions="actionSearch">
             </EditText>
 
-            </LinearLayout>
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/clear_search_field"
+                android:layout_alignRight="@+id/text_search_input"
+                android:background="@drawable/icon_cancel"
+                android:contentDescription="Clear button"
+                android:layout_marginRight="5dp"
+                android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
 
             <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/search_button"
