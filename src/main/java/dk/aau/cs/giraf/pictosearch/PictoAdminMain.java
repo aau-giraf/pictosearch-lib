@@ -5,13 +5,16 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,7 +35,6 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
-import dk.aau.cs.giraf.gui.GirafNotifyDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 
 /**
@@ -229,18 +231,28 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
 
+        searchTerm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    clickedSearch(v);
+                }
+                return false;
+            }
+
+        });
+        ImageButton clearButton = (ImageButton) findViewById(R.id.clear_search_field);
+        clearButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+        public void onClick(View v) {
+                searchTerm.setText(null);
+            }
+        });
         GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideKeyboard();
-
-                TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
-                emptySearchTextView.setVisibility(View.INVISIBLE);
-
-                pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
-
-                searchForPictogram();
+                clickedSearch(v);
             }
 
         });
@@ -287,6 +299,17 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 isSingle = false;
             }
         }
+    }
+
+    public void clickedSearch(View v) {
+        hideKeyboard();
+
+        TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
+        emptySearchTextView.setVisibility(View.INVISIBLE);
+
+        pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
+
+        searchForPictogram();
     }
 
     /**

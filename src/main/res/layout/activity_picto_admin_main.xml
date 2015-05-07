@@ -113,17 +113,30 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@drawable/border_square"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/text_search_input"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_weight=".90"
                 android:hint="@string/search"
                 android:inputType="text"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="20sp">
+                android:textSize="20sp"
+                android:imeOptions="actionSearch">
             </EditText>
+
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight=".10"
+                android:layout_gravity="center"
+                android:id="@+id/clear_search_field"
+                android:background="@drawable/icon_cancel"
+                android:layout_marginRight="9dp"
+                android:contentDescription="clear" />
 
             </LinearLayout>
 
@@ -152,7 +165,7 @@
             android:id="@+id/pictogram_displayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="8"
+            android:numColumns="5"
             android:stretchMode="columnWidth">
 
             </GridView>
