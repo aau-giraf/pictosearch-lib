@@ -8,4 +8,4 @@
         android:background="@drawable/icon_category"
         android:visibility="visible"
         android:id="@+id/category_indicator_local"
-        android:contentDescription="Category indicator" />
+        android:contentDescription="@string/category_indicator" />

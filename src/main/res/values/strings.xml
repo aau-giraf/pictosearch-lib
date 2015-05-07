@@ -36,7 +36,6 @@
     <string name="pictograms">Pictogrammer</string>
     <string name="tags">Tags</string>
 
-
     <!--All GUI interface strings here-->
     <string name="delete_pictogram">Vil du gerne slette dette pictogram?</string>
     <string name="choose_a_pictogram_press_ok">Vælg et pictogram og klik OK!</string>
@@ -44,24 +43,19 @@
     <string name="choose_a_pictograms_add_to_category_press_ok">Vælg pictogrammer, som skal tilføjes til kategori og klik OK!</string>
     <string name="pictogram_do_not_exist_in_datebase">Pictogram findes ikke i database</string>
 
-
     <!--All Error Message strings here-->
     <string name="exception">Fejl: </string>
     <string name="unable_to_launch_pictoCreator">Det var ikke muligt at åbne Piktotegner, sikre dig at det er installeret og opdateret.</string>
     <string name="unable_to_launch_categoryTool">Det var ikke muligt at åbne Kategori værktøjet, sikre dig at det er installeret og opdateret.</string>
     <string name="default_error_string">En ukendt fejl er opstået.</string>
 
-
     <!--All Help Message strings here-->
     <string name="support_number">Call: +45 24 26 93 98 for tech support</string>
     <string name="call_tech_support">Ring til teknisk hjælp</string>
 
-
     <!--Application names-->
     <string name="pictoCreator">PictoCreator</string>
     <string name="categoryTool">Kategori værktøjet</string>
-
-
 
     <!--Unknown group of strings-->
     <string name="set_class_name_pictoCreator">dk.aau.cs.giraf.pictocreator</string>
@@ -73,8 +67,6 @@
     <string name="current_child_id">currentChildID</string>
     <string name="checkout_ids">checkoutIds</string>
     <string name="empty_search">Din søgning gav intet resultat</string>
-
-
 
     <!--Newest added strings to design-->
     <string name="category_view_count">Kategori:</string>
@@ -100,5 +92,14 @@
     <string name="accept_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
     <string name="accept_many_returns_title">Mange piktogram.</string>
     <string name="accept_many_returns_context">Du har valgt at sende mange piktogrammer tilbage. \nEr du sikker på det?</string>
-
+    <string name="clear_button_description">clear</string>
+    <string name="Search_gave_no_results">Din søgning gav ingen resultater.</string>
+    <string name="Searching">Søger!</string>
+    <string name="category_indicator">Category indicator</string>
+    <string name="check_mark_icon">flueben icon</string>
+    <string name="pictocreator_icon">application pictocreator icon</string>
+    <string name="categorytool_icon">application category tool icon</string>
+    <string name="pictogram_is_category_icon">pictogram is a category icon</string>
+    <string name="blue_down_arrow">blue down arrow</string>
+    <string name="remove">Fjern</string>
 </resources>

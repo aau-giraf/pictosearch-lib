@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:background="@drawable/icon_accept"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:contentDescription="@string/check_mark_icon" />
 
         <TextView
             android:id="@+id/accept_text"
@@ -48,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:background="@drawable/giraf_app_icon_picto_creator"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:contentDescription="@string/pictocreator_icon" />
 
         <TextView
             android:id="@+id/pictocreator_text"
@@ -74,7 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:background="@drawable/giraf_app_icon_category_tool"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:contentDescription="@string/categorytool_icon" />
 
         <TextView
             android:id="@+id/categoryTool_text"
@@ -100,7 +103,8 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:background="@drawable/icon_category"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:contentDescription="@string/pictogram_is_category_icon" />
 
         <TextView
             android:id="@+id/categoryIndicator_text"
@@ -126,7 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:background="@drawable/icon_arrow_down"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:contentDescription="@string/blue_down_arrow" />
 
         <TextView
             android:id="@+id/spinner_text"
