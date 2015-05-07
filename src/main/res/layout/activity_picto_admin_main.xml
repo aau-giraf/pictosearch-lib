@@ -153,7 +153,7 @@
             android:id="@+id/pictogram_displayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="8"
+            android:numColumns="5"
             android:stretchMode="columnWidth">
 
             </GridView>
