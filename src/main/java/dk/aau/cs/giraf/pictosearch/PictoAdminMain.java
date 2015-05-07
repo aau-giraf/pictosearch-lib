@@ -120,7 +120,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                             ACCEPT_WITH_CATEGORIES);
                     acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
                 }
-                // Check the number of pictograms in the checkout list, and prompt the user if there is above the limit
+                // Check the number of pictograms in the checkout list, and prompt the user if it is above the limit
                 else if (checkCheckoutListForCount()) {
                     GirafConfirmDialog acceptManyReturns = GirafConfirmDialog.newInstance(
                             getString(R.string.accept_many_returns_title),
