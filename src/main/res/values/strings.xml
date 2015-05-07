@@ -57,7 +57,7 @@
     <string name="accept_many_returns_title">Mange piktogram.</string>
     <string name="accept_many_returns_context">Du har valgt at sende mange piktogrammer tilbage. \nEr du sikker på det?</string>
     <string name="clear_button_description">clear</string>
-    <string name="Search_gave_no_results">Din søgning gav ingen resultater.</string>
+    <string name="Search_gave_no_results">Din søgning gav ingen resultater. \n\nFor at søge på forskellige sætninger, \nskal du separere sætningerne med et komma.</string>
     <string name="category_indicator">Category indicator</string>
     <string name="check_mark_icon">flueben icon</string>
     <string name="pictocreator_icon">application pictocreator icon</string>
