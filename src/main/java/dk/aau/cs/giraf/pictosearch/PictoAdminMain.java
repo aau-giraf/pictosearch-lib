@@ -12,9 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
@@ -216,6 +214,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                     }
                     onSearchSummaryCount(searchTemp);
                 } else {
+                    findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
                     loadCategoryPictogramIntoGridView(currentViewSearch);
                     onEnterCategoryCount(currentViewSearch);
                 }
@@ -241,7 +240,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
                 pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
 
-                searchForPictogram(v);
+                searchForPictogram();
             }
 
         });
@@ -293,10 +292,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Called when pressing search_button
      * Depending on search_field, search for pictoList in database
-     *
-     * @param view: This must be included for the function to work
      */
-    public void searchForPictogram(View view) {
+    public void searchForPictogram() {
         //updateErrorMessage("", 0); // Reset purpose
         loadPictogramIntoGridView();
     }
@@ -308,10 +305,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         Search searcher;
 
         if (citizenID != -1) {
-            searcher = new Search(this, citizenID, this);
+            searcher = new Search(this, citizenID, this, isSingle);
         }
         else {
-            searcher = new Search(this, guardianID, this);
+            searcher = new Search(this, guardianID, this, isSingle);
         }
 
         EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
@@ -326,7 +323,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      */
    private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
         hideKeyboard();
-        findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
         pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
 
     }
@@ -344,19 +340,25 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
            catTemp = cController.getCategoriesByProfileId(guardianID);
        }
 
-
        ArrayList<String> catNames = new ArrayList<String>();
 
-       if (searchList.isEmpty()) {
+
+       EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
+       String searchString = searchTerm.getText().toString().toLowerCase().trim();
+
+       if (!searchString.isEmpty()){
+           String[] splitInput = searchString.split("\\s+");
+
+           for (Category c : catTemp) {
+               for (String s : splitInput) {
+                   if (c.getName().toLowerCase().startsWith(s)) {
+                       catNames.add(c.getName());
+                   }
+               }
+           }
+       } else {
            for (Category c : catTemp) {
                catNames.add(c.getName());
-           }
-       }
-       else {
-           for (Object o : searchList) {
-               if (o instanceof Category) {
-                   catNames.add(((Category) o).getName());
-               }
            }
        }
 
@@ -663,13 +665,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      */
     @Override
     public void processFinish(ArrayList<Object> output) {
-        if (!output.isEmpty()) {
-            searchList = output;
-            searchTemp = searchList;
+        searchList = output;
+        searchTemp = searchList;
+        onSearchSummaryCount(searchList);
+        loadCategoriesIntoCategorySpinner();
 
+        if (!output.isEmpty()) {
             pictoGrid.setAdapter(new PictoAdapter(searchList, getApplicationContext()));
-            onSearchSummaryCount(searchList);
-            loadCategoriesIntoCategorySpinner();
         }
         else {
             findViewById(R.id.empty_search_result).setVisibility(View.VISIBLE);
