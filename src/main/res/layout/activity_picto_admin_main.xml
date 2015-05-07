@@ -102,8 +102,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                android:clickable="true"
-                android:entries="@array/category_example">
+                android:clickable="true">
 
 
             </dk.aau.cs.giraf.gui.GirafSpinner>
