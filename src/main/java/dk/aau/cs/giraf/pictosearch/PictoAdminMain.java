@@ -50,14 +50,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private long citizenID;
     private long guardianID;
 
-    public ArrayList<Object> checkoutList = new ArrayList<Object>();
+    private ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
     private ArrayList<Object> emptyList = new ArrayList<Object>();
     private ArrayList<Object> searchTemp = new ArrayList<Object>();
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
     private String gridViewString;
 
-    public GridView checkoutGrid;
+    private GridView checkoutGrid;
     private GridView pictoGrid;
 
     /*
@@ -468,26 +468,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
 
         return pictogramCheckoutIDs;
-    }
-
-    /**
-     * Clears the searchField and found pictograms
-     * @param view: This must be included for the function to work
-     */
-    public void clearSearchField(View view) {
-        EditText searchField = (EditText) findViewById(R.id.text_search_input);
-        searchField.setText(null);
-        searchForPictogram();
-    }
-
-    /**
-     * Clears the checkoutList
-     * @param view: This must be included for the function to work
-     */
-    public void clearCheckoutList(View view) {
-        checkoutList.clear();
-        onUpdatedCheckoutCount();
-        checkoutGrid.setAdapter(new PictoAdapter(checkoutList, this));
     }
 
     /**
