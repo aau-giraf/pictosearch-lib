@@ -108,17 +108,19 @@
 
             </dk.aau.cs.giraf.gui.GirafSpinner>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_margin="5dp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@drawable/border_square"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/text_search_input"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_weight=".90"
                 android:hint="@string/search"
                 android:inputType="text"
                 android:textColor="@android:color/darker_gray"
@@ -129,14 +131,14 @@
             <ImageButton
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_weight=".10"
+                android:layout_gravity="center"
                 android:id="@+id/clear_search_field"
-                android:layout_alignRight="@+id/text_search_input"
                 android:background="@drawable/icon_cancel"
-                android:contentDescription="Clear button"
-                android:layout_marginRight="5dp"
-                android:layout_centerInParent="true"/>
+                android:layout_marginRight="9dp"
+                android:contentDescription="clear" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/search_button"

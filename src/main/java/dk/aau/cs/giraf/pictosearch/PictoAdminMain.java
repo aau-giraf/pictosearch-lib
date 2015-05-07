@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -245,18 +246,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
 
         });
-
-        /*searchTerm.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                onUpdatedSearchField();
+        ImageButton clearButton = (ImageButton) findViewById(R.id.clear_search_field);
+        clearButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+        public void onClick(View v) {
+                searchTerm.setText(null);
             }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });*/
+        });
         GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
