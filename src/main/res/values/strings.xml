@@ -94,10 +94,10 @@
     <string name="help_spinner">De kategorier den valgte borger har, og som matcher søgeorderne, kan findes og åbnes her.</string>
     <string name="searching_title">Søger</string>
     <string name="searching_description">Søger efter piktogrammer og kategorier.</string>
-    <string name="close_no_result_title">Luk uden resultat?</string>
-    <string name="close_no_result_context">Vil du lukke PiktoSøger uden at have et søgeresultat?</string>
-    <string name="close_with_categories_title">Send kategori tilbage?</string>
-    <string name="close_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
+    <string name="accept_no_result_title">Luk uden resultat?</string>
+    <string name="accept_no_result_context">Vil du lukke PiktoSøger uden at have et søgeresultat?</string>
+    <string name="accept_with_categories_title">Send kategori tilbage?</string>
+    <string name="accept_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
 
 
     <!--SAMPLES, not to be used in the project-->
