@@ -136,14 +136,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
                 for (String s : splitInput) {
                     int newRelevance = Math.abs((p.getName().compareToIgnoreCase(s)));
+
                     if (relevance > newRelevance) {
                         relevance = newRelevance;
                     }
                 }
 
-
                 pairList.add(new Pair<Object, Integer>(p, relevance));
-
             } else if (o instanceof Category) {
                 Category c = (Category) o;
 
