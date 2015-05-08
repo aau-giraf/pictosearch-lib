@@ -18,4 +18,4 @@
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ShowcaseButton"
     android:text="@android:string/ok"
-    android:id="@id/showcase_button" /><!-- From: file:/Users/Andse/Documents/SW613F15/git/pictosearch/ShowcaseView/src/main/res/layout/showcase_button.xml --><!-- From: file:/Users/Andse/Documents/SW613F15/git/pictosearch/ShowcaseView/build/intermediates/bundles/debug/res/layout/showcase_button.xml -->
+    android:id="@id/showcase_button" /><!-- From: file:/C:/Users/Netray/AS%20Projects/pictosearch/ShowcaseView/src/main/res/layout/showcase_button.xml --><!-- From: file:/C:/Users/Netray/AS%20Projects/pictosearch/ShowcaseView/build/intermediates/bundles/debug/res/layout/showcase_button.xml -->

@@ -19,4 +19,4 @@
     <item android:state_pressed="true" android:drawable="@drawable/btn_cling_pressed"/>
     <item android:drawable="@drawable/btn_cling_normal"/>
 </selector>
-<!-- From: file:/Users/Andse/Documents/SW613F15/git/pictosearch/ShowcaseView/src/main/res/drawable/cling_button_bg.xml --><!-- From: file:/Users/Andse/Documents/SW613F15/git/pictosearch/ShowcaseView/build/intermediates/bundles/debug/res/drawable/cling_button_bg.xml -->
+<!-- From: file:/C:/Users/Netray/AS%20Projects/pictosearch/ShowcaseView/src/main/res/drawable/cling_button_bg.xml --><!-- From: file:/C:/Users/Netray/AS%20Projects/pictosearch/ShowcaseView/build/intermediates/bundles/debug/res/drawable/cling_button_bg.xml -->

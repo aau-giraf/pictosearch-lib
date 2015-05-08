@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,9 +17,13 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
+
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -35,6 +40,7 @@ import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
+import dk.aau.cs.giraf.pictosearch.showcase.ShowcaseManager;
 
 /**
  *  The main class in PictoSearch. Contains almost all methods relating to search.
@@ -59,6 +65,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
     private GridView checkoutGrid;
     private GridView pictoGrid;
+
+    private ShowcaseManager showcaseManager;
+    private boolean isFirstRun;
 
     /*
      *  Request from another group. It should be possible to only send one pictogram,
@@ -93,8 +102,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("Kort overblik over funktionerne i Pikto Søger."), R.layout.help_grid);
-                helpDialogBox.show(getSupportFragmentManager(), "");
+                showShowcase();
+                //final ShowcaseManager.ShowcaseCapable currentContent = (ShowcaseManager.ShowcaseCapable) getSupportFragmentManager().findFragmentById(R.id.categorytool_framelayout);
+                //currentContent.toggleShowcase();
+
+                //GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("Kort overblik over funktionerne i Pikto Søger."), R.layout.help_grid);
+                //helpDialogBox.show(getSupportFragmentManager(), "");
 
             }
         });
@@ -718,4 +731,100 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             sendContent(getCurrentFocus());
         }
     }
+
+    /*
+    * Shows a quick walkthrough of the functionality
+    * */
+
+    public synchronized void showShowcase() {
+
+        // Targets for the Showcase
+        final ViewTarget chooseSummaryCheckout = new ViewTarget(R.id.checkoutSum, this, 1.5f);
+        final ViewTarget chooseCategorySpinner = new ViewTarget(R.id.category_dropdown, this, 1.5f);
+        final ViewTarget chooseCheckout = new ViewTarget(R.id.checkout, this, 1.5f);
+
+        // Create a relative location for the next button
+        final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        final int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();
+        lps.setMargins(margin, margin, margin, margin);
+
+        // Calculate position for the help text
+        final int textX = this.findViewById(R.id.pictogram_displayer).getLayoutParams().width + margin * 2;
+        final int textY = getResources().getDisplayMetrics().heightPixels / 2 + margin;
+
+        showcaseManager = new ShowcaseManager();
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(chooseSummaryCheckout, true);
+                showcaseView.setContentTitle("Summary Checkout");
+                showcaseView.setContentText("This sums things up!");
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+                showcaseView.setShowcase(chooseCategorySpinner, true);
+                showcaseView.setContentTitle("Category dropdown");
+                showcaseView.setContentText("Here you enter and exit a category");
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+                showcaseView.setShowcase(chooseCheckout, true);
+                showcaseView.setContentTitle("Checkout area");
+                showcaseView.setContentText("Here is all pictograms and categories you've added.");
+
+                if (!isFirstRun) {
+                    showcaseView.setStyle(R.style.GirafLastCustomShowcaseTheme);
+                } else {
+                    showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                }
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        ShowcaseManager.OnDoneListener onDoneCallback = new ShowcaseManager.OnDoneListener() {
+            @Override
+            public void onDone(ShowcaseView showcaseView) {
+                showcaseManager = null;
+                isFirstRun = false;
+            }
+        };
+        showcaseManager.setOnDoneListener(onDoneCallback);
+
+        showcaseManager.start(this);
+    }
+
+    public synchronized void hideShowcase() {
+
+        if (showcaseManager != null) {
+            showcaseManager.stop();
+            showcaseManager = null;
+        }
+    }
+
+    public synchronized void toggleShowcase() {
+
+        if (showcaseManager != null) {
+            hideShowcase();
+        } else {
+            showShowcase();
+        }
+    }
+
 }
