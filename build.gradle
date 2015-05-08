@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     compile ('com.android.support:support-v4:+')
+    compile project(':ShowcaseView')
     compile(group: 'dk.aau.cs.giraf', name: 'girafComponent', version: '6.1.2', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '4.1.0', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '3.0.0', ext: 'aar')
@@ -39,10 +40,10 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 19
-        versionName "1.0" 
+        versionName "1.0"
     }
     lintOptions {
-      abortOnError false
+        abortOnError false
     }
     buildTypes {
         debug {
