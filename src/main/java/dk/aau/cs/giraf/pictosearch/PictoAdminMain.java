@@ -45,6 +45,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private static final int ACCEPT_WITH_CATEGORIES = 102;
     private static final int ACCEPT_MANY_RETURNS = 103;
 
+    // Global integer used in a notification dialog
     private static final int MAX_NUMBER_OF_RETURNS = 100;
 
     private long citizenID;
@@ -57,6 +58,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
     private String gridViewString;
 
+    // Grid views for both the checkout list and the search result list
     private GridView checkoutGrid;
     private GridView pictoGrid;
 
@@ -77,7 +79,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Update the guardian and child ID
         updateGuardianInfo();
+
+        // Find out whether to only return one or multiple pictograms
         getPurpose();
 
         setContentView(R.layout.activity_picto_admin_main);
@@ -130,7 +135,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 }
                 // If none of the checks results in false, send the content to the calling application
                 else {
-                    sendContent(getCurrentFocus());
+                    sendContent();
                 }
             }
         });
@@ -155,6 +160,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
         addGirafButtonToActionBar(accept, RIGHT);
 
+        // Resets different list
         checkoutList = new ArrayList<Object>();
         searchList = new ArrayList<Object>();
         searchTemp = new ArrayList<Object>();
@@ -166,6 +172,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         onUpdatedCheckoutCount();
         loadCategoriesIntoCategorySpinner();
 
+        // Grid view for the checkout list and on click listener
         checkoutGrid = (GridView) findViewById(R.id.checkout);
         checkoutGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -177,8 +184,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
         });
 
+        // Grid view for the search result list and on click listener
         pictoGrid = (GridView) findViewById(R.id.pictogram_displayer);
-
         pictoGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,6 +195,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
 
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
+
         // OnItemSelectedListener, is used to check which item it selected at any time.
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -329,6 +337,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
     }
 
+    /**
+     * Searches for pictograms when the search button is clicked
+     */
     public void clickedSearch() {
         hideKeyboard();
 
@@ -346,6 +357,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     public void searchForPictogram() {
         Search searcher;
 
+        // Use the citizen id if its send with the intent, else it uses the guardian id
         if (citizenID != -1) {
             searcher = new Search(this, citizenID, this, isSingle);
         }
@@ -483,9 +495,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
     /**
      * Sends pictogram ids from checkoutList to appropriate calling application
-     * @param view: This must be included for the function to work
      */
-    public void sendContent(View view) {
+    public void sendContent() {
         long[] output = getCheckoutPictogramIDsArray();
         Intent data = this.getIntent();
 
@@ -715,7 +726,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         if (methodID == ACCEPT_NO_PICTOGRAMS) {
             finish();
         } else if (methodID == ACCEPT_WITH_CATEGORIES || methodID == ACCEPT_MANY_RETURNS) {
-            sendContent(getCurrentFocus());
+            sendContent();
         }
     }
 }
