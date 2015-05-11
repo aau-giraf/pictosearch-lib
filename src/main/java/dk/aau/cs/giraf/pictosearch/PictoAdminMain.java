@@ -44,6 +44,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private static final int ACCEPT_NO_PICTOGRAMS = 101;
     private static final int ACCEPT_WITH_CATEGORIES = 102;
     private static final int ACCEPT_MANY_RETURNS = 103;
+    private static final int EXIT_WITH_CHECKOUTS = 104;
 
     // Global integer used in a notification dialog
     private static final int MAX_NUMBER_OF_RETURNS = 100;
@@ -302,6 +303,64 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
         });
 
+    }
+
+    /**
+     * TODO: Insert comment
+     */
+    @Override
+    public void onBackPressed() {
+        if (!checkoutList.isEmpty()) {
+            GirafConfirmDialog exitWithCheckouts = GirafConfirmDialog.newInstance("","", -1);
+
+            if (checkoutList.size() > 1) {
+                int catCount = 0;
+                int picCount = 0;
+
+                for (Object o : checkoutList) {
+                    if (o instanceof Pictogram) {
+                        picCount++;
+                    } else if (o instanceof Category) {
+                        catCount++;
+                    }
+
+                    if (picCount > 0 && catCount > 0) {
+                        break;
+                    }
+                }
+
+                if (catCount > 0 && picCount > 0) {
+                    exitWithCheckouts = GirafConfirmDialog.newInstance(
+                            getString(R.string.exit_with_checkouts_title),
+                            getString(R.string.exit_with_checkouts_context_cat_and_pic),
+                            EXIT_WITH_CHECKOUTS);
+                } else if (picCount > 0){
+                    exitWithCheckouts = GirafConfirmDialog.newInstance(
+                            getString(R.string.exit_with_checkouts_title),
+                            getString(R.string.exit_with_checkouts_context_pic),
+                            EXIT_WITH_CHECKOUTS);
+                } else if (catCount > 0) {
+                    exitWithCheckouts = GirafConfirmDialog.newInstance(
+                            getString(R.string.exit_with_checkouts_title),
+                            getString(R.string.exit_with_checkouts_context_cat),
+                            EXIT_WITH_CHECKOUTS);
+                }
+            } else{
+                if (checkoutList.get(0) instanceof Pictogram) {
+                    exitWithCheckouts = GirafConfirmDialog.newInstance(
+                            getString(R.string.exit_with_checkouts_title),
+                            getString(R.string.exit_with_checkouts_context_single_pictogram),
+                            EXIT_WITH_CHECKOUTS);
+                } else if (checkoutList.get(0) instanceof Category) {
+                    exitWithCheckouts = GirafConfirmDialog.newInstance(
+                            getString(R.string.exit_with_checkouts_title),
+                            getString(R.string.exit_with_checkouts_context_single_category),
+                            EXIT_WITH_CHECKOUTS);
+                }
+            }
+
+            exitWithCheckouts.show(getSupportFragmentManager(), "" + EXIT_WITH_CHECKOUTS);
+        }
     }
 
     /**
@@ -727,6 +786,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             finish();
         } else if (methodID == ACCEPT_WITH_CATEGORIES || methodID == ACCEPT_MANY_RETURNS) {
             sendContent();
+        } else if (methodID == EXIT_WITH_CHECKOUTS) {
+            finish();
         }
     }
 }
