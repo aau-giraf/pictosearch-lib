@@ -109,6 +109,7 @@
             </dk.aau.cs.giraf.gui.GirafSpinner>
 
             <LinearLayout
+                android:id="@+id/search_box"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
                 android:layout_width="0dp"

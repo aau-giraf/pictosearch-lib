@@ -102,7 +102,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                showShowcase();
+                toggleShowcase();
                 //final ShowcaseManager.ShowcaseCapable currentContent = (ShowcaseManager.ShowcaseCapable) getSupportFragmentManager().findFragmentById(R.id.categorytool_framelayout);
                 //currentContent.toggleShowcase();
 
@@ -742,6 +742,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         final ViewTarget chooseSummaryCheckout = new ViewTarget(R.id.checkoutSum, this, 1.5f);
         final ViewTarget chooseCategorySpinner = new ViewTarget(R.id.category_dropdown, this, 1.5f);
         final ViewTarget chooseCheckout = new ViewTarget(R.id.checkout, this, 1.5f);
+        final ViewTarget chooseSearchBox = new ViewTarget(R.id.search_box, this, 1.5f);
+        final ViewTarget chooseClearSearch = new ViewTarget(R.id.clear_search_field, this, 1.5f);
+        final ViewTarget chooseSearchButton = new ViewTarget(R.id.search_button, this, 1.5f);
+
 
         // Create a relative location for the next button
         final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -761,8 +765,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             public void configShowCaseView(final ShowcaseView showcaseView) {
 
                 showcaseView.setShowcase(chooseSummaryCheckout, true);
-                showcaseView.setContentTitle("Summary Checkout");
-                showcaseView.setContentText("This sums things up!");
+                showcaseView.setContentTitle(getString(R.string.summary_checkout_title));
+                showcaseView.setContentText(getString(R.string.summary_checkout_context));
                 showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
                 showcaseView.setButtonPosition(lps);
                 showcaseView.setTextPostion(textX, textY);
@@ -773,8 +777,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             @Override
             public void configShowCaseView(final ShowcaseView showcaseView) {
                 showcaseView.setShowcase(chooseCategorySpinner, true);
-                showcaseView.setContentTitle("Category dropdown");
-                showcaseView.setContentText("Here you enter and exit a category");
+                showcaseView.setContentTitle(getString(R.string.category_spinner_title));
+                showcaseView.setContentText(getString(R.string.category_spinner_context));
                 showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
                 showcaseView.setButtonPosition(lps);
                 showcaseView.setTextPostion(textX, textY);
@@ -785,14 +789,53 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             @Override
             public void configShowCaseView(final ShowcaseView showcaseView) {
                 showcaseView.setShowcase(chooseCheckout, true);
-                showcaseView.setContentTitle("Checkout area");
-                showcaseView.setContentText("Here is all pictograms and categories you've added.");
+                showcaseView.setContentTitle(getString(R.string.checkout_title));
+                showcaseView.setContentText(getString(R.string.checkout_context));
 
                 if (!isFirstRun) {
                     showcaseView.setStyle(R.style.GirafLastCustomShowcaseTheme);
                 } else {
                     showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
                 }
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(chooseSearchBox, true);
+                showcaseView.setContentTitle(getString(R.string.search_box_title));
+                showcaseView.setContentText(getString(R.string.search_box_context));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(chooseClearSearch, true);
+                showcaseView.setContentTitle(getString(R.string.clear_search_field_title));
+                showcaseView.setContentText(getString(R.string.clear_search_field_context));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(chooseSummaryCheckout, true);
+                showcaseView.setContentTitle(getString(R.string.summary_checkout_title));
+                showcaseView.setContentText(getString(R.string.summary_checkout_context));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
                 showcaseView.setButtonPosition(lps);
                 showcaseView.setTextPostion(textX, textY);
             }

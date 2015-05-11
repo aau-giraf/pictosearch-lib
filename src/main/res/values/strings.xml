@@ -64,4 +64,14 @@
     <string name="categorytool_icon">application category tool icon</string>
     <string name="pictogram_is_category_icon">pictogram is a category icon</string>
     <string name="blue_down_arrow">blue down arrow</string>
+    <string name="category_spinner_title">This is category spinner title</string>
+    <string name="category_spinner_context">This is category spinner context</string>
+    <string name="checkout_title">This is checkout title</string>
+    <string name="checkout_context">This is checkout context</string>
+    <string name="search_box_title">This is search box title</string>
+    <string name="search_box_context">This is search box context</string>
+    <string name="clear_search_field_title">This is search field title</string>
+    <string name="clear_search_field_context">This is search field context</string>
+    <string name="summary_checkout_title">This is summary checkout title</string>
+    <string name="summary_checkout_context">This is summary checkout context</string>
 </resources>
