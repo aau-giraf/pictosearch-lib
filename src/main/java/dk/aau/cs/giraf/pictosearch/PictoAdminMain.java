@@ -306,7 +306,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     /**
-     * TODO: Insert comment
+     * Check if the checkout list is empty when the user press back (either the door-button or physical back-press)
      */
     @Override
     public void onBackPressed() {
