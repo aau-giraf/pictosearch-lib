@@ -64,4 +64,11 @@
     <string name="categorytool_icon">application category tool icon</string>
     <string name="pictogram_is_category_icon">pictogram is a category icon</string>
     <string name="blue_down_arrow">blue down arrow</string>
+    <string name="exit_with_checkouts_title">Afslut Picto Søger?</string>
+    <string name="exit_with_checkouts_context_cat_and_pic">Er du sikker på at du vil afslutte Picto Søger med piktogrammer og kategorier i checkout listen. \n\nDisse piktogrammer og kategorier vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_pic">Er du sikker på at du vil afslutte Picto Søger med piktogrammer i checkout listen. \n\nDisse piktogrammer vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_cat">Er du sikker på at du vil afslutte Picto Søger med kategorier i checkout listen. \n\nDisse kategorier vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_single_pictogram">Er du sikker på at du vil afslutte Picto Søger med et piktogram i checkout listen. \n\nDette piktogram vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_single_category">Er du sikker på at du vil afslutte Picto Søger med en kategori i checkout listen. \n\nDenne kategori vil ikke blive sendt med tilbage.</string>
+
 </resources>
