@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -713,10 +714,30 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
 
         if (gridViewString.equals(getString(R.string.choose_category_colon))) {
-            checkoutList.add(searchTemp.get(position));
+            if (!checkoutList.contains(searchTemp.get(position))) {
+                checkoutList.add(searchTemp.get(position));
+            } else {
+                if (searchTemp.get(position) instanceof Pictogram) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_pictogram), Toast.LENGTH_SHORT).show();
+                } else if (searchTemp.get(position) instanceof Category) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_category), Toast.LENGTH_SHORT).show();
+                }
+
+                return;
+            }
         }
         else {
-            checkoutList.add(currentViewSearch.get(position));
+            if (!checkoutList.contains(currentViewSearch.get(position))) {
+                checkoutList.add(currentViewSearch.get(position));
+            } else {
+                if (currentViewSearch.get(position) instanceof Pictogram) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_pictogram), Toast.LENGTH_SHORT).show();
+                } else if (currentViewSearch.get(position) instanceof Category) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_category), Toast.LENGTH_SHORT).show();
+                }
+
+                return;
+            }
         }
 
         onUpdatedCheckoutCount();

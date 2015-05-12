@@ -70,5 +70,7 @@
     <string name="exit_with_checkouts_context_cat">Er du sikker på at du vil afslutte Picto Søger med kategorier i checkout listen. \n\nDisse kategorier vil ikke blive sendt med tilbage.</string>
     <string name="exit_with_checkouts_context_single_pictogram">Er du sikker på at du vil afslutte Picto Søger med et piktogram i checkout listen. \n\nDette piktogram vil ikke blive sendt med tilbage.</string>
     <string name="exit_with_checkouts_context_single_category">Er du sikker på at du vil afslutte Picto Søger med en kategori i checkout listen. \n\nDenne kategori vil ikke blive sendt med tilbage.</string>
+    <string name="already_chosen_pictogram">Dette piktogram er allerede valgt.</string>
+    <string name="already_chosen_category">Denne kategori er allerede valgt.</string>
 
 </resources>
