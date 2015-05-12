@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     android:id="@+id/mainLinearLayout"
-    tools:context=".PictoAdminMain"
+    tools:context="dk.aau.cs.giraf.pictosearch.PictoAdminMain"
     android:orientation="horizontal"
     android:background="@color/giraf_background"
     android:focusable="true"
