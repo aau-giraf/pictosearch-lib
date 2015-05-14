@@ -4,11 +4,11 @@
     <!--This is the search option array-->
     <string name="app_name">Søg Pictogrammer</string>
     <string name="search">Søg</string>
-	<string name="pictogram_colon">Pictogram: </string>
-    <string name="category_colon">kategori: </string>
+	<string name="pictogram_colon">Piktogram: </string>
+    <string name="category_colon">Kategori: </string>
     <string name="choose_category_colon">Vælg kategori: </string>
     
-    <string name="title_activity_picto_main">Pikto Søger</string>
+    <string name="title_activity_picto_main">Piktosøger</string>
 
     <!--Common nouns and verbs-->
     <string name="purpose">purpose</string>

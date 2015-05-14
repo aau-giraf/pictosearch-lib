@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -163,9 +164,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         });
 
         //Giraf buttons added to actionbar - order is left to right. backButton is always leftmost
-        addGirafButtonToActionBar(help, LEFT);
-        addGirafButtonToActionBar(categoryTool, RIGHT);
-        addGirafButtonToActionBar(pictoCreatorTool, RIGHT);
+        addGirafButtonToActionBar(help, RIGHT);
+        addGirafButtonToActionBar(categoryTool, LEFT);
+        addGirafButtonToActionBar(pictoCreatorTool, LEFT);
         addGirafButtonToActionBar(accept, RIGHT);
 
         checkoutList = new ArrayList<Object>();
@@ -525,9 +526,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
 
         TextView  categoryBox = (TextView)  findViewById(R.id.categorySum);
-        categoryBox.setText(getString(R.string.category_colon) + checkoutCat.size());
+        categoryBox.setText(getString(R.string.category_colon) + " " + checkoutCat.size());
         TextView pictogramBox = (TextView) findViewById(R.id.pictogramSum);
-        pictogramBox.setText(getString(R.string.pictogram_colon) + (checkoutList.size() - checkoutCat.size()));
+        pictogramBox.setText(getString(R.string.pictogram_colon) + " " + (checkoutList.size() - checkoutCat.size()));
     }
 
     /**
@@ -545,12 +546,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         else {
             StringBuilder summaryText = new StringBuilder(100);
             summaryText.append(getString(R.string.search_result)).append(" ");
+
             if (countPicTemp > 0) summaryText.append(countPicTemp).append(" ");
+
             if (countPicTemp == 1) {
                 summaryText.append(getString(R.string.pictograms_single_lowercase)).append(" ");}
             else if (countPicTemp > 1) {
                 summaryText.append(getString(R.string.pictograms_multi_lowercase)).append(" ");}
+
             if (countCatTemp > 0) summaryText.append(countCatTemp).append(" ");
+
             if (countCatTemp == 1) {
                 summaryText.append(getString(R.string.categories_single_lowercase)).append(" ");}
             else if (countCatTemp > 1) {
