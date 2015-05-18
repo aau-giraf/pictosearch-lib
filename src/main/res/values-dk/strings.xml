@@ -54,7 +54,7 @@
     <string name="searching_title">Søger</string>
     <string name="searching_description">Søger efter piktogrammer og kategorier.</string>
     <string name="accept_no_result_title">Luk uden resultat?</string>
-    <string name="accept_no_result_context">Vil du lukke PiktoSøger uden at have et søgeresultat?</string>
+    <string name="accept_no_result_context">Vil du lukke Piktosøger uden at have et søgeresultat?</string>
     <string name="accept_with_categories_title">Send kategori tilbage?</string>
     <string name="accept_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
     <string name="accept_many_returns_title">Mange piktogram.</string>
