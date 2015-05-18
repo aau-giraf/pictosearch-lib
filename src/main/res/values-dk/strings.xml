@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--This is the search option array-->
     <string name="app_name">Søg Pictogrammer</string>
     <string name="search">Søg</string>
@@ -24,7 +23,7 @@
     <!--All Help Message strings here-->
 
     <!--Application names-->
-    <string name="pictoCreator">Piktotegner</string>
+    <string name="pictoCreator">PictoCreator</string>
     <string name="categoryTool">Kategori værktøjet</string>
 
     <!--Unknown group of strings-->
@@ -38,12 +37,16 @@
     <!--Newest added strings to design-->
     <string name="search_result">Din søgning gav</string>
     <string name="pictograms_single_lowercase">piktogram</string>
+    <string name="pictograms_single_capitalized">Piktogram</string>
     <string name="pictograms_multi_lowercase">piktogrammer</string>
+    <string name="pictograms_multi_capitalized">Piktogrammer</string>
     <string name="categories_single_lowercase">kategori</string>
+    <string name="categories_single_capitalized">Kategori</string>
     <string name="categories_multi_lowercase">kategorier</string>
+    <string name="categories_multi_capitalized">Kategorier</string>
     <string name="and">og</string>
     <string name="category_contains">Denne kategori indeholder</string>
-    <string name="help_accept">Når du har fundet de rigtige piktogrammer klikker du på den knap for at komme tilbage igen.</string>
+    <string name="help_accept">Når du har fundet de rigtige piktogrammer klikker du på denn knap for at komme tilbage igen.</string>
     <string name="help_pictocreater">Hvis du mangler et Piktogram klikker du på denne knap. Den åbner så PictoCreater.</string>
     <string name="help_cat_tool">Hvis du mangler en kategori klikker du på denne knap. Den åbner så Kategori værktøjet.</string>
     <string name="help_cat_indicator">Hvis et ikon har denne indikator på sig, er dette en kategori.</string>
@@ -64,13 +67,33 @@
     <string name="categorytool_icon">application category tool icon</string>
     <string name="pictogram_is_category_icon">pictogram is a category icon</string>
     <string name="blue_down_arrow">blue down arrow</string>
-    <string name="exit_with_checkouts_title">Afslut Picto Søger?</string>
-    <string name="exit_with_checkouts_context_cat_and_pic">Er du sikker på at du vil afslutte Picto Søger med piktogrammer og kategorier i checkout listen. \n\nDisse piktogrammer og kategorier vil ikke blive sendt med tilbage.</string>
-    <string name="exit_with_checkouts_context_pic">Er du sikker på at du vil afslutte Picto Søger med piktogrammer i checkout listen. \n\nDisse piktogrammer vil ikke blive sendt med tilbage.</string>
-    <string name="exit_with_checkouts_context_cat">Er du sikker på at du vil afslutte Picto Søger med kategorier i checkout listen. \n\nDisse kategorier vil ikke blive sendt med tilbage.</string>
-    <string name="exit_with_checkouts_context_single_pictogram">Er du sikker på at du vil afslutte Picto Søger med et piktogram i checkout listen. \n\nDette piktogram vil ikke blive sendt med tilbage.</string>
-    <string name="exit_with_checkouts_context_single_category">Er du sikker på at du vil afslutte Picto Søger med en kategori i checkout listen. \n\nDenne kategori vil ikke blive sendt med tilbage.</string>
-    <string name="already_chosen_pictogram">Dette piktogram er allerede valgt.</string>
-    <string name="already_chosen_category">Denne kategori er allerede valgt.</string>
+
+    <!-- These are the strings used in Showcase (Help thingy) -->
+    <string name="search_box_title">Søge feltet</string>
+    <string name="search_box_context">Her indtaster du din søge tekst.\nVed at bruge komma (,) kan du søge på flere forskellige ord/sætninger.</string>
+    <string name="clear_search_field_title">Ryd søge feltet</string>
+    <string name="clear_search_field_context">Ved at trykke her, vil du rydde søge feltet.</string>
+    <string name="search_button_title">Søge knap</string>
+    <string name="search_button_context">Ved at trykke på denne knap starter du søgningen.\nDer findes også en søge knap på tasteturet.</string>
+    <string name="category_spinner_title">Kategori åbner</string>
+    <string name="category_spinner_context">Her kan du se de kategorier som er tilgængelige for dig.\nDu kan åbne en kategori herfra.</string>
+    <string name="checkout_title">Valgte piktogrammer og kategorier</string>
+    <string name="checkout_context">Her vil de piktogrammer og kategorier du har valgt blive vist.</string>
+    <string name="summary_checkout_title">Opsummering af valgte piktogrammer og kategorier</string>
+    <string name="summary_checkout_context">I denne kasse vil antallet af piktogrammer og kategorier som du har valgt blive vist.</string>
+    <string name="category_manager_title">Åben Kategoriværktøjet.</string>
+    <string name="category_manager_context">Tryk her for at åbne Kategoriværktøjet.</string>
+    <string name="pictocreator_title">Åben Piktotegner</string>
+    <string name="pictocreator_context">Tryk her for at åbne Piktotegner.</string>
+    <string name="accept_title">Send valgte piktogrammer og kategorier</string>
+    <string name="accept_context">Tryk her for at sende de valgte piktogrammer og kategorier med tilbage.</string>
+    <string name="help_title">Hjælp</string>
+    <string name="help_context">Hvis du får brug for hjælp, så tryk her.</string>
+
+    <!-- These are the strings used in the dialog boxes -->
+
+    <!-- These are the strings used in the informatiion GUI text -->
+    <string name="is_single_true">Du kan kun vælge et piktogram.</string>
+    <string name="is_single_false">Du kan vælge flere piktogrammer og kategorier.</string>
 
 </resources>
