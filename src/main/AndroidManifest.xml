@@ -11,15 +11,15 @@
 	
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    
+
     <application
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@drawable/ic_launcher"
         android:label="PictoSearch"
-		android:theme="@style/GirafTheme"
-		tools:replace="label"	
-		>
+        android:theme="@style/GirafTheme"
+        tools:replace="label"
+        >
         
         <activity
             android:name="dk.aau.cs.giraf.pictosearch.PictoAdminMain"
@@ -27,6 +27,7 @@
             android:clearTaskOnLaunch="true"
             android:finishOnTaskLaunch="true"
             android:logo="@drawable/ic_action_search"
+            android:theme="@style/GirafTheme"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
