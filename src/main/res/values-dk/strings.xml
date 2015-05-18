@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--This is the search option array-->
+    <string name="app_name">Søg Pictogrammer</string>
+    <string name="search">Søg</string>
+    <string name="pictogram_colon">Piktogram: </string>
+    <string name="category_colon">Kategori: </string>
+    <string name="choose_category_colon">Vælg kategori: </string>
+
+    <string name="title_activity_picto_main">Piktosøger</string>
+
+    <!--Common nouns and verbs-->
+    <string name="purpose">purpose</string>
+    <string name="single">single</string>
+    <string name="multi">multi</string>
+
+    <!--All GUI interface strings here-->
+
+    <!--All Error Message strings here-->
+    <string name="unable_to_launch_pictoCreator">Det var ikke muligt at åbne Piktotegner, sikre dig at det er installeret og opdateret.</string>
+    <string name="unable_to_launch_categoryTool">Det var ikke muligt at åbne Kategori værktøjet, sikre dig at det er installeret og opdateret.</string>
+
+    <!--All Help Message strings here-->
+
+    <!--Application names-->
+    <string name="pictoCreator">Piktotegner</string>
+    <string name="categoryTool">Kategori værktøjet</string>
+
+    <!--Unknown group of strings-->
+    <string name="set_class_name_pictoCreator">dk.aau.cs.giraf.pictocreator</string>
+    <string name="set_class_name_pictoCreator_mainActivity">dk.aau.cs.giraf.pictocreator.MainActivity</string>
+    <string name="set_class_name_categoryTool">dk.aau.cs.giraf.categorymanager</string>
+    <string name="set_class_name_categoryTool_mainActivity">dk.aau.cs.giraf.categorymanager.CategoryActivity</string>
+    <string name="current_child_id">currentChildID</string>
+    <string name="checkout_ids">checkoutIds</string>
+
+    <!--Newest added strings to design-->
+    <string name="search_result">Din søgning gav</string>
+    <string name="pictograms_single_lowercase">piktogram</string>
+    <string name="pictograms_multi_lowercase">piktogrammer</string>
+    <string name="categories_single_lowercase">kategori</string>
+    <string name="categories_multi_lowercase">kategorier</string>
+    <string name="and">og</string>
+    <string name="category_contains">Denne kategori indeholder</string>
+    <string name="help_accept">Når du har fundet de rigtige piktogrammer klikker du på den knap for at komme tilbage igen.</string>
+    <string name="help_pictocreater">Hvis du mangler et Piktogram klikker du på denne knap. Den åbner så PictoCreater.</string>
+    <string name="help_cat_tool">Hvis du mangler en kategori klikker du på denne knap. Den åbner så Kategori værktøjet.</string>
+    <string name="help_cat_indicator">Hvis et ikon har denne indikator på sig, er dette en kategori.</string>
+    <string name="help_spinner">De kategorier den valgte borger har, og som matcher søgeorderne, kan findes og åbnes her.</string>
+    <string name="searching_title">Søger</string>
+    <string name="searching_description">Søger efter piktogrammer og kategorier.</string>
+    <string name="accept_no_result_title">Luk uden resultat?</string>
+    <string name="accept_no_result_context">Vil du lukke PiktoSøger uden at have et søgeresultat?</string>
+    <string name="accept_with_categories_title">Send kategori tilbage?</string>
+    <string name="accept_with_categories_context">Vil du sende hele kategorier med tilbage? \nDisse kategorier kan indeholder mange piktogrammer</string>
+    <string name="accept_many_returns_title">Mange piktogram.</string>
+    <string name="accept_many_returns_context">Du har valgt at sende mange piktogrammer tilbage. \nEr du sikker på det?</string>
+    <string name="clear_button_description">clear</string>
+    <string name="Search_gave_no_results">Din søgning gav ingen resultater. \n\nFor at søge på forskellige sætninger, \nskal du separere sætningerne med et komma.</string>
+    <string name="category_indicator">Category indicator</string>
+    <string name="check_mark_icon">flueben icon</string>
+    <string name="pictocreator_icon">application pictocreator icon</string>
+    <string name="categorytool_icon">application category tool icon</string>
+    <string name="pictogram_is_category_icon">pictogram is a category icon</string>
+    <string name="blue_down_arrow">blue down arrow</string>
+    <string name="exit_with_checkouts_title">Afslut Picto Søger?</string>
+    <string name="exit_with_checkouts_context_cat_and_pic">Er du sikker på at du vil afslutte Picto Søger med piktogrammer og kategorier i checkout listen. \n\nDisse piktogrammer og kategorier vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_pic">Er du sikker på at du vil afslutte Picto Søger med piktogrammer i checkout listen. \n\nDisse piktogrammer vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_cat">Er du sikker på at du vil afslutte Picto Søger med kategorier i checkout listen. \n\nDisse kategorier vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_single_pictogram">Er du sikker på at du vil afslutte Picto Søger med et piktogram i checkout listen. \n\nDette piktogram vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_single_category">Er du sikker på at du vil afslutte Picto Søger med en kategori i checkout listen. \n\nDenne kategori vil ikke blive sendt med tilbage.</string>
+    <string name="already_chosen_pictogram">Dette piktogram er allerede valgt.</string>
+    <string name="already_chosen_category">Denne kategori er allerede valgt.</string>
+
+</resources>
