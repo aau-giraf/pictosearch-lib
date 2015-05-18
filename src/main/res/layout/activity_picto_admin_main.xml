@@ -73,14 +73,26 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
-            <TextView
-                android:id="@+id/search_summary_count"
+            <GridLayout
                 android:layout_width="400dp"
-                android:layout_height="25dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                android:textSize="15sp"
-                android:layout_gravity="bottom|left"/>
+                android:layout_marginRight="7dp">
+
+                <TextView
+                    android:id="@+id/is_single_or_not"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:textSize="15sp"
+                    android:layout_row="0"/>
+
+                <TextView
+                    android:id="@+id/search_summary_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:textSize="15sp"
+                    android:layout_row="1"/>
+            </GridLayout>
 
             <dk.aau.cs.giraf.gui.GirafSpinner
                 android:id="@+id/category_dropdown"
@@ -88,7 +100,8 @@
                 android:layout_height="match_parent"
                 android:spinnerMode="dropdown"
                 android:clickable="true"
-                android:layout_gravity="bottom|right">
+                android:layout_gravity="bottom|right"
+                style="@style/spinner_style">
 
             </dk.aau.cs.giraf.gui.GirafSpinner>
 
