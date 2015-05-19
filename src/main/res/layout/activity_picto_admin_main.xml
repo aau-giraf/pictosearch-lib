@@ -82,14 +82,14 @@
                 <TextView
                     android:id="@+id/is_single_or_not"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="23dp"
                     android:textSize="15sp"
                     android:layout_row="0"/>
 
                 <TextView
                     android:id="@+id/search_summary_count"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="23dp"
                     android:textSize="15sp"
                     android:layout_row="1"/>
             </GridLayout>
