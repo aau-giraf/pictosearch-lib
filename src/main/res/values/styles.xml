@@ -42,8 +42,4 @@
         <item name="android:textColor">#E0E0E0</item>
     </style>
 
-    <style name="spinner_style">
-        <!--<item name="android:background">@drawable/giraf_spinner_background</item>-->
-    </style>
-
 </resources>
