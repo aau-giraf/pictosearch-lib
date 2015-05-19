@@ -387,6 +387,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
 
             exitWithCheckouts.show(getSupportFragmentManager(), "" + EXIT_WITH_CHECKOUTS);
+        } else {
+            finish();
         }
     }
 
