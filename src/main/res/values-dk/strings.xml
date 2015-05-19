@@ -90,14 +90,14 @@
     <string name="help_title">Hjælp</string>
     <string name="help_context">Hvis du får brug for hjælp, så tryk her.</string>
 
-    <string name="exit_with_checkouts_title">Exit Pictosearch?</string>
-    <string name="exit_with_checkouts_context_cat_and_pic">Are you sure you will exit Pictosearch when you have pictograms and categories in the checkout list? \n\nThey will not be returned to the previous application.</string>
-    <string name="exit_with_checkouts_context_pic">Are you sure you will exit Pictosearch when you have pictograms in the checkout list? \n\nThey will not be returned to the previous application.</string>
-    <string name="exit_with_checkouts_context_cat">Are you sure you will exit Pictosearch when you have categories in the checkout list? \n\nThey will not be returned to the previous application.</string>
-    <string name="exit_with_checkouts_context_single_pictogram">Are you sure you will exit Pictosearch when you have a pictogram in the checkout list? \n\nIt will not be returned to the previous application.</string>
-    <string name="exit_with_checkouts_context_single_category">Are you sure you will exit Pictosearch when you have a category in the checkout list? \n\nIt will not be returned to the previous application.</string>
-    <string name="already_chosen_pictogram">This pictogram is already in the checkout list.</string>
-    <string name="already_chosen_category">This category is already in the checkout list.</string>
+    <string name="exit_with_checkouts_title">Luk Piktosøger?</string>
+    <string name="exit_with_checkouts_context_cat_and_pic">Er du sikker på at du vil lukke Piktosøger, når du har valgt piktogrammer og kategorier? \n\nDe vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_pic">Er du sikker på at du vil lukke Piktosøger, når du har valgt piktogrammer? \n\nDe vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_cat">Er du sikker på at du vil lukke Piktosøger, når du har valgt kategorier? \n\nDe vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_single_pictogram">Er du sikker på at du vil lukke Piktosøger, når du har valgt et piktogram? \n\nDet vil ikke blive sendt med tilbage.</string>
+    <string name="exit_with_checkouts_context_single_category">Er du sikker på at du vil lukke Piktosøger, når du har valgt en kategori? \n\nDen vil ikke blive sendt med tilbage.</string>
+    <string name="already_chosen_pictogram">Du har allerede valgt dette piktogram.</string>
+    <string name="already_chosen_category">Du har allerede valgt denne kategori.</string>
 
     <!-- These are the strings used in the dialog boxes -->
 
