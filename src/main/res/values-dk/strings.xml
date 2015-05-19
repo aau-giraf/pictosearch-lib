@@ -90,6 +90,15 @@
     <string name="help_title">Hjælp</string>
     <string name="help_context">Hvis du får brug for hjælp, så tryk her.</string>
 
+    <string name="exit_with_checkouts_title">Exit Pictosearch?</string>
+    <string name="exit_with_checkouts_context_cat_and_pic">Are you sure you will exit Pictosearch when you have pictograms and categories in the checkout list? \n\nThey will not be returned to the previous application.</string>
+    <string name="exit_with_checkouts_context_pic">Are you sure you will exit Pictosearch when you have pictograms in the checkout list? \n\nThey will not be returned to the previous application.</string>
+    <string name="exit_with_checkouts_context_cat">Are you sure you will exit Pictosearch when you have categories in the checkout list? \n\nThey will not be returned to the previous application.</string>
+    <string name="exit_with_checkouts_context_single_pictogram">Are you sure you will exit Pictosearch when you have a pictogram in the checkout list? \n\nIt will not be returned to the previous application.</string>
+    <string name="exit_with_checkouts_context_single_category">Are you sure you will exit Pictosearch when you have a category in the checkout list? \n\nIt will not be returned to the previous application.</string>
+    <string name="already_chosen_pictogram">This pictogram is already in the checkout list.</string>
+    <string name="already_chosen_category">This category is already in the checkout list.</string>
+
     <!-- These are the strings used in the dialog boxes -->
 
     <!-- These are the strings used in the informatiion GUI text -->

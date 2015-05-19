@@ -100,10 +100,8 @@
                 android:layout_height="match_parent"
                 android:spinnerMode="dropdown"
                 android:clickable="true"
-                android:layout_gravity="bottom|right"
-                style="@style/spinner_style">
+                android:layout_gravity="bottom|right"/>
 
-            </dk.aau.cs.giraf.gui.GirafSpinner>
 
             <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/search_button"
