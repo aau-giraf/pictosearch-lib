@@ -24,9 +24,6 @@ import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
-
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +40,8 @@ import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 import dk.aau.cs.giraf.pictosearch.showcase.ShowcaseManager;
+import dk.aau.cs.giraf.showcaseview.ShowcaseView;
+import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
 
 /**
  *  The main class in PictoSearch. Contains almost all methods relating to search.
