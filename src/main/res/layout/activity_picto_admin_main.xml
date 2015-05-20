@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/categorySum"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="23dp"
             android:text="@string/category_colon"
             android:textSize="15sp"
             android:layout_marginLeft="5dp"
@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/pictogramSum"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="23dp"
             android:text="@string/pictogram_colon"
             android:textSize="15sp"
             android:layout_marginLeft="5dp"
