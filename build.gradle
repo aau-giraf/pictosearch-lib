@@ -7,15 +7,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.+'
-        classpath 'dk.aau.cs.giraf:giraf-library:1.2'
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'dk.aau.cs.giraf:giraf-library:2.0.0'
     }
 }
 
-apply plugin: 'android-library'
-apply plugin: 'dk.giraf.lib'
+apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'dk.giraf.lib'
 
 repositories {
     mavenCentral()
@@ -29,21 +29,21 @@ repositories {
 }
 
 dependencies {
-    compile ('com.android.support:support-v4:+')
+    compile ('com.android.support:support-v4:23.1.1')
     compile(group: 'dk.aau.cs.giraf', name: 'ShowcaseView', version: '1.0.0', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'girafComponent', version: '10.4.0', ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '7.2.0', ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '5.1.2', ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '3.2.0')
+    compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '9.0.2', ext: 'aar')
+    compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '5.1.5', ext: 'aar')
+    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '3.2.3')
 }
 
 android {
-    compileSdkVersion 15
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -61,8 +61,6 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 }
-
-
 
 girafLibrary {
     libraryName 'pictosearch'
