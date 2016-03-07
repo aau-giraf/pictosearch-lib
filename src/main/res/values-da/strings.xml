@@ -5,7 +5,7 @@
     <string name="search">Søg</string>
     <string name="pictogram_colon">Piktogram: </string>
     <string name="category_colon">Kategori: </string>
-    <string name="choose_category_colon">Vælg kategori: </string>
+    <string name="choose_category_colon">Vælg kategori </string>
 
     <string name="title_activity_picto_main">Piktosøger</string>
 
@@ -35,7 +35,8 @@
     <string name="checkout_ids">checkoutIds</string>
 
     <!--Newest added strings to design-->
-    <string name="search_result">Din søgning gav</string>
+    <string name="search_result">Din søgning på </string>
+    <string name="search_result_end"> gav  </string>
     <string name="pictograms_single_lowercase">piktogram</string>
     <string name="pictograms_single_capitalized">Piktogram</string>
     <string name="pictograms_multi_lowercase">piktogrammer</string>
@@ -61,6 +62,7 @@
     <string name="accept_many_returns_context">Du har valgt at sende mange piktogrammer tilbage. \nEr du sikker på det?</string>
     <string name="clear_button_description">clear</string>
     <string name="Search_gave_no_results">Din søgning gav ingen resultater. \n\nFor at søge på forskellige sætninger, \nskal du separere sætningerne med et komma.</string>
+    <string name="search_to_find">Ovenfor kan du søge efter piktogrammer og kategorier,\neller vælge en kategori.</string>
     <string name="category_indicator">Category indicator</string>
     <string name="check_mark_icon">flueben icon</string>
     <string name="pictocreator_icon">application pictocreator icon</string>
@@ -104,5 +106,6 @@
     <!-- These are the strings used in the informatiion GUI text -->
     <string name="is_single_true">Du kan kun vælge et piktogram.</string>
     <string name="is_single_false">Du kan vælge flere piktogrammer og kategorier.</string>
+    <string name="searching_for">Søger efter </string>
 
 </resources>

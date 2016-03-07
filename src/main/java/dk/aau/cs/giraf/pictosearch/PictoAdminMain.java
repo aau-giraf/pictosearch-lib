@@ -5,6 +5,8 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,6 +61,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private long citizenID;
     private long guardianID;
 
+    private Search searcher;
+
     private ArrayList<Object> checkoutList = new ArrayList<Object>();
     private ArrayList<Object> searchList = new ArrayList<Object>();
     private ArrayList<Object> emptyList = new ArrayList<Object>();
@@ -69,6 +73,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     // Grid views for both the checkout list and the search result list
     private GridView checkoutGrid;
     private GridView pictoGrid;
+    private TextView emptySearchTextView;
+    private EditText searchTerm;
+    private ImageButton clearButton;
 
     private ShowcaseManager showcaseManager;
     private boolean isFirstRun;
@@ -108,18 +115,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         categoryTool.setId(R.id.category_manager_button);
         GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
         pictoCreatorTool.setId(R.id.pictocreator_button);
+        emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
+        searchTerm = (EditText) findViewById(R.id.text_search_input);
 
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
                 toggleShowcase();
-                //final ShowcaseManager.ShowcaseCapable currentContent = (ShowcaseManager.ShowcaseCapable) getSupportFragmentManager().findFragmentById(R.id.categorytool_framelayout);
-                //currentContent.toggleShowcase();
-
-                //GirafInflatableDialog helpDialogBox = GirafInflatableDialog.newInstance(String.format("Hjælp"),String.format("Kort overblik over funktionerne i Pikto Søger."), R.layout.help_grid);
-                //helpDialogBox.show(getSupportFragmentManager(), "");
-
             }
         });
 
@@ -168,7 +171,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         pictoCreatorTool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideKeyboard();
+                 hideKeyboard();
                 LaunchPictoCreator(true);
             }
         });
@@ -208,6 +211,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         pictoGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 hideKeyboard();
                 positionClicked(position);
             }
         });
@@ -221,7 +225,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Sets the itemSelected to local variable.
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                hideKeyboard();
 
                 CategoryController cController = new CategoryController(getApplicationContext());
 
@@ -243,7 +246,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                             cat = c;
                         }
                     }
-
                 }
 
                 PictogramController pictogramController = new PictogramController(getApplicationContext());
@@ -279,30 +281,58 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                hideKeyboard();
                 searchForPictogram();
             }
         });
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
 
+        searchTerm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            /**
+             * Called when text is inputted in the search field searchTerm
+             */
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchOnType();
+                if(s.length() == 0){
+                    clearButton.setVisibility(View.INVISIBLE);
+                    emptySearchTextView.setText(getString(R.string.search_to_find));
+                }
+                else {
+                    clearButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         searchTerm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                    clickedSearch();
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    searchOnKeyBoard();
                 }
                 return false;
             }
 
         });
-        ImageButton clearButton = (ImageButton) findViewById(R.id.clear_search_field);
+        clearButton = (ImageButton) findViewById(R.id.clear_search_field);
         clearButton.setOnClickListener(new View.OnClickListener(){
             @Override
-        public void onClick(View v) {
-                searchTerm.setText(null);
+            public void onClick(View v) {
+                    searchTerm.setText(null);
             }
         });
+        clearButton.setVisibility(View.INVISIBLE);
+
         GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,10 +344,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         mainLayout.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(searchTerm
-                        .getWindowToken(), 0);
-                return true;
+              hideKeyboard();
+              return true;
             }
         });
 
@@ -330,6 +358,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             tw.setText(R.string.is_single_false);
         }
 
+        showKeyboard();
     }
 
     /**
@@ -430,33 +459,67 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      */
     public void clickedSearch() {
         hideKeyboard();
+        searchForPictogram(true);
+    }
 
-        TextView emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
-        emptySearchTextView.setVisibility(View.INVISIBLE);
+    public void searchOnKeyBoard(){
+        hideKeyboard();
+    }
 
-        pictoGrid.setAdapter(new PictoAdapter(emptyList, getApplicationContext()));
-
+    public void searchOnType(){
         searchForPictogram();
     }
 
     /**
-     * Search for pictograms and categories
+     * Search for pictograms and categories, defaults to not showing dialog
      */
     public void searchForPictogram() {
-        Search searcher;
+        searchForPictogram(false);
+    }
+
+    /**
+     * Search for pictograms and categories, with or without dialog
+     * @param showDialog boolean that indicated whether or not an obtrusive dialog should be shown
+     *                   when the search is being performed
+     */
+    public void searchForPictogram(boolean showDialog){
+        //Cancel any ongoing search
+        if (searcher != null){
+            searcher.cancel(true);
+        }
 
         // Use the citizen id if its send with the intent, else it uses the guardian id
         if (citizenID != -1) {
-            searcher = new Search(this, citizenID, this, isSingle);
+            searcher = new Search(this, citizenID, this, isSingle, showDialog);
         }
         else {
-            searcher = new Search(this, guardianID, this, isSingle);
+            searcher = new Search(this, guardianID, this, isSingle, showDialog);
         }
 
-        EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
+        //Give feedback about searching, that isn't an obtrusive dialog box
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
+        if (!searchString.isEmpty()) {
+            showSearchFeedback(searchString, true);
+        }
 
+        //Start the actual searching
         searcher.execute(searchString);
+    }
+
+    /**
+     * Shows text feedback relevant to the current ongoing search
+     * @param query What is being searched for
+     * @param showBigText whether or not to show the feedback in big text in the middle
+     *                    of the pictogrid.
+     */
+    private void showSearchFeedback(String query, boolean showBigText){
+        String searchingFor = getString(R.string.searching_for) + " \"" +  query + "\" ...";
+        TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
+        searchSummaryText.setText(searchingFor);
+        if (showBigText) {
+            emptySearchTextView.setText(searchingFor);
+            emptySearchTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -464,9 +527,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * @param cpList List of pictograms and categories from opening and closing a category.
      */
    private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
-        hideKeyboard();
-        pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
-
+       pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
     }
 
     /**
@@ -619,10 +680,21 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (sTemp.isEmpty()) {
             searchSummaryText.setText("");
+            if(searchTerm.getText().length() > 0) {
+                emptySearchTextView.setText(getString(R.string.Search_gave_no_results));
+            }
+            emptySearchTextView.setVisibility(View.VISIBLE);
         }
         else {
+            emptySearchTextView.setVisibility(View.INVISIBLE);
             StringBuilder summaryText = new StringBuilder(100);
-            summaryText.append(getString(R.string.search_result)).append(" ");
+            summaryText
+                    .append(getString(R.string.search_result))
+                    .append(" \"")
+                    .append(searchTerm.getText().toString())
+                    .append("\" ")
+                    .append(getString(R.string.search_result_end))
+                    .append(" ");
 
             if (countPicTemp > 0) summaryText.append(countPicTemp).append(" ");
 
@@ -772,12 +844,25 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * Hide the keyboard when pressing area outside keyboard
      */
     private void hideKeyboard() {
-        // Check if no view has focus:
+       // Check if no view has focus:
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+        searchTerm.clearFocus();
+    }
+
+    /**
+     * Show the keyboard and move focus to search field
+     */
+    private void showKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
+            inputManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+        }
+        searchTerm.requestFocus();
     }
 
     /**
@@ -842,6 +927,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
     public synchronized void showShowcase() {
 
+        //Makes sure the clear button is visible for the walkthrough.
+        clearButton.setVisibility(View.VISIBLE);
+
         // Targets for the Showcase
         final ViewTarget chooseSummaryCheckout = new ViewTarget(R.id.checkoutSum, this, 1.5f);
         final ViewTarget chooseCategorySpinner = new ViewTarget(R.id.category_dropdown, this, 1.5f);
@@ -865,8 +953,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         // Calculate position for the help text
         final int textX = this.findViewById(R.id.pictogram_displayer).getLayoutParams().width + margin * 2;
         final int textY = getResources().getDisplayMetrics().heightPixels / 2 + margin;
-        final int textX2 = this.findViewById(R.id.pictogram_displayer).getLayoutParams().width + margin * 6;
-
         showcaseManager = new ShowcaseManager();
 
         showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
@@ -1000,6 +1086,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         ShowcaseManager.OnDoneListener onDoneCallback = new ShowcaseManager.OnDoneListener() {
             @Override
             public void onDone(ShowcaseView showcaseView) {
+                if(searchTerm.getText().toString().isEmpty()){
+                    clearButton.setVisibility(View.INVISIBLE);
+                }
                 showcaseManager = null;
                 isFirstRun = false;
             }
@@ -1010,7 +1099,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     public synchronized void hideShowcase() {
-
         if (showcaseManager != null) {
             showcaseManager.stop();
             showcaseManager = null;
