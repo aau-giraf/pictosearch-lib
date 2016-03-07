@@ -6,9 +6,9 @@
     <string name="search">Search</string>
     <string name="pictogram_colon">Pictogram: </string>
     <string name="category_colon">Category: </string>
-    <string name="choose_category_colon">Choose category: </string>
+    <string name="choose_category_colon">Choose category </string>
 
-    <string name="title_activity_picto_main">Pictosearch - Dev</string>
+    <string name="title_activity_picto_main">Pictosearch</string>
 
     <!--Common nouns and verbs-->
     <string name="purpose">purpose</string>
@@ -36,7 +36,8 @@
     <string name="checkout_ids">checkoutIds</string>
 
     <!--Newest added strings to design-->
-    <string name="search_result">Your search returned</string>
+    <string name="search_result">Your search for </string>
+    <string name="search_result_end"> returned  </string>
     <string name="pictograms_single_lowercase">pictogram</string>
     <string name="pictograms_single_capitalized">Pictogram</string>
     <string name="pictograms_multi_lowercase">pictograms</string>
@@ -62,6 +63,7 @@
     <string name="accept_many_returns_context">You have chosen to return a lot of pictograms. \nAre you sure?</string>
     <string name="clear_button_description">clear</string>
     <string name="Search_gave_no_results">The search did not return anything \n\nTo search on multiple sentences, \nit is required to comma separate the sentences.</string>
+    <string name="search_to_find">Above you can search for pictograms and categories,\nor choose a category.</string>
     <string name="category_indicator">Category indicator</string>
     <string name="check_mark_icon">accept icon</string>
     <string name="pictocreator_icon">application pictocreator icon</string>
@@ -105,4 +107,5 @@
     <!-- These are the strings used in the informatiion GUI text -->
     <string name="is_single_true">You can only choose a single pictogram.</string>
     <string name="is_single_false">You can choose multiple pictograms and categories.</string>
+    <string name="searching_for">Searching for </string>
 </resources>

@@ -19,7 +19,6 @@ apply plugin: 'dk.giraf.lib'
 
 repositories {
     mavenCentral()
-    mavenLocal()
     maven {
         url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
     }

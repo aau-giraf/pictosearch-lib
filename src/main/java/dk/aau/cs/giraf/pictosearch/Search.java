@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.pictosearch;
 
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,31 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
     final private boolean isSingle;
+    private boolean showDialog = false;
     private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES";
 
+    /**
+     * Constructs an instance of search, just like a constructor is supposed to...
+     * @param mainActivity used as a reference to the callee
+     * @param ID tells if the callee is guardian or citizen
+     * @param delegate where the result should be delivered to.
+     * @param isSingle if true it will only be possible to select one pictogram
+     */
     public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle) {
         this.mainActivity = mainActivity;
         this.ID = ID;
         this.delegate = delegate;
         this.isSingle = isSingle;
+    }
+
+    /**
+     * Yet another constructor, this time you can specify whether or not you want an obtrusive giraf dialog! HYPE!
+     * @link Search(GirafActivity, long, AsyncResponse, boolean)
+     * @param showDialog indicated if a dialog should be shown when searching
+     */
+    public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle, boolean showDialog) {
+        this(mainActivity, ID, delegate, isSingle);
+        this.showDialog = showDialog;
     }
 
     /**
@@ -182,8 +201,10 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPreExecute() {
-        waitingDialog = GirafWaitingDialog.newInstance(mainActivity.getString(R.string.searching_title), mainActivity.getString(R.string.searching_description));
-        waitingDialog.show(mainActivity.getSupportFragmentManager(), SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES);
+        if (showDialog) {
+            waitingDialog = GirafWaitingDialog.newInstance(mainActivity.getString(R.string.searching_title), mainActivity.getString(R.string.searching_description));
+            waitingDialog.show(mainActivity.getSupportFragmentManager(), SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES);
+        }
     }
 
     @Override
@@ -224,7 +245,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPostExecute(ArrayList<Object> result) {
-        waitingDialog.dismiss();
+        if (showDialog) {
+            waitingDialog.dismiss();
+        }
 
         if (delegate != null) {
             delegate.processFinish(result);
