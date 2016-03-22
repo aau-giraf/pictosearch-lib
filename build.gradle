@@ -28,13 +28,14 @@ repositories {
 }
 
 dependencies {
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'dk.aau.cs.giraf:ShowcaseView:1.0.0@aar'
     compile 'dk.aau.cs.giraf:girafComponent:10.4.0@aar'
     compile 'dk.aau.cs.giraf:oasisLib:9.0.2@aar'
     compile 'dk.aau.cs.giraf:localDb:5.1.5@aar'
     compile 'dk.aau.cs.giraf:meta-database:3.2.3'
-    compile files('libraries/libGoogleAnalyticsServices.jar')
+    //compile files('libraries/libGoogleAnalyticsServices.jar')
 }
 
 android {
