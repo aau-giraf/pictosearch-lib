@@ -185,7 +185,7 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:background="@color/giraf_bar_gradient_end"
-                android:layout_margin="@dimen/text_padding"
+                android:layout_margin="0dp"
                 android:padding="@dimen/text_padding" />
 
 
