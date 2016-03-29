@@ -3,7 +3,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
+            url 'http://172.17.0.3:8080/artifactory/libraries'
         }
     }
     dependencies {
@@ -20,7 +20,7 @@ apply plugin: 'dk.giraf.lib'
 repositories {
     mavenCentral()
     maven {
-        url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
+        url 'http://172.17.0.3:8080/artifactory/libraries'
     }
     flatDir {
         dirs 'libs'
