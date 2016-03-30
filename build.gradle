@@ -3,7 +3,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url 'http://172.17.0.3:8080/artifactory/libraries'
+            url 'http://jenkins.giraf.cs.aau.dk:8080/artifactory/libraries'
         }
     }
     dependencies {
@@ -20,7 +20,7 @@ apply plugin: 'dk.giraf.lib'
 repositories {
     mavenCentral()
     maven {
-        url 'http://172.17.0.3:8080/artifactory/libraries'
+        url 'http://jenkins.giraf.cs.aau.dk:8080/artifactory/libraries'
     }
     flatDir {
         dirs 'libs'
@@ -32,7 +32,7 @@ dependencies {
     compile 'dk.aau.cs.giraf:ShowcaseView:1.0.0@aar'
     compile 'dk.aau.cs.giraf:girafComponent:10.4.0@aar'
     compile 'dk.aau.cs.giraf:oasisLib:9.0.2@aar'
-    compile 'dk.aau.cs.giraf:localDb:5.1.5@aar'
+    compile 'dk.aau.cs.giraf:localDb:5.1.8@aar'
     compile 'dk.aau.cs.giraf:meta-database:3.2.3'
 }
 
