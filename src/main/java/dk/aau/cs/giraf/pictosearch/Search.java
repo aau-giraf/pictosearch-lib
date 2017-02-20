@@ -4,9 +4,6 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.view.WindowManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.dblib.controllers.CategoryController;
 import dk.aau.cs.giraf.dblib.controllers.PictogramController;
@@ -14,15 +11,18 @@ import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafWaitingDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Search class used to search for pictograms and/or categories
+ * Search class used to search for pictograms and/or categories.
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private final long ID;
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
-    final private boolean isSingle;
+    private final boolean isSingle;
     private boolean showDialog = false;
     private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES";
 
@@ -42,7 +42,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     /**
-     * Yet another constructor, this time you can specify whether or not you want an obtrusive giraf dialog! HYPE!
+     * Yet another constructor, this time you can specify whether or not you want an obtrusive giraf dialog! HYPE!.
      *
      * @param showDialog indicated if a dialog should be shown when searching
      * @link Search(GirafActivity, long, AsyncResponse, boolean)
@@ -53,7 +53,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     /**
-     * Gets all pictograms matching one of the input words from the database
+     * Gets all pictograms matching one of the input words from the database.
      *
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
@@ -83,7 +83,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     /**
-     * Gets all categories matching one of the input words from the database
+     * Gets all categories matching one of the input words from the database.
      *
      * @param categoryNames String array with each search word
      * @return List of all categories with a matching name
@@ -111,7 +111,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     /**
-     * Get all tags matching one of the input words from the database
+     * Get all tags matching one of the input words from the database.
      *
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
@@ -136,7 +136,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     /**
-     * Method that sorts the list of pictograms and category before sending it to the view
+     * Method that sorts the list of pictograms and category before sending it to the view.
      *
      * @param allList    the list that needs to be sorted
      * @param splitInput the split input that is used to evaluate the relevance
@@ -204,7 +204,8 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     @Override
     protected void onPreExecute() {
         if (showDialog) {
-            waitingDialog = GirafWaitingDialog.newInstance(mainActivity.getString(R.string.searching_title), mainActivity.getString(R.string.searching_description));
+            waitingDialog = GirafWaitingDialog.newInstance(mainActivity.getString(R.string.searching_title),
+                mainActivity.getString(R.string.searching_description));
             waitingDialog.show(mainActivity.getSupportFragmentManager(), SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES);
         }
     }

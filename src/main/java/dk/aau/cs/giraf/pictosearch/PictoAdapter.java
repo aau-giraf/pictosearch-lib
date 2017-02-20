@@ -8,12 +8,12 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -44,9 +44,9 @@ public class PictoAdapter extends BaseAdapter {
     }
 
     /**
-     * Return the number of pictograms
+     * Return the number of pictograms.
      *
-     * @return number of pictograms
+     * @return number of pictograms.
      */
     @Override
     public int getCount() {
@@ -113,7 +113,8 @@ public class PictoAdapter extends BaseAdapter {
                 pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
             }
 
-            pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
+            pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT,
+                GridLayout.LayoutParams.WRAP_CONTENT));
             return pictogramItemView;
 
         } else {
@@ -137,6 +138,7 @@ public class PictoAdapter extends BaseAdapter {
         }
     }
 
+    //ToDo Add JavaDoc for this method
     public void swap(List<Object> objectList) {
         this.objectList = objectList;
 
