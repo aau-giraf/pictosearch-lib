@@ -28,10 +28,11 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Constructs an instance of search, just like a constructor is supposed to...
+     *
      * @param mainActivity used as a reference to the callee
-     * @param ID tells if the callee is guardian or citizen
-     * @param delegate where the result should be delivered to.
-     * @param isSingle if true it will only be possible to select one pictogram
+     * @param ID           tells if the callee is guardian or citizen
+     * @param delegate     where the result should be delivered to.
+     * @param isSingle     if true it will only be possible to select one pictogram
      */
     public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle) {
         this.mainActivity = mainActivity;
@@ -42,8 +43,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
     /**
      * Yet another constructor, this time you can specify whether or not you want an obtrusive giraf dialog! HYPE!
-     * @link Search(GirafActivity, long, AsyncResponse, boolean)
+     *
      * @param showDialog indicated if a dialog should be shown when searching
+     * @link Search(GirafActivity, long, AsyncResponse, boolean)
      */
     public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle, boolean showDialog) {
         this(mainActivity, ID, delegate, isSingle);
@@ -136,7 +138,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     /**
      * Method that sorts the list of pictograms and category before sending it to the view
      *
-     * @param allList      the list that needs to be sorted
+     * @param allList    the list that needs to be sorted
      * @param splitInput the split input that is used to evaluate the relevance
      * @return sorted list according to the relevance from the searchString
      */

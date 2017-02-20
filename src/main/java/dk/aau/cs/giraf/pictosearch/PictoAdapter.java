@@ -11,7 +11,6 @@ import android.widget.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
@@ -37,8 +36,7 @@ public class PictoAdapter extends BaseAdapter {
 
         if (objectList == null) {
             this.objectList = new ArrayList<Object>();
-        }
-        else {
+        } else {
             this.objectList = objectList;
         }
 
@@ -77,11 +75,10 @@ public class PictoAdapter extends BaseAdapter {
     @Override
     public long getItemId(final int position) {
 
-        if (objectList.get(position) instanceof Pictogram){
+        if (objectList.get(position) instanceof Pictogram) {
             Pictogram pictogramTemp = (Pictogram) objectList.get(position);
             return pictogramTemp.getId();
-        }
-        else {
+        } else {
             Category categoryTemp = (Category) objectList.get(position);
             return categoryTemp.getId();
         }
@@ -102,7 +99,7 @@ public class PictoAdapter extends BaseAdapter {
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
         final Object object = objectList.get(position);
-        Drawable catIndicator = context.getResources().getDrawable( R.drawable.icon_category );
+        Drawable catIndicator = context.getResources().getDrawable(R.drawable.icon_category);
 
         if (convertView == null) {
             GirafPictogramItemView pictogramItemView;
@@ -139,6 +136,7 @@ public class PictoAdapter extends BaseAdapter {
 
         }
     }
+
     public void swap(List<Object> objectList) {
         this.objectList = objectList;
 

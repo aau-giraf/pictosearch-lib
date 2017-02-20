@@ -13,31 +13,33 @@ import android.os.Bundle;
  */
 @SuppressLint("ValidFragment")
 public class MessageDialogFragment extends DialogFragment {
-	private final String message;
+    private final String message;
 
     /**
      * Set this.message to message
+     *
      * @param message input string for dialog message
      */
-	public MessageDialogFragment(String message) {
-		this.message = message;
-	}
+    public MessageDialogFragment(String message) {
+        this.message = message;
+    }
 
     /**
      * Create dialog
+     *
      * @param savedInstanceState A mapping from String values to various Parcelable types.
      * @return the AlertDialog.
      */
-	@Override
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(message).setPositiveButton("Ok", new OnClickListener(){
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				//Do nothing
-			}
-		});
+        builder.setMessage(message).setPositiveButton("Ok", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing
+            }
+        });
         return builder.create();
     }
 }
