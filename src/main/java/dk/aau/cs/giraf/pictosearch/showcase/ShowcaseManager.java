@@ -16,15 +16,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ShowcaseManager {
 
     /**
-     * Interface to be used with addShowCase ( as anonymous classes ) to set the showcase view to a new target with a new description.
+     * Interface to be used with addShowCase ( as anonymous classes )
+     * to set the showcase view to a new target with a new description.
      * For instance:
-     * <p>
-     * showcaseManager = new ShowcaseManager();
-     * <p>
-     * showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
      *
-     * @Override public void configShowCaseView(final ShowcaseView showcaseView) {
-     * <p>
+     * <p>showcaseManager = new ShowcaseManager();
+     *
+     * <p>showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+     *
+     * <p>@Override public void configShowCaseView(final ShowcaseView showcaseView) {
      * showcaseView.setShowcase(target1, true);
      * showcaseView.setContentTitle("Se kage!");
      * showcaseView.setContentText("Det her er noget lækkert kage");
@@ -63,9 +63,9 @@ public class ShowcaseManager {
     }
 
     /**
-     * Start showing all added showcases and place text at @param textX, @param textY.
+     * Start showing all added showcases.
      *
-     * @param activity
+     * @param activity the activity
      */
     public void start(final Activity activity) {
 
@@ -80,7 +80,7 @@ public class ShowcaseManager {
                 .setContentText("")
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(final View v) {
+                    public void onClick(final View view) {
                         if (!showcases.isEmpty()) {
                             start(activity);
                         } else {
@@ -112,7 +112,7 @@ public class ShowcaseManager {
     /**
      * Set a callback which is invoked once all showcases have been shown.
      *
-     * @param onDoneCallback
+     * @param onDoneCallback the callback
      */
     public void setOnDoneListener(final OnDoneListener onDoneCallback) {
         this.onDoneCallback = onDoneCallback;

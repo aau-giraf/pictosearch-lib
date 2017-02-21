@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,11 +34,11 @@ import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
-import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
 import dk.aau.cs.giraf.pictosearch.showcase.ShowcaseManager;
 import dk.aau.cs.giraf.showcaseview.ShowcaseView;
 import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,8 +57,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     // Global integer used in a notification dialog
     private static final int MAX_NUMBER_OF_RETURNS = 100;
 
-    private long citizenID;
-    private long guardianID;
+    private long citizenId;
+    private long guardianId;
 
     private Search searcher;
 
@@ -105,23 +104,26 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         getPurpose();
 
         setContentView(R.layout.activity_picto_admin_main);
-        findViewById(R.id.mainLinearLayout).setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
+        findViewById(R.id.mainLinearLayout).setBackgroundDrawable(
+            GComponent.GetBackground(GComponent.Background.GRADIENT));
 
         // Actionbar buttons created
         final GirafButton help = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_help));
         help.setId(R.id.help_button);
         GirafButton accept = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_accept));
         accept.setId(R.id.accept_button);
-        GirafButton categoryTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
+        GirafButton categoryTool = new GirafButton(this,
+            this.getResources().getDrawable(R.drawable.giraf_app_icon_category_tool));
         categoryTool.setId(R.id.category_manager_button);
-        GirafButton pictoCreatorTool = new GirafButton(this, this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
+        GirafButton pictoCreatorTool = new GirafButton(this,
+            this.getResources().getDrawable(R.drawable.giraf_app_icon_picto_creator));
         pictoCreatorTool.setId(R.id.pictocreator_button);
         emptySearchTextView = (TextView) findViewById(R.id.empty_search_result);
         searchTerm = (EditText) findViewById(R.id.text_search_input);
 
         help.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 hideKeyboard();
                 toggleShowcase();
             }
@@ -129,7 +131,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 hideKeyboard();
 
                 // Check if the checkout list is empty, and prompt the user if so
@@ -164,16 +166,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         });
         categoryTool.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 hideKeyboard();
-                LaunchCategoryTool(true);
+                launchCategoryTool(true);
             }
         });
         pictoCreatorTool.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 hideKeyboard();
-                LaunchPictoCreator(true);
+                launchPictoCreator(true);
             }
         });
 
@@ -199,7 +201,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         checkoutGrid = (GridView) findViewById(R.id.checkout);
         checkoutGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
                 hideKeyboard();
                 checkoutList.remove(position);
                 onUpdatedCheckoutCount();
@@ -227,22 +229,22 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 // Sets the itemSelected to local variable.
                 String selectedItem = parent.getItemAtPosition(position).toString();
 
-                CategoryController cController = new CategoryController(getApplicationContext());
+                CategoryController categoryController = new CategoryController(getApplicationContext());
 
-                List<Category> cTemp;
+                List<Category> categoryTempList;
 
-                // Decides which categories to use, based on citizenID or guardianID.
-                if (citizenID != -1) {
-                    cTemp = cController.getCategoriesByProfileId(citizenID);
+                // Decides which categories to use, based on citizenId or guardianId.
+                if (citizenId != -1) {
+                    categoryTempList = categoryController.getCategoriesByProfileId(citizenId);
                 } else {
-                    cTemp = cController.getCategoriesByProfileId(guardianID);
+                    categoryTempList = categoryController.getCategoriesByProfileId(guardianId);
                 }
 
                 Category cat = new Category();
 
                 // If item is not equal to default, then check which category it is equal to.
                 if (!selectedItem.equals(getString(R.string.choose_category_colon))) {
-                    for (Category c : cTemp) {
+                    for (Category c : categoryTempList) {
                         if (selectedItem.equals(c.getName())) {
                             cat = c;
                         }
@@ -250,10 +252,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 }
 
                 PictogramController pictogramController = new PictogramController(getApplicationContext());
-                List<Pictogram> pTemp = pictogramController.getPictogramsByCategory(cat);
+                List<Pictogram> pictogramTempList = pictogramController.getPictogramsByCategory(cat);
 
                 ArrayList<Object> allList = new ArrayList<Object>();
-                allList.addAll(pTemp);
+                allList.addAll(pictogramTempList);
 
                 // Sets some global variables, used other places.
                 currentViewSearch = allList;
@@ -290,7 +292,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         searchTerm.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence chars, int start, int count, int after) {
 
             }
 
@@ -298,9 +300,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
              * Called when text is inputted in the search field searchTerm.
              */
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence chars, int start, int before, int count) {
                 searchOnType();
-                if (s.length() == 0) {
+                if (chars.length() == 0) {
                     clearButton.setVisibility(View.INVISIBLE);
                     emptySearchTextView.setText(getString(R.string.search_to_find));
                 } else {
@@ -309,14 +311,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable editableChars) {
 
             }
         });
 
         searchTerm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchOnKeyBoard();
                 }
@@ -327,7 +329,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         clearButton = (ImageButton) findViewById(R.id.clear_search_field);
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 searchTerm.setText(null);
             }
         });
@@ -336,14 +338,14 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         GirafButton btnSearch = (GirafButton) findViewById(R.id.search_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 clickedSearch();
             }
 
         });
 
         mainLayout.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View view, MotionEvent event) {
                 hideKeyboard();
                 return true;
             }
@@ -427,12 +429,12 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private void updateGuardianInfo() {
         //If user is a monkey, set the childId to the first child in the list
         if (ActivityManager.isUserAMonkey()) {
-            citizenID = new Helper(this).profilesHelper.getChildren().get(0).getId();
+            citizenId = new Helper(this).profilesHelper.getChildren().get(0).getId();
         } else {
-            guardianID = getIntent().getLongExtra(getString(R.string.current_guardian_id), -1);
-            citizenID = getIntent().getLongExtra(getString(R.string.current_child_id), -1);
+            guardianId = getIntent().getLongExtra(getString(R.string.current_guardian_id), -1);
+            citizenId = getIntent().getLongExtra(getString(R.string.current_child_id), -1);
 
-            if (guardianID == -1) {
+            if (guardianId == -1) {
                 throw new IllegalArgumentException("Missing guardian ID");
             }
         }
@@ -441,8 +443,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Get the purpose from the calling application to know if they need a single pictogram.
      */
-    private void getPurpose()
-    {
+    private void getPurpose() {
         if (getIntent().hasExtra(getString(R.string.purpose))) {
             if (getIntent().getStringExtra(getString(R.string.purpose)).equals(getString(R.string.single))) {
                 isSingle = true;
@@ -488,10 +489,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
 
         // Use the citizen id if its send with the intent, else it uses the guardian id
-        if (citizenID != -1) {
-            searcher = new Search(this, citizenID, this, isSingle, showDialog);
+        if (citizenId != -1) {
+            searcher = new Search(this, citizenId, this, isSingle, showDialog);
         } else {
-            searcher = new Search(this, guardianID, this, isSingle, showDialog);
+            searcher = new Search(this, guardianId, this, isSingle, showDialog);
         }
 
         //Give feedback about searching, that isn't an obtrusive dialog box
@@ -534,13 +535,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * Load all the categories into the category spinner.
      */
     private void loadCategoriesIntoCategorySpinner() {
-        CategoryController cController = new CategoryController(getApplicationContext());
-        List<Category> catTemp;
+        CategoryController categoryController = new CategoryController(getApplicationContext());
+        List<Category> categoryTempList;
 
-        if (citizenID != -1) {
-            catTemp = cController.getCategoriesByProfileId(citizenID);
+        if (citizenId != -1) {
+            categoryTempList = categoryController.getCategoriesByProfileId(citizenId);
         } else {
-            catTemp = cController.getCategoriesByProfileId(guardianID);
+            categoryTempList = categoryController.getCategoriesByProfileId(guardianId);
         }
 
         ArrayList<String> catNames = new ArrayList<String>();
@@ -552,7 +553,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         if (!searchString.isEmpty()) {
             String[] splitInput = searchString.split("\\s+");
 
-            for (Category c : catTemp) {
+            for (Category c : categoryTempList) {
                 for (String s : splitInput) {
                     if (c.getName().toLowerCase().startsWith(s)) {
                         catNames.add(c.getName());
@@ -560,7 +561,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 }
             }
         } else {
-            for (Category c : catTemp) {
+            for (Category c : categoryTempList) {
                 catNames.add(c.getName());
             }
         }
@@ -571,7 +572,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         Spinner catSpinner = (Spinner) findViewById(R.id.category_dropdown);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
+        ArrayAdapter<String> spinnerArrayAdapter =
+            new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catNames);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catSpinner.setAdapter(spinnerArrayAdapter);
     }
@@ -586,11 +588,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         for (Object o : checkoutList) {
             if (o instanceof Pictogram) {
-                Pictogram p = (Pictogram) o;
-                checkout.add(p);
+                Pictogram pictogram = (Pictogram) o;
+                checkout.add(pictogram);
             } else if (o instanceof Category) {
-                Category c = (Category) o;
-                checkout.add(c);
+                Category category = (Category) o;
+                checkout.add(category);
             }
         }
         return checkout;
@@ -599,17 +601,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Assess the checkout gridView and load the pictograms into an ArrayList.
      *
-     * @return ArrayList of checkout pictograms
+     * @return Array of checkout pictograms
      */
     private long[] getCheckoutPictogramIDsArray() {
         ArrayList<Long> pictogramIDs = getCheckoutPictogramIDs();
-        long[] checkout = new long[pictogramIDs.size()];
-        long i = 0;
-        for (long p : pictogramIDs) {
-            checkout[((int) i)] = p;
-            i++;
-        }
-        return checkout;
+        return ArrayUtils.toPrimitive(pictogramIDs.toArray(new Long[pictogramIDs.size()]));
     }
 
     /**
@@ -625,8 +621,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
         for (Object o : checkoutObjects) {
             if (o instanceof Pictogram) {
-                Pictogram p = (Pictogram) o;
-                pictogramCheckoutIDs.add(p.getId());
+                Pictogram pictogram = (Pictogram) o;
+                pictogramCheckoutIDs.add(pictogram.getId());
             } else if (o instanceof Category) {
                 Category catNew = (Category) o;
 
@@ -665,22 +661,22 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      */
     public void onUpdatedCheckoutCount() {
         TextView categoryBox = (TextView) findViewById(R.id.categorySum);
-        categoryBox.setText(CountCategories(checkoutList) + " x " + getString(R.string.categories_single_capitalized));
+        categoryBox.setText(countCategories(checkoutList) + " x " + getString(R.string.categories_single_capitalized));
         TextView pictogramBox = (TextView) findViewById(R.id.pictogramSum);
-        pictogramBox.setText(CountPictograms(checkoutList) + " x " + getString(R.string.pictograms_single_capitalized));
+        pictogramBox.setText(countPictograms(checkoutList) + " x " + getString(R.string.pictograms_single_capitalized));
     }
 
     /**
      * Build search summary list.
      *
-     * @param sTemp temporary object list with pictograms and categories.
+     * @param summaryTempList temporary object list with pictograms and categories.
      */
-    public void onSearchSummaryCount(ArrayList<Object> sTemp) {
-        int countCatTemp = CountCategories(sTemp);
-        int countPicTemp = CountPictograms(sTemp);
+    public void onSearchSummaryCount(ArrayList<Object> summaryTempList) {
+        int countCatTemp = countCategories(summaryTempList);
+        int countPicTemp = countPictograms(summaryTempList);
 
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
-        if (sTemp.isEmpty()) {
+        if (summaryTempList.isEmpty()) {
             searchSummaryText.setText("");
             if (searchTerm.getText().length() > 0) {
                 emptySearchTextView.setText(getString(R.string.Search_gave_no_results));
@@ -720,13 +716,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Counts the amount of pictograms in an object list.
      *
-     * @param pTemp object list
+     * @param pictogramTempList object list
      * @return returns the count
      */
-    private int CountPictograms(ArrayList<Object> pTemp) {
+    private int countPictograms(ArrayList<Object> pictogramTempList) {
         int count = 0;
 
-        for (Object o : pTemp) {
+        for (Object o : pictogramTempList) {
             if (o instanceof Pictogram) {
                 count++;
             }
@@ -738,13 +734,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Counts the amount of categories in an object list.
      *
-     * @param cTemp object list
+     * @param categoryTempList object list
      * @return return the counts
      */
-    private int CountCategories(ArrayList<Object> cTemp) {
+    private int countCategories(ArrayList<Object> categoryTempList) {
         int count = 0;
 
-        for (Object o : cTemp) {
+        for (Object o : categoryTempList) {
             if (o instanceof Category) {
                 count++;
             }
@@ -756,14 +752,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * counts the amount of pictograms when entering a category.
      *
-     * @param pTemp object list
+     * @param pictogramTempList object list
      */
-    public void onEnterCategoryCount(ArrayList<Object> pTemp) {
+    public void onEnterCategoryCount(ArrayList<Object> pictogramTempList) {
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
-        if (pTemp.size() == 1) {
-            searchSummaryText.setText(getString(R.string.category_contains) + " " + pTemp.size() + " " + getString(R.string.pictograms_single_lowercase));
+        if (pictogramTempList.size() == 1) {
+            searchSummaryText.setText(getString(R.string.category_contains) + " " +
+                pictogramTempList.size() + " " + getString(R.string.pictograms_single_lowercase));
         } else {
-            searchSummaryText.setText(getString(R.string.category_contains) + " " + pTemp.size() + " " + getString(R.string.pictograms_multi_lowercase));
+            searchSummaryText.setText(getString(R.string.category_contains) + " " +
+                pictogramTempList.size() + " " + getString(R.string.pictograms_multi_lowercase));
         }
     }
 
@@ -772,14 +770,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      *
      * @param allow_error_msg boolean for allowing error messages to be displayed to user
      */
-    private void LaunchPictoCreator(boolean allow_error_msg) {
+    private void launchPictoCreator(boolean allow_error_msg) {
         try {
-            Intent i = new Intent();
-            i.setClassName(getString(R.string.set_class_name_pictoCreator), getString(R.string.set_class_name_pictoCreator_mainActivity));
-            startActivity(i);
+            Intent intent = new Intent();
+            intent.setClassName(getString(R.string.set_class_name_pictoCreator),
+                getString(R.string.set_class_name_pictoCreator_mainActivity));
+            startActivity(intent);
         } catch (android.content.ActivityNotFoundException e) {
             if (allow_error_msg) {
-                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch_pictoCreator));
+                MessageDialogFragment message = new MessageDialogFragment(
+                    getString(R.string.unable_to_launch_pictoCreator));
                 message.show(getFragmentManager(), getString(R.string.pictoCreator));
             }
         }
@@ -790,17 +790,19 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      *
      * @param allow_error_msg boolean for allowing error messages to be displayed to user
      */
-    private void LaunchCategoryTool(boolean allow_error_msg) {
+    private void launchCategoryTool(boolean allow_error_msg) {
         Intent intent = new Intent();
         try {
-            intent.setComponent(new ComponentName(getString(R.string.set_class_name_categoryTool), getString(R.string.set_class_name_categoryTool_mainActivity)));
-            intent.putExtra(getString(R.string.current_child_id), citizenID);
-            intent.putExtra(getString(R.string.current_guardian_id), guardianID);
+            intent.setComponent(new ComponentName(getString(R.string.set_class_name_categoryTool),
+                getString(R.string.set_class_name_categoryTool_mainActivity)));
+            intent.putExtra(getString(R.string.current_child_id), citizenId);
+            intent.putExtra(getString(R.string.current_guardian_id), guardianId);
             startActivity(intent);
 
         } catch (android.content.ActivityNotFoundException e) {
             if (allow_error_msg) {
-                MessageDialogFragment message = new MessageDialogFragment(getString(R.string.unable_to_launch_categoryTool));
+                MessageDialogFragment message = new MessageDialogFragment(
+                    getString(R.string.unable_to_launch_categoryTool));
                 message.show(getFragmentManager(), getString(R.string.categoryTool));
             }
         }
@@ -822,9 +824,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 checkoutList.add(searchTemp.get(position));
             } else {
                 if (searchTemp.get(position) instanceof Pictogram) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_pictogram), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                        getString(R.string.already_chosen_pictogram), Toast.LENGTH_SHORT).show();
                 } else if (searchTemp.get(position) instanceof Category) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_category), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                        getString(R.string.already_chosen_category), Toast.LENGTH_SHORT).show();
                 }
 
                 return;
@@ -834,9 +838,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 checkoutList.add(currentViewSearch.get(position));
             } else {
                 if (currentViewSearch.get(position) instanceof Pictogram) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_pictogram), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                        getString(R.string.already_chosen_pictogram), Toast.LENGTH_SHORT).show();
                 } else if (currentViewSearch.get(position) instanceof Category) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.already_chosen_category), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                        getString(R.string.already_chosen_category), Toast.LENGTH_SHORT).show();
                 }
 
                 return;
@@ -918,22 +924,22 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Handles the action needed when accepting in the confirm dialogs.
      *
-     * @param methodID ID's for the different possible methods using the confirm dialog
+     * @param methodId ID's for the different possible methods using the confirm dialog
      */
     @Override
-    public void confirmDialog(final int methodID) {
-        if (methodID == ACCEPT_NO_PICTOGRAMS) {
+    public void confirmDialog(final int methodId) {
+        if (methodId == ACCEPT_NO_PICTOGRAMS) {
             finish();
-        } else if (methodID == ACCEPT_WITH_CATEGORIES || methodID == ACCEPT_MANY_RETURNS) {
+        } else if (methodId == ACCEPT_WITH_CATEGORIES || methodId == ACCEPT_MANY_RETURNS) {
             sendContent();
-        } else if (methodID == EXIT_WITH_CHECKOUTS) {
+        } else if (methodId == EXIT_WITH_CHECKOUTS) {
             finish();
         }
     }
 
-    /*
+    /**
     * Shows a quick walkthrough of the functionality.
-    * */
+    */
     public synchronized void showShowcase() {
 
         //Makes sure the clear button is visible for the walkthrough.
@@ -946,14 +952,19 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         final ViewTarget chooseSearchBox = new ViewTarget(R.id.search_box, this, 1.5f);
         final ViewTarget chooseClearSearch = new ViewTarget(R.id.clear_search_field, this, 1.5f);
         final ViewTarget chooseSearchButton = new ViewTarget(R.id.search_button, this, 1.5f);
-        final ViewTarget helpButtonTarget = new ViewTarget(this.getActionBar().getCustomView().findViewById(R.id.help_button), 1.5f);
-        final ViewTarget acceptButtonTarget = new ViewTarget(this.getActionBar().getCustomView().findViewById(R.id.accept_button), 1.5f);
-        final ViewTarget pictocreatorButtonTarget = new ViewTarget(this.getActionBar().getCustomView().findViewById(R.id.pictocreator_button), 1.5f);
-        final ViewTarget categoryManagerButtonTarget = new ViewTarget(this.getActionBar().getCustomView().findViewById(R.id.category_manager_button), 1.5f);
+        final ViewTarget helpButtonTarget = new ViewTarget(this.getActionBar()
+            .getCustomView().findViewById(R.id.help_button), 1.5f);
+        final ViewTarget acceptButtonTarget = new ViewTarget(this.getActionBar()
+            .getCustomView().findViewById(R.id.accept_button), 1.5f);
+        final ViewTarget pictocreatorButtonTarget = new ViewTarget(this.getActionBar()
+            .getCustomView().findViewById(R.id.pictocreator_button), 1.5f);
+        final ViewTarget categoryManagerButtonTarget = new ViewTarget(this.getActionBar()
+            .getCustomView().findViewById(R.id.category_manager_button), 1.5f);
 
 
         // Create a relative location for the next button
-        final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         final int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();

@@ -2,7 +2,6 @@ package dk.aau.cs.giraf.pictosearch;
 
 import android.os.AsyncTask;
 import android.util.Pair;
-import android.view.WindowManager;
 
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.dblib.controllers.CategoryController;
@@ -18,7 +17,7 @@ import java.util.List;
  * Search class used to search for pictograms and/or categories.
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
-    private final long ID;
+    private final long id;
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
@@ -30,13 +29,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * Constructs an instance of search, just like a constructor is supposed to...
      *
      * @param mainActivity used as a reference to the callee
-     * @param ID           tells if the callee is guardian or citizen
+     * @param id           tells if the callee is guardian or citizen
      * @param delegate     where the result should be delivered to.
      * @param isSingle     if true it will only be possible to select one pictogram
      */
-    public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle) {
+    public Search(GirafActivity mainActivity, long id, AsyncResponse delegate, boolean isSingle) {
         this.mainActivity = mainActivity;
-        this.ID = ID;
+        this.id = id;
         this.delegate = delegate;
         this.isSingle = isSingle;
     }
@@ -47,8 +46,8 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param showDialog indicated if a dialog should be shown when searching
      * @link Search(GirafActivity, long, AsyncResponse, boolean)
      */
-    public Search(GirafActivity mainActivity, long ID, AsyncResponse delegate, boolean isSingle, boolean showDialog) {
-        this(mainActivity, ID, delegate, isSingle);
+    public Search(GirafActivity mainActivity, long id, AsyncResponse delegate, boolean isSingle, boolean showDialog) {
+        this(mainActivity, id, delegate, isSingle);
         this.showDialog = showDialog;
     }
 
@@ -58,7 +57,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
      */
-    private ArrayList<Pictogram> GetAllPictograms(String[] pictogramNames) {
+    private ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
 
         if (pictogramNames[0].isEmpty()) {
@@ -88,16 +87,16 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param categoryNames String array with each search word
      * @return List of all categories with a matching name
      */
-    private ArrayList<Category> GetAllCategories(final String[] categoryNames) {
+    private ArrayList<Category> getAllCategories(final String[] categoryNames) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
-        if (ID < 0 || categoryNames[0].isEmpty()) {
+        if (id < 0 || categoryNames[0].isEmpty()) {
             return catList;
         }
 
         CategoryController categoryController = new CategoryController(mainActivity.getApplicationContext());
 
-        List<Category> catTemp = categoryController.getCategoriesByProfileId(ID);
+        List<Category> catTemp = categoryController.getCategoriesByProfileId(id);
 
         for (String s : categoryNames) {
             for (Category c : catTemp) {
@@ -116,7 +115,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
-    private ArrayList<Pictogram> GetPictogramByTags(String[] tagCaptions) {
+    private ArrayList<Pictogram> getPictogramByTags(String[] tagCaptions) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
         ArrayList<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
@@ -142,7 +141,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param splitInput the split input that is used to evaluate the relevance
      * @return sorted list according to the relevance from the searchString
      */
-    private ArrayList<Object> SortPictogramsAndCategories(List<Object> allList, String[] splitInput) {
+    private ArrayList<Object> sortPictogramsAndCategories(List<Object> allList, String[] splitInput) {
         ArrayList<Object> result = new ArrayList<Object>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
@@ -151,32 +150,32 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         // Calculate for each pictogram or category, their relevance according to the search string
         for (Object o : allList) {
             if (o instanceof Pictogram) {
-                Pictogram p = (Pictogram) o;
+                Pictogram pictogram = (Pictogram) o;
 
                 int relevance = Integer.MAX_VALUE;
 
                 for (String s : splitInput) {
-                    int newRelevance = Math.abs((p.getName().compareToIgnoreCase(s)));
+                    int newRelevance = Math.abs((pictogram.getName().compareToIgnoreCase(s)));
 
                     if (relevance > newRelevance) {
                         relevance = newRelevance;
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(p, relevance));
+                pairList.add(new Pair<Object, Integer>(pictogram, relevance));
             } else if (o instanceof Category) {
-                Category c = (Category) o;
+                Category category = (Category) o;
 
                 int relevance = Integer.MAX_VALUE;
 
                 for (String s : splitInput) {
-                    int newRelevance = Math.abs((c.getName().compareToIgnoreCase(s)));
+                    int newRelevance = Math.abs((category.getName().compareToIgnoreCase(s)));
                     if (relevance > newRelevance) {
                         relevance = newRelevance;
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(c, relevance));
+                pairList.add(new Pair<Object, Integer>(category, relevance));
             }
         }
 
@@ -224,9 +223,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         ArrayList<Pictogram> pictoTagList = new ArrayList<Pictogram>();
 
         // Get all pictograms where the name matches the split input
-        result.addAll(GetAllPictograms(splitInput));
+        result.addAll(getAllPictograms(splitInput));
 
-        pictoTagList.addAll(GetPictogramByTags(splitInput));
+        pictoTagList.addAll(getPictogramByTags(splitInput));
 
         // Insert all pictograms from the tags if they are not in the result list
         for (Pictogram p : pictoTagList) {
@@ -237,11 +236,11 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         // If isSingle is false, insert all categories where the name matches the split input
         if (!isSingle) {
-            result.addAll(GetAllCategories(splitInput));
+            result.addAll(getAllCategories(splitInput));
         }
 
         // Sort the pictograms and categories
-        result = SortPictogramsAndCategories(result, splitInput);
+        result = sortPictogramsAndCategories(result, splitInput);
 
         return result;
     }
