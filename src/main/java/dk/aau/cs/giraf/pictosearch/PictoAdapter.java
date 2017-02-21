@@ -138,8 +138,6 @@ public class PictoAdapter extends BaseAdapter {
         }
     }
 
-    //ToDo Add JavaDoc for this method
-
     /**
      * Replaces the PictoAdapter's currently used objectList, and marks the
      * PictoAdapter's data as invalidated, such the the view will be re-rendered.
