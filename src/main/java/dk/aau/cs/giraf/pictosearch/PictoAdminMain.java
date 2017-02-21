@@ -141,25 +141,21 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                         getString(R.string.accept_no_result_context),
                         ACCEPT_NO_PICTOGRAMS);
                     acceptNoResults.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
-                }
-                // Check if the checkout list contains categories, and prompt the user if so
-                else if (checkCheckoutListForCategories()) {
+                } else if (checkCheckoutListForCategories()) { // Check if the checkout list contains categories, 
+                    // and prompt the user if so
                     GirafConfirmDialog acceptWithCategories = GirafConfirmDialog.newInstance(
                         getString(R.string.accept_with_categories_title),
                         getString(R.string.accept_with_categories_context),
                         ACCEPT_WITH_CATEGORIES);
                     acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
-                }
-                // Check the number of pictograms in the checkout list, and prompt the user if it is above the limit
-                else if (checkCheckoutListForCount()) {
+                } else if (checkCheckoutListForCount()) { // Check the number of pictograms in the checkout list, 
+                    // and prompt the user if it is above the limit
                     GirafConfirmDialog acceptManyReturns = GirafConfirmDialog.newInstance(
                         getString(R.string.accept_many_returns_title),
                         getString(R.string.accept_many_returns_context),
                         ACCEPT_MANY_RETURNS);
                     acceptManyReturns.show(getSupportFragmentManager(), "" + ACCEPT_MANY_RETURNS);
-                }
-                // If none of the checks results in false, send the content to the calling application
-                else {
+                } else { // If none of the checks results in false, send the content to the calling application
                     sendContent();
                 }
             }
@@ -267,15 +263,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                     if (searchTemp.isEmpty()) {
                         currentViewSearch.clear();
                         loadCategoryPictogramIntoGridView(currentViewSearch);
-                    }
-                    // Loads the previous search results.
-                    else {
+                    } else { // Loads the previous search results.
                         loadCategoryPictogramIntoGridView(searchTemp);
                     }
                     onSearchSummaryCount(searchTemp);
-                }
-                // Loads the pictograms inside a category into the grid.
-                else {
+                } else { // Loads the pictograms inside a category into the grid.
                     findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
                     loadCategoryPictogramIntoGridView(currentViewSearch);
                     onEnterCategoryCount(currentViewSearch);
@@ -768,16 +760,16 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Open the application PictoCreator if the application is installed.
      *
-     * @param allow_error_msg boolean for allowing error messages to be displayed to user
+     * @param allowErrorMsg boolean for allowing error messages to be displayed to user
      */
-    private void launchPictoCreator(boolean allow_error_msg) {
+    private void launchPictoCreator(boolean allowErrorMsg) {
         try {
             Intent intent = new Intent();
             intent.setClassName(getString(R.string.set_class_name_pictoCreator),
                 getString(R.string.set_class_name_pictoCreator_mainActivity));
             startActivity(intent);
         } catch (android.content.ActivityNotFoundException e) {
-            if (allow_error_msg) {
+            if (allowErrorMsg) {
                 MessageDialogFragment message = new MessageDialogFragment(
                     getString(R.string.unable_to_launch_pictoCreator));
                 message.show(getFragmentManager(), getString(R.string.pictoCreator));
@@ -788,9 +780,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     /**
      * Open the application CategoryTool if the application is installed.
      *
-     * @param allow_error_msg boolean for allowing error messages to be displayed to user
+     * @param allowErrorMsg boolean for allowing error messages to be displayed to user
      */
-    private void launchCategoryTool(boolean allow_error_msg) {
+    private void launchCategoryTool(boolean allowErrorMsg) {
         Intent intent = new Intent();
         try {
             intent.setComponent(new ComponentName(getString(R.string.set_class_name_categoryTool),
@@ -800,7 +792,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             startActivity(intent);
 
         } catch (android.content.ActivityNotFoundException e) {
-            if (allow_error_msg) {
+            if (allowErrorMsg) {
                 MessageDialogFragment message = new MessageDialogFragment(
                     getString(R.string.unable_to_launch_categoryTool));
                 message.show(getFragmentManager(), getString(R.string.categoryTool));
@@ -1118,7 +1110,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         showcaseManager.start(this);
     }
 
-    //ToDo Write JavaDoc
+    /**
+     * Hides the showcase.
+     */
     public synchronized void hideShowcase() {
         if (showcaseManager != null) {
             showcaseManager.stop();
@@ -1126,7 +1120,9 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         }
     }
 
-    //ToDo Write JavaDoc
+    /**
+     * Toggles the showcase between hide/show.
+     */
     public synchronized void toggleShowcase() {
 
         if (showcaseManager != null) {
