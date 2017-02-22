@@ -96,58 +96,55 @@ public class PictoAdapter extends BaseAdapter {
      * @return A View corresponding to the data at the specified position.
      */
     // Todo: handle NullPointerException (Maybe fixed)
-
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
-
         final Object object = objectList.get(position);
+        Drawable catIndicator = context.getResources().getDrawable(R.drawable.icon_category);
 
-            Drawable catIndicator = context.getResources().getDrawable(R.drawable.icon_category);
-
-            if (convertView == null) {
-                GirafPictogramItemView pictogramItemView;
-                if (object != null &&object instanceof Pictogram) {
-
-                    Pictogram pictogramNew = (Pictogram) object;
-                    pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
-                } else if(object != null){
-                    Category categoryNew = (Category) object;
-                    pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
-                    pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
-                } else {
-                    ImageEntity imageEntity = null; //Because the constructer will not accept a null as the second par
-                    pictogramItemView = new GirafPictogramItemView(context,imageEntity);
-                }
-
-                pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT,
-                    GridLayout.LayoutParams.WRAP_CONTENT));
-                return pictogramItemView;
-
+        if (convertView == null) {
+            GirafPictogramItemView pictogramItemView;
+            if (object != null && object instanceof Pictogram) {
+                Pictogram pictogramNew = (Pictogram) object;
+                pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
+            } else if (object != null) {
+                Category categoryNew = (Category) object;
+                pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
+                pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
             } else {
-                GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) convertView;
-                pictogramItemView.resetPictogramView();
+                ImageEntity imageEntity = null; //Because the constructer will not accept a null as the second par
+                pictogramItemView = new GirafPictogramItemView(context, imageEntity);
+            }
 
-                if (object != null && object instanceof Pictogram) {
-                    Pictogram pictogramNew = (Pictogram) object;
-                    pictogramItemView.setImageModel(pictogramNew);
-                    pictogramItemView.setTitle(pictogramNew.getName());
+            pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT,
+                GridLayout.LayoutParams.WRAP_CONTENT));
+            return pictogramItemView;
 
-                } else if(object != null){
-                    Category categoryNew = (Category) object;
-                    pictogramItemView.setImageModel(categoryNew);
-                    pictogramItemView.setTitle(categoryNew.getName());
-                    pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
+        } else {
+            GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) convertView;
+            pictogramItemView.resetPictogramView();
 
-                }
-                return pictogramItemView;
+            if (object != null && object instanceof Pictogram) {
+                Pictogram pictogramNew = (Pictogram) object;
+                pictogramItemView.setImageModel(pictogramNew);
+                pictogramItemView.setTitle(pictogramNew.getName());
+
+            } else if (object != null) {
+                Category categoryNew = (Category) object;
+                pictogramItemView.setImageModel(categoryNew);
+                pictogramItemView.setTitle(categoryNew.getName());
+                pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
 
             }
+            return pictogramItemView;
+
+        }
     }
 
     /**
      * Replaces the PictoAdapter's currently used objectList, and marks the
      * PictoAdapter's data as invalidated, such the the view will be re-rendered.
+     *
      * @param objectList List of objects to populate the PictoAdapter
      */
     public void swap(List<Object> objectList) {
