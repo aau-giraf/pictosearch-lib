@@ -60,7 +60,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     private ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
 
-        if (pictogramNames[0].isEmpty()) {
+        if (pictogramNames.length != 0 && pictogramNames[0].isEmpty()) {
             return pictoList;
         }
 
