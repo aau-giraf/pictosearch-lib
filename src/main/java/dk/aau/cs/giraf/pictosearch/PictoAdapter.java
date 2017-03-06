@@ -8,6 +8,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 
+import dk.aau.cs.giraf.dblib.controllers.ImageEntity;
 import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
@@ -94,7 +95,7 @@ public class PictoAdapter extends BaseAdapter {
      * @param parent      that this view will eventually be attached to
      * @return A View corresponding to the data at the specified position.
      */
-    // Todo: handle NullPointerException
+    // Todo: handle NullPointerException (Maybe fixed)
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
@@ -103,14 +104,16 @@ public class PictoAdapter extends BaseAdapter {
 
         if (convertView == null) {
             GirafPictogramItemView pictogramItemView;
-            if (object instanceof Pictogram) {
-
-                Pictogram pictogramNew = (Pictogram) objectList.get(position);
+            if (object != null && object instanceof Pictogram) {
+                Pictogram pictogramNew = (Pictogram) object;
                 pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
-            } else {
-                Category categoryNew = (Category) objectList.get(position);
+            } else if (object != null) {
+                Category categoryNew = (Category) object;
                 pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
                 pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
+            } else {
+                ImageEntity imageEntity = null; //Because the constructer will not accept a null as the second par
+                pictogramItemView = new GirafPictogramItemView(context, imageEntity);
             }
 
             pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT,
@@ -121,13 +124,13 @@ public class PictoAdapter extends BaseAdapter {
             GirafPictogramItemView pictogramItemView = (GirafPictogramItemView) convertView;
             pictogramItemView.resetPictogramView();
 
-            if (object instanceof Pictogram) {
-                Pictogram pictogramNew = (Pictogram) objectList.get(position);
+            if (object != null && object instanceof Pictogram) {
+                Pictogram pictogramNew = (Pictogram) object;
                 pictogramItemView.setImageModel(pictogramNew);
                 pictogramItemView.setTitle(pictogramNew.getName());
 
-            } else {
-                Category categoryNew = (Category) objectList.get(position);
+            } else if (object != null) {
+                Category categoryNew = (Category) object;
                 pictogramItemView.setImageModel(categoryNew);
                 pictogramItemView.setTitle(categoryNew.getName());
                 pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
@@ -139,10 +142,10 @@ public class PictoAdapter extends BaseAdapter {
     }
 
     /**
-     * Swaps the objectList with the param.
-     * Flags the current data as invalid.
+     * Replaces the PictoAdapter's currently used objectList, and marks the
+     * PictoAdapter's data as invalidated, such the the view will be re-rendered.
      *
-     * @param objectList the new objectList.
+     * @param objectList List of objects to populate the PictoAdapter
      */
     public void swap(List<Object> objectList) {
         this.objectList = objectList;
