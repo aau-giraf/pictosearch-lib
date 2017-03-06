@@ -141,22 +141,21 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                         getString(R.string.accept_no_result_context),
                         ACCEPT_NO_PICTOGRAMS);
                     acceptNoResults.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
-                } else if (checkCheckoutListForCategories()) {
-                    // Check if the checkout list contains categories, and prompt the user if so
+                } else if (checkCheckoutListForCategories()) { // Check if the checkout list contains categories,
+                    // and prompt the user if so
                     GirafConfirmDialog acceptWithCategories = GirafConfirmDialog.newInstance(
                         getString(R.string.accept_with_categories_title),
                         getString(R.string.accept_with_categories_context),
                         ACCEPT_WITH_CATEGORIES);
                     acceptWithCategories.show(getSupportFragmentManager(), "" + ACCEPT_NO_PICTOGRAMS);
-                } else if (checkCheckoutListForCount()) {
-                    // Check the number of pictograms in the checkout list, and prompt the user if it is above the limit
+                } else if (checkCheckoutListForCount()) { // Check the number of pictograms in the checkout list,
+                    // and prompt the user if it is above the limit
                     GirafConfirmDialog acceptManyReturns = GirafConfirmDialog.newInstance(
                         getString(R.string.accept_many_returns_title),
                         getString(R.string.accept_many_returns_context),
                         ACCEPT_MANY_RETURNS);
                     acceptManyReturns.show(getSupportFragmentManager(), "" + ACCEPT_MANY_RETURNS);
-                } else {
-                    // If none of the checks results in false, send the content to the calling application
+                } else { // If none of the checks results in false, send the content to the calling application
                     sendContent();
                 }
             }
@@ -264,13 +263,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                     if (searchTemp.isEmpty()) {
                         currentViewSearch.clear();
                         loadCategoryPictogramIntoGridView(currentViewSearch);
-                    } else {
-                        // Loads the previous search results.
+                    } else { // Loads the previous search results.
                         loadCategoryPictogramIntoGridView(searchTemp);
                     }
                     onSearchSummaryCount(searchTemp);
-                } else {
-                    // Loads the pictograms inside a category into the grid.
+                } else { // Loads the pictograms inside a category into the grid.
                     findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
                     loadCategoryPictogramIntoGridView(currentViewSearch);
                     onEnterCategoryCount(currentViewSearch);
@@ -1124,7 +1121,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     }
 
     /**
-     * Toggle the visibility of the showcase.
+     * Toggles the showcase between hide/show.
      */
     public synchronized void toggleShowcase() {
 
