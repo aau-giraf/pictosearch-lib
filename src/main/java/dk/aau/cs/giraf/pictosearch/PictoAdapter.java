@@ -138,7 +138,12 @@ public class PictoAdapter extends BaseAdapter {
         }
     }
 
-    //ToDo Add JavaDoc for this method
+    /**
+     * Swaps the objectList with the param.
+     * Flags the current data as invalid.
+     *
+     * @param objectList the new objectList.
+     */
     public void swap(List<Object> objectList) {
         this.objectList = objectList;
 
