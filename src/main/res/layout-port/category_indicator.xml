@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:background="@drawable/icon_category"
+        android:visibility="visible"
+        android:id="@+id/category_indicator_local"
+        android:contentDescription="@string/category_indicator" />
