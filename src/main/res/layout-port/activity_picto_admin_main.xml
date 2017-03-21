@@ -13,9 +13,8 @@
     android:baselineAligned="false">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.13"
+        android:layout_width="71dp"
+        android:layout_height="519dp"
         android:orientation="vertical">
 
         <GridLayout
@@ -29,7 +28,7 @@
 
         <TextView
             android:id="@+id/categorySum"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:text="@string/category_colon"
             android:textSize="15sp"
@@ -65,88 +64,57 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.69"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <GridLayout
-                android:layout_width="400dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp">
-
-                <TextView
-                    android:id="@+id/is_single_or_not"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:textSize="15sp"
-                    android:layout_row="0"
-                    android:layout_column="0"/>
-
-                <TextView
-                    android:id="@+id/search_summary_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:textSize="15sp"
-                    android:layout_row="1"
-                    android:layout_column="0"/>
-            </GridLayout>
-
-            <dk.aau.cs.giraf.gui.GirafSpinner
-                android:id="@+id/category_dropdown"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:spinnerMode="dropdown"
-                android:clickable="true"
-                android:layout_gravity="bottom|right"/>
+            android:layout_height="50dp"
+            android:layout_margin="5dp">
 
             <LinearLayout
                 android:id="@+id/search_box"
-                android:layout_marginLeft="7dp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginLeft="7dp"
+                android:layout_weight="0.77"
                 android:background="@drawable/border_square"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_gravity="bottom|right">
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/text_search_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight=".90"
-                android:hint="@string/search"
-                android:textColorHint="@android:color/darker_gray"
-                android:inputType="text"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="20sp"
-                android:imeOptions="actionSearch">
-            </EditText>
+                <EditText
+                    android:id="@+id/text_search_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.76"
+                    android:hint="@string/search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp">
+                </EditText>
 
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight=".10"
-                android:layout_gravity="center"
-                android:id="@+id/clear_search_field"
-                android:background="@drawable/icon_cancel"
-                android:layout_marginRight="5dp"
-                android:contentDescription="@string/clear_button_description" />
+                <ImageButton
+                    android:id="@+id/clear_search_field"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight=".10"
+                    android:background="@drawable/icon_cancel"
+                    android:contentDescription="@string/clear_button_description"/>
 
             </LinearLayout>
 
             <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/search_button"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="2dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:icon="@drawable/icon_search"
-                android:layout_gravity="bottom|right"/>
+                android:layout_gravity="bottom|right"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="2dp"
+                app:icon="@drawable/icon_search"/>
 
         </LinearLayout>
 
@@ -160,41 +128,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <GridView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
-            android:id="@+id/pictogram_displayer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="5"
-            android:stretchMode="columnWidth">
+                <GridView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pictogram_displayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="3"
+                    android:stretchMode="columnWidth"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
 
-            </GridView>
+                </GridView>
 
-            <TextView
-                android:id="@+id/empty_search_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:text="@string/search_to_find"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_gravity="center"
-                android:textColor="@color/giraf_text"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:background="@color/giraf_bar_gradient_end"
-                android:layout_margin="0dp"
-                android:padding="@dimen/text_padding" />
+                <TextView
+                    android:id="@+id/empty_search_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="0dp"
+                    android:background="@color/giraf_bar_gradient_end"
+                    android:padding="@dimen/text_padding"
+                    android:text="@string/search_to_find"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/giraf_text"
+                    android:textStyle="bold"
+                    android:visibility="invisible"/>
 
+                <TextView
+                    android:id="@+id/search_summary_count"
+                    android:layout_width="163dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    android:textSize="15sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
+
+                <GridLayout
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="49dp"
+                    android:layout_marginStart="49dp"
+                    android:layout_below="@+id/search_summary_count"
+                    android:layout_alignLeft="@+id/search_summary_count"
+                    android:layout_alignStart="@+id/search_summary_count"
+                    android:layout_marginTop="11dp">
+
+                </GridLayout>
+
+                <TextView
+                    android:id="@+id/is_single_or_not"
+                    android:layout_width="164dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/search_summary_count"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:textSize="15sp"
+                    android:layout_alignLeft="@+id/search_summary_count"
+                    android:layout_alignStart="@+id/search_summary_count"/>
 
 
             </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>
-
 
 
 </LinearLayout>
