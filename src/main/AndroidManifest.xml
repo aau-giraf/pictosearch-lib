@@ -27,7 +27,7 @@
             android:finishOnTaskLaunch="true"
             android:logo="@drawable/ic_action_search"
             android:theme="@style/GirafTheme"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="fullSensor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT"/>
