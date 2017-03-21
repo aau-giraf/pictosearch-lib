@@ -66,15 +66,12 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         PictogramController pictogramController = new PictogramController(mainActivity.getApplicationContext());
 
-        List<Pictogram> pictoTemp = new ArrayList<Pictogram>();
-
         for (String s : pictogramNames) {
-            pictoTemp.addAll(pictogramController.getPictogramsByName(s));
-        }
-
-        for (Pictogram p : pictoTemp) {
-            if (!pictoList.contains(p)) {
-                pictoList.add(p);
+            List<Pictogram> pictoTemp = pictogramController.getPictogramsByName(s);
+            for (Pictogram p : pictoTemp) {
+                if(!pictoList.contains(p)) {
+                    pictoList.add(p);
+                }
             }
         }
 
@@ -117,17 +114,15 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      */
     private ArrayList<Pictogram> getPictogramByTags(String[] tagCaptions) {
         ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
-        ArrayList<Pictogram> pictoTemp = new ArrayList<Pictogram>();
 
         PictogramController pictogramController = new PictogramController(mainActivity.getApplicationContext());
 
         for (String s : tagCaptions) {
-            pictoTemp.addAll(pictogramController.getPictogramsWithTagName(s));
-        }
-
-        for (Pictogram p : pictoTemp) {
-            if (!pictoList.contains(p)) {
-                pictoList.add(p);
+            List<Pictogram> pictoTemp = pictogramController.getPictogramsWithTagName(s);
+            for (Pictogram p : pictoTemp) {
+                if (!pictoList.contains(p)) {
+                    pictoList.add(p);
+                }
             }
         }
 
@@ -185,7 +180,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             int relevance = pairList.get(index).second;
 
             if (relevance != 0) {
-                for (int j = 0; j < pairList.size(); j++) {
+                int j;
+                int size = pairList.size();
+                for (j = 0; j < size; j++) {
                     if (relevance > pairList.get(j).second) {
                         relevance = pairList.get(j).second;
                         index = j;
@@ -214,7 +211,9 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         String searchString = params[0];
         String[] splitInput = searchString.replaceAll("\\s+", " ").split(",");
 
-        for (int i = 0; i < splitInput.length; i++) {
+        int i;
+        int size = splitInput.length;
+        for (i = 0; i < size; i++) {
             splitInput[i] = splitInput[i].trim();
         }
 
