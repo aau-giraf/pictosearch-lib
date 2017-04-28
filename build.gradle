@@ -25,6 +25,7 @@ buildscript {
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 group = "dk.aau.cs.giraf"
+
 version = System.properties.VERSION ?: "1.0-SNAPSHOT" // Get version from the jenkins parameter VERSION
 println "Version is ${version}"
 repositories {
@@ -54,6 +55,7 @@ artifactory {
         }
         repository {
             repoKey = 'libs-release'
+            maven = true
         }
     }
 }
