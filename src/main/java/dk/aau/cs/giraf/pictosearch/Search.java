@@ -1,14 +1,24 @@
 package dk.aau.cs.giraf.pictosearch;
 
+import android.content.Intent;
+import android.content.Context;
+
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
 
 import dk.aau.cs.giraf.activity.GirafActivity;
-import dk.aau.cs.giraf.dblib.controllers.CategoryController;
-import dk.aau.cs.giraf.dblib.controllers.PictogramController;
-import dk.aau.cs.giraf.dblib.models.Category;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafWaitingDialog;
+import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
+import dk.aau.cs.giraf.librest.requests.LoginRequest;
+import dk.aau.cs.giraf.librest.requests.RequestQueueHandler;
+import dk.aau.cs.giraf.models.core.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,27 +27,30 @@ import java.util.List;
  * Search class used to search for pictograms and/or categories.
  */
 public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
-    private final long id;
+    private final User currentUser;
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
     private GirafWaitingDialog waitingDialog;
     private final boolean isSingle;
     private boolean showDialog = false;
-    private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES";
+    private static final String SEARCHING_FOR_PICTOGRAMS_AND_CATEGORIES = "SEARCHING_FOR_PICTOGRAMS";
+    private Context theContext;
 
     /**
      * Constructs an instance of search, just like a constructor is supposed to...
      *
      * @param mainActivity used as a reference to the callee
-     * @param id           tells if the callee is guardian or citizen
+     * @param currentUser           tells if the callee is guardian or citizen
      * @param delegate     where the result should be delivered to.
      * @param isSingle     if true it will only be possible to select one pictogram
+     * @param theContext   Context required by the rest library, you can probably get it by getApplicationContext
      */
-    public Search(GirafActivity mainActivity, long id, AsyncResponse delegate, boolean isSingle) {
+    public Search(GirafActivity mainActivity, User currentUser, AsyncResponse delegate, boolean isSingle, Context theContext) {
         this.mainActivity = mainActivity;
-        this.id = id;
+        this.currentUser = currentUser;
         this.delegate = delegate;
         this.isSingle = isSingle;
+        this.theContext = theContext;
     }
 
     /**
@@ -46,9 +59,18 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param showDialog indicated if a dialog should be shown when searching
      * @link Search(GirafActivity, long, AsyncResponse, boolean)
      */
-    public Search(GirafActivity mainActivity, long id, AsyncResponse delegate, boolean isSingle, boolean showDialog) {
-        this(mainActivity, id, delegate, isSingle);
+    public Search(GirafActivity mainActivity, User currentUser, AsyncResponse delegate, boolean isSingle, boolean showDialog, Context theContext) {
+        this(mainActivity, currentUser, delegate, isSingle, theContext);
         this.showDialog = showDialog;
+    }
+
+    /**
+     * Use this for changing context
+     * Dunno if it is ever necessary, but i figured it would be good to have just in case
+     * @param newContext the new context, usually gotten by getApplicationContext
+     */
+    public void ChangeContext(Context newContext){
+        this.theContext = newContext;
     }
 
     /**
@@ -57,13 +79,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param pictogramNames string array with each search word
      * @return List of all pictogram matching the search names
      */
-    private ArrayList<Pictogram> getAllPictograms(String[] pictogramNames) {
-        ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+    private ArrayList<Pictogram> getAllPictograms(String[] pictogramNames, Context searchContext) {
+        final ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
 
         if (pictogramNames.length != 0 && pictogramNames[0].isEmpty()) {
             return pictoList;
         }
-
+/*
         PictogramController pictogramController = new PictogramController(mainActivity.getApplicationContext());
 
         for (String s : pictogramNames) {
@@ -74,6 +96,60 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                 }
             }
         }
+*/
+        //getApplicationContext skal være inde i en override for at virke.
+        final RequestQueue queue = RequestQueueHandler.getInstance(searchContext).getRequestQueue();
+
+        for (String s : pictogramNames) {
+
+            GetArrayRequest<Pictogram> arr = new GetArrayRequest<Pictogram>(s, Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
+                @Override
+                public void onResponse(ArrayList<Pictogram> response) {
+                    for(Pictogram p : response){
+                        if(!pictoList.contains(p)){
+                            pictoList.add(p);
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse.statusCode == 401) {
+                        LoginRequest loginRequest = new LoginRequest(currentUser, new Response.Listener<Integer>() {
+                            @Override
+                            public void onResponse(Integer response) {
+                                GetArrayRequest<Pictogram> arr = new GetArrayRequest<Pictogram>(Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
+                                    @Override
+                                    public void onResponse(ArrayList<Pictogram> response) {
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        if (error.networkResponse.statusCode == 401) {
+                                            //ToDo display a message saying it failed to connect, try again later
+                                        }
+
+                                    }
+                                });
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //ToDo log it
+                            }
+                        });
+                        queue.add(loginRequest);
+                    } else if (error.networkResponse.statusCode == 404) {
+                        //ToDo display a message box saying it does not have access to the server
+                    }
+                }
+            });
+            queue.add(arr);
+        }
+
+
 
         return pictoList;
     }
@@ -84,6 +160,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param categoryNames String array with each search word
      * @return List of all categories with a matching name
      */
+/*
     private ArrayList<Category> getAllCategories(final String[] categoryNames) {
         ArrayList<Category> catList = new ArrayList<Category>();
 
@@ -105,15 +182,17 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         return catList;
     }
-
+*/
     /**
      * Get all tags matching one of the input words from the database.
      *
      * @param tagCaptions String array with each search word
      * @return List of all tags matching the search names
      */
-    private ArrayList<Pictogram> getPictogramByTags(String[] tagCaptions) {
-        ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+    private ArrayList<Pictogram> getPictogramByTags(String[] tagCaptions, Context searchContext) {
+        final ArrayList<Pictogram> pictoList = new ArrayList<Pictogram>();
+        final ArrayList<Pictogram> pictoTemp = new ArrayList<Pictogram>();
+        /*
 
         PictogramController pictogramController = new PictogramController(mainActivity.getApplicationContext());
 
@@ -121,6 +200,62 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             List<Pictogram> pictoTemp = pictogramController.getPictogramsWithTagName(s);
             for (Pictogram p : pictoTemp) {
                 if (!pictoList.contains(p)) {
+                    pictoList.add(p);
+                }
+            }
+        }
+
+*/
+
+        final RequestQueue queue = RequestQueueHandler.getInstance(searchContext).getRequestQueue();
+
+
+        GetArrayRequest<Pictogram> arr = new GetArrayRequest<Pictogram>(Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
+            @Override
+            public void onResponse(ArrayList<Pictogram> response) {
+                pictoTemp.addAll(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode == 401){
+                    LoginRequest loginRequest = new LoginRequest(currentUser, new Response.Listener<Integer>() {
+                        @Override
+                        public void onResponse(Integer response) {
+                            GetArrayRequest<Pictogram> arr = new GetArrayRequest<Pictogram>(Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
+                                @Override
+                                public void onResponse(ArrayList<Pictogram> response) {
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    if (error.networkResponse.statusCode == 401) {
+                                        //ToDo display a message saying it failed to connect, try again later
+                                    }
+
+                                }
+                            });
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //ToDo log it
+                        }
+                    });
+                    queue.add(loginRequest);
+                }
+                else if(error.networkResponse.statusCode == 404){
+                    //ToDo display a message box saying it does not have access to the server
+                }
+            }
+        });
+        queue.add(arr);
+
+        for(Pictogram p : pictoTemp){
+            for(String s : tagCaptions){
+                if(p.getTitle() == s){
                     pictoList.add(p);
                 }
             }
@@ -150,7 +285,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                 int relevance = Integer.MAX_VALUE;
 
                 for (String s : splitInput) {
-                    int newRelevance = Math.abs((pictogram.getName().compareToIgnoreCase(s)));
+                    int newRelevance = Math.abs((pictogram.getOwner().getUsername().compareToIgnoreCase(s)));
 
                     if (relevance > newRelevance) {
                         relevance = newRelevance;
@@ -158,7 +293,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                 }
 
                 pairList.add(new Pair<Object, Integer>(pictogram, relevance));
-            } else if (o instanceof Category) {
+            } /* else if (o instanceof Category) {
                 Category category = (Category) o;
 
                 int relevance = Integer.MAX_VALUE;
@@ -171,7 +306,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                 }
 
                 pairList.add(new Pair<Object, Integer>(category, relevance));
-            }
+            } */
         }
 
         // Find the lowest number (the most relevant) and insert it into the result list
@@ -221,10 +356,11 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
 
         ArrayList<Pictogram> pictoTagList = new ArrayList<Pictogram>();
 
-        // Get all pictograms where the name matches the split input
-        result.addAll(getAllPictograms(splitInput));
 
-        pictoTagList.addAll(getPictogramByTags(splitInput));
+        // Get all pictograms where the name matches the split input
+        result.addAll(getAllPictograms(splitInput, theContext));
+
+        pictoTagList.addAll(getPictogramByTags(splitInput, theContext));
 
         // Insert all pictograms from the tags if they are not in the result list
         for (Pictogram p : pictoTagList) {
@@ -234,10 +370,12 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         }
 
         // If isSingle is false, insert all categories where the name matches the split input
+        // I think it already adds all the pictogram up in line 228 so it shouldn't be a problem to comment this out
+        /*
         if (!isSingle) {
             result.addAll(getAllCategories(splitInput));
         }
-
+        */
         // Sort the pictograms and categories
         result = sortPictogramsAndCategories(result, splitInput);
 

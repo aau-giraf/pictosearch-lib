@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
     }
 }
 
@@ -20,6 +20,8 @@ buildscript {
     }
     dependencies {
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+        classpath 'com.android.tools.build:gradle:2.3.1'
+
     }
 }
 apply plugin: 'com.jfrog.artifactory'
@@ -73,12 +75,15 @@ publishing {
 
 dependencies {
     compile ('com.android.support:support-v4:23.2.1')
-    compile(group: 'dk.aau.cs.giraf', name: 'giraf-component-lib', version: 'latest.integration', changing: true, ext: 'aar')
+    compile(group: 'dk.aau.cs.giraf', name: 'giraf-component-lib', version: '1.0.12', changing: true, ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'showcaseview-lib', version: 'latest.integration', changing: true, ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'db-lib', version: 'latest.integration', changing: true, ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'local-db', version: 'latest.integration', changing: true, ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: 'latest.integration', changing: true)
-
+    //compile(group: 'dk.aau.cs.giraf', name: 'db-lib', version: 'latest.integration', changing: true, ext: 'aar')
+    //compile(group: 'dk.aau.cs.giraf', name: 'local-db', version: 'latest.integration', changing: true, ext: 'aar')
+    //compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: 'latest.integration', changing: true)
+    compile group: 'dk.aau.cs.giraf', name: 'rest-api-client-lib', version: '1.1.8'
+    compile group: 'dk.aau.cs.giraf', name: 'rest-models', version: 'latest.release'
+    compile 'com.android.volley:volley:1.0.0'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 }
 
 android {

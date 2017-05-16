@@ -8,10 +8,9 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 
-import dk.aau.cs.giraf.dblib.controllers.ImageEntity;
-import dk.aau.cs.giraf.dblib.models.Category;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
+
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
+import dk.aau.cs.giraf.models.core.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,13 +75,14 @@ public class PictoAdapter extends BaseAdapter {
     @Override
     public long getItemId(final int position) {
 
-        if (objectList.get(position) instanceof Pictogram) {
+        //if (objectList.get(position) instanceof Pictogram) {
             Pictogram pictogramTemp = (Pictogram) objectList.get(position);
             return pictogramTemp.getId();
-        } else {
+        //}
+         /* else {
             Category categoryTemp = (Category) objectList.get(position);
             return categoryTemp.getId();
-        }
+        } */
 
     }
 
@@ -106,14 +106,14 @@ public class PictoAdapter extends BaseAdapter {
             GirafPictogramItemView pictogramItemView;
             if (object != null && object instanceof Pictogram) {
                 Pictogram pictogramNew = (Pictogram) object;
-                pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getName());
-            } else if (object != null) {
+                pictogramItemView = new GirafPictogramItemView(context, pictogramNew, pictogramNew.getOwner().getScreenName());
+            } /* else if (object != null) {
                 Category categoryNew = (Category) object;
                 pictogramItemView = new GirafPictogramItemView(context, categoryNew, categoryNew.getName());
                 pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
-            } else {
-                ImageEntity imageEntity = null; //Because the constructer will not accept a null as the second par
-                pictogramItemView = new GirafPictogramItemView(context, imageEntity);
+            } */ else {
+                Pictogram pictogramEntity = null; //Because the constructer will not accept a null as the second par
+                pictogramItemView = new GirafPictogramItemView(context, pictogramEntity);
             }
 
             pictogramItemView.setLayoutParams(new AbsListView.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT,
@@ -127,15 +127,15 @@ public class PictoAdapter extends BaseAdapter {
             if (object != null && object instanceof Pictogram) {
                 Pictogram pictogramNew = (Pictogram) object;
                 pictogramItemView.setImageModel(pictogramNew);
-                pictogramItemView.setTitle(pictogramNew.getName());
+                pictogramItemView.setTitle(pictogramNew.getOwner().getScreenName());
 
-            } else if (object != null) {
+            } /* else if (object != null) {
                 Category categoryNew = (Category) object;
                 pictogramItemView.setImageModel(categoryNew);
                 pictogramItemView.setTitle(categoryNew.getName());
                 pictogramItemView.setIndicatorOverlayDrawable(catIndicator);
 
-            }
+            } */
             return pictogramItemView;
 
         }
