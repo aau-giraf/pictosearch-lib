@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Search class used to search for pictograms and/or categories.
  */
-public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
+public class Search extends AsyncTask<String, Void, ArrayList<Pictogram>> {
     private final User currentUser;
     private AsyncResponse delegate;
     private GirafActivity mainActivity;
@@ -69,13 +69,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param queue The request queue
      * @param response An asynchronous response that holds an ArrayList of pictograms (typecast to object)
      */
-    private void getPictogramsAsync(String query, final RequestQueue queue, final AsyncResponse response) {
+    private void getPictogramsAsync(final String query, final RequestQueueHandler queue, final AsyncResponse response) {
         Response.Listener<ArrayList<Pictogram>> listener = new Response.Listener<ArrayList<Pictogram>>() {
             @Override
             public void onResponse(ArrayList<Pictogram> pictograms) {
                 // using Object due to AsyncResponse's lack of defined types.
                 // IDEA: maybe change AsyncResponse to AsyncResponse<T>?
-                ArrayList<Object> pictoList = new ArrayList<>();
+                ArrayList<Pictogram> pictoList = new ArrayList<>();
 
                 for(Pictogram p : pictograms) {
                     if(!pictoList.contains(p)) {
@@ -91,11 +91,10 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse.statusCode == 401) {
-                    LoginRequest loginRequest = new LoginRequest(currentUser, new Response.Listener<Integer>() {
+                    queue.login(currentUser, new Response.Listener<Integer>() {
                         @Override
                         public void onResponse(Integer response) {
-                            // WARN: the array request is never actually used; keep it?
-                            GetArrayRequest<Pictogram> arrReq = new GetArrayRequest<>(Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
+                            queue.getArray(300, Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
                                 @Override
                                 public void onResponse(ArrayList<Pictogram> response) {
                                     // TODO: fix later
@@ -118,7 +117,6 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                             throw new java.lang.UnsupportedOperationException();
                         }
                     });
-                    queue.add(loginRequest);
                 } else if (error.networkResponse.statusCode == 404) {
                     // TODO: display a message box saying it does not have access to the server
                     throw new java.lang.UnsupportedOperationException();
@@ -126,8 +124,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             }
         };
 
-        GetArrayRequest<Pictogram> arr = new GetArrayRequest<>(query, Pictogram.class, listener, errorListener);
-        queue.add(arr);
+        queue.getArray(300, query, Pictogram.class, listener, errorListener);
     }
 
     /**
@@ -144,12 +141,12 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         }
 
         //getApplicationContext skal være inde i en override for at virke.
-        final RequestQueue queue = RequestQueueHandler.getInstance(searchContext).getRequestQueue();
+        final RequestQueueHandler queue = RequestQueueHandler.getInstance(searchContext);
 
         for (String name : pictogramNames) {
             getPictogramsAsync(name, queue, new AsyncResponse() {
                 @Override
-                public void processFinish(ArrayList<Object> output) {
+                public void processFinish(ArrayList<Pictogram> output) {
                     for (Object o : output) {
                         pictoList.add((Pictogram) o);
                     }
@@ -171,7 +168,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
         final ArrayList<Pictogram> pictoList = new ArrayList<>();
         final ArrayList<Pictogram> pictoTemp = new ArrayList<>();
 
-        final RequestQueue queue = RequestQueueHandler.getInstance(searchContext).getRequestQueue();
+        final RequestQueueHandler queue = RequestQueueHandler.getInstance(searchContext);
 
         Response.Listener<ArrayList<Pictogram>> responseListener = new Response.Listener<ArrayList<Pictogram>>() {
             @Override
@@ -184,13 +181,13 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error.networkResponse.statusCode == 401){
-                    LoginRequest loginRequest = new LoginRequest(currentUser, new Response.Listener<Integer>() {
+                    queue.login(currentUser, new Response.Listener<Integer>() {
                         @Override
                         public void onResponse(Integer response) {
-                            GetArrayRequest<Pictogram> arrayRequest = new GetArrayRequest<>(Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
+                            queue.getArray(300, Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
                                 @Override
                                 public void onResponse(ArrayList<Pictogram> response) {
-
+                                    pictoTemp.addAll(response);
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
@@ -201,6 +198,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                                     }
                                 }
                             });
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -208,9 +206,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                             //ToDo log it
                             throw new java.lang.UnsupportedOperationException();
                         }
-                    });
-                    queue.add(loginRequest);
-                }
+                    });                }
                 else if (error.networkResponse.statusCode == 404){
                     //ToDo display a message box saying it does not have access to the server
                     throw new java.lang.UnsupportedOperationException();
@@ -218,8 +214,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             }
         };
 
-        GetArrayRequest<Pictogram> arr = new GetArrayRequest<>(Pictogram.class, responseListener, errorListener);
-        queue.add(arr);
+        queue.getArray(300, Pictogram.class, responseListener, errorListener);
 
         for (Pictogram p : pictoTemp) {
             for (String s : tagCaptions) {
@@ -238,11 +233,11 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
      * @param splitInput the split input that is used to evaluate the relevance
      * @return sorted list according to the relevance from the searchString
      */
-    private ArrayList<Object> sortPictogramsAndCategories(List<Object> allList, String[] splitInput) {
-        ArrayList<Object> result = new ArrayList<>();
+    private ArrayList<Pictogram> sortPictogramsAndCategories(List<Pictogram> allList, String[] splitInput) {
+        ArrayList<Pictogram> result = new ArrayList<>();
 
         // A list of pairs, which contains the pictogram or category and the relevance
-        List<Pair<Object, Integer>> pairList = new ArrayList<>();
+        List<Pair<Pictogram, Integer>> pairList = new ArrayList<>();
 
         // Calculate for each pictogram or category, their relevance according to the search string
         for (Object o : allList) {
@@ -259,7 +254,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
                     }
                 }
 
-                pairList.add(new Pair<Object, Integer>(pictogram, relevance));
+                pairList.add(new Pair<Pictogram, Integer>(pictogram, relevance));
             }
         }
 
@@ -296,7 +291,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     @Override
-    protected ArrayList<Object> doInBackground(String... params) {
+    protected ArrayList<Pictogram> doInBackground(String... params) {
         // if doInBackground has no input arguments, return an empty array-list.
         if (params.length <= 0) {
             return new ArrayList<>();
@@ -312,7 +307,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
             splitInput[i] = splitInput[i].trim();
         }
 
-        ArrayList<Object> results = new ArrayList<>();
+        ArrayList<Pictogram> results = new ArrayList<>();
 
         ArrayList<Pictogram> pictoTagList = new ArrayList<>();
 
@@ -343,7 +338,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Object>> {
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Object> result) {
+    protected void onPostExecute(ArrayList<Pictogram> result) {
         if (showDialog) {
             waitingDialog.dismiss();
         }

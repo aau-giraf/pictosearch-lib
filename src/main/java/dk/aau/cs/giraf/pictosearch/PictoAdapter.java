@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class PictoAdapter extends BaseAdapter {
     private final Context context;
-    private List<Object> objectList;
+    private List<Pictogram> objectList;
 
 
     /**
@@ -31,11 +31,11 @@ public class PictoAdapter extends BaseAdapter {
      * @param objectList ArrayList of pictograms
      * @param context    provides access to the databases.
      */
-    public PictoAdapter(List<Object> objectList, final Context context) {
+    public PictoAdapter(List<Pictogram> objectList, final Context context) {
         super();
 
         if (objectList == null) {
-            this.objectList = new ArrayList<Object>();
+            this.objectList = new ArrayList<>();
         } else {
             this.objectList = objectList;
         }
@@ -147,7 +147,7 @@ public class PictoAdapter extends BaseAdapter {
      *
      * @param objectList List of objects to populate the PictoAdapter
      */
-    public void swap(List<Object> objectList) {
+    public void swap(List<Pictogram> objectList) {
         this.objectList = objectList;
 
         // Flag the current data as invalid. After this the view will be re-rendered

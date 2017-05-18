@@ -35,7 +35,6 @@ import dk.aau.cs.giraf.gui.GirafSpinner;
 import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
 import dk.aau.cs.giraf.models.core.Pictogram;
 import dk.aau.cs.giraf.models.core.User;
-import dk.aau.cs.giraf.models.core.authentication.PermissionType;
 import dk.aau.cs.giraf.pictosearch.showcase.ShowcaseManager;
 import dk.aau.cs.giraf.showcaseview.ShowcaseView;
 import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
@@ -70,11 +69,11 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
 
     private Search searcher;
 
-    private ArrayList<Object> checkoutList = new ArrayList<Object>();
-    private ArrayList<Object> searchList = new ArrayList<Object>();
-    private ArrayList<Object> emptyList = new ArrayList<Object>();
-    private ArrayList<Object> searchTemp = new ArrayList<Object>();
-    private ArrayList<Object> currentViewSearch = new ArrayList<Object>();
+    private ArrayList<Pictogram> checkoutList = new ArrayList<>();
+    private ArrayList<Pictogram> searchList = new ArrayList<>();
+    private ArrayList<Pictogram> emptyList = new ArrayList<>();
+    private ArrayList<Pictogram> searchTemp = new ArrayList<>();
+    private ArrayList<Pictogram> currentViewSearch = new ArrayList<>();
     private String gridViewString;
 
     // Grid views for both the checkout list and the search result list
@@ -190,13 +189,13 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         addGirafButtonToActionBar(accept, RIGHT);
 
         // Resets different list
-        checkoutList = new ArrayList<Object>();
-        searchList = new ArrayList<Object>();
-        searchTemp = new ArrayList<Object>();
-        currentViewSearch = new ArrayList<Object>();
-        emptyList = new ArrayList<Object>();
+        checkoutList = new ArrayList<>();
+        searchList = new ArrayList<>();
+        searchTemp = new ArrayList<>();
+        currentViewSearch = new ArrayList<>();
+        emptyList = new ArrayList<>();
 
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
+        final LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
 
         onUpdatedCheckoutCount();
         //loadCategoriesIntoCategorySpinner();
@@ -227,136 +226,89 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
         GirafSpinner searchSpinner = (GirafSpinner) findViewById(R.id.category_dropdown);
 
         // OnItemSelectedListener, is used to check which item it selected at any time.
-        searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Sets the itemSelected to local variable.
-                final String selectedItem = parent.getItemAtPosition(position).toString();
+        searchSpinner.setOnItemSelectedListener(
+            new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    // Sets the itemSelected to local variable.
+                    final String selectedItem = parent.getItemAtPosition(position).toString();
 
-                /* Categories aren't used anymore
-                CategoryController categoryController = new CategoryController(getApplicationContext());
 
-                List<Category> categoryTempList;
+                    final RequestQueueHandler handler = RequestQueueHandler.getInstance(getApplicationContext());
+                    final Response.Listener<ArrayList<Pictogram>> listener = new Response.Listener<ArrayList<Pictogram>>() {
+                        @Override
+                        public void onResponse(ArrayList<Pictogram> response) {
+                            currentViewSearch = response;
+                            gridViewString = selectedItem;
 
-                // Decides which categories to use, based on citizenId or guardianId.
-
-                if (citizenId != -1) {
-                    categoryTempList = categoryController.getCategoriesByProfileId(citizenId);
-                } else {
-                    categoryTempList = categoryController.getCategoriesByProfileId(guardianId);
-                }
-
-                Category cat = new Category();
-
-                // If item is not equal to default, then check which category it is equal to.
-                if (!selectedItem.equals(getString(R.string.choose_category_colon))) {
-                    for (Category c : categoryTempList) {
-                        if (selectedItem.equals(c.getName())) {
-                            cat = c;
-                        }
-                    }
-                }
-
-*/
-
-                final RequestQueue queue = RequestQueueHandler.getInstance(getApplicationContext()).getRequestQueue();
-
-                GetArrayRequest<Object> arr = new GetArrayRequest<Object>(Object.class, new Response.Listener<ArrayList<Object>>() {
-                    @Override
-                    public void onResponse(ArrayList<Object> response) {
-                        currentViewSearch = response;
-                        gridViewString = selectedItem;
-
-                        // Checks whether it is equal to default or not.
-                        if (selectedItem.equals(getString(R.string.choose_category_colon))) {
-                            // Clears the view and load the empty view, if not search have been done.
-                            if (searchTemp.isEmpty()) {
-                                currentViewSearch.clear();
-                                loadCategoryPictogramIntoGridView(currentViewSearch);
-                            } else { // Loads the previous search results.
-                                loadCategoryPictogramIntoGridView(searchTemp);
-                            }
-                            onSearchSummaryCount(searchTemp);
-                        } else { // Loads the pictograms inside a category into the grid.
-                            findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
-                            loadCategoryPictogramIntoGridView(currentViewSearch);
-                            onEnterCategoryCount(currentViewSearch);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if(error.networkResponse.statusCode == 401){
-                            LoginRequest loginRequest = new LoginRequest(currentUser, new Response.Listener<Integer>() {
-                                @Override
-                                public void onResponse(Integer response) {
-                                    GetArrayRequest<Pictogram> arr = new GetArrayRequest<Pictogram>(Pictogram.class, new Response.Listener<ArrayList<Pictogram>>() {
-                                        @Override
-                                        public void onResponse(ArrayList<Pictogram> response) {
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            if (error.networkResponse.statusCode == 401) {
-                                                //ToDo display a message saying it failed to connect, try again later
-                                            }
-
-                                        }
-                                    });
-
+                            // Checks whether it is equal to default or not.
+                            if (selectedItem.equals(getString(R.string.choose_category_colon))) {
+                                // Clears the view and load the empty view, if not search have been done.
+                                if (searchTemp.isEmpty()) {
+                                    currentViewSearch.clear();
+                                    loadCategoryPictogramIntoGridView(currentViewSearch);
+                                } else { // Loads the previous search results.
+                                    loadCategoryPictogramIntoGridView(searchTemp);
                                 }
-                            }, new Response.ErrorListener() {
+                                onSearchSummaryCount(searchTemp);
+                            } else { // Loads the pictograms inside a category into the grid.
+                                findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
+                                loadCategoryPictogramIntoGridView(currentViewSearch);
+                                onEnterCategoryCount(currentViewSearch);
+                            }
+                        }
+                    };
+
+                    handler.getArray(
+                            300,
+                            Pictogram.class,
+                            listener,
+                            new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    //ToDo log it
+                                    if (error.networkResponse.statusCode == 401) {
+                                        handler.login(
+                                                currentUser,
+                                                new Response.Listener<Integer>() {
+                                                    @Override
+                                                    public void onResponse(Integer response) {
+                                                        handler.getArray(
+                                                                300,
+                                                                Pictogram.class,
+                                                                listener,
+                                                                new Response.ErrorListener() {
+                                                                    @Override
+                                                                    public void onErrorResponse(VolleyError error) {
+                                                                        if (error.networkResponse.statusCode == 401) {
+                                                                            //ToDo display a message saying it failed to connect, try again later
+                                                                        }
+                                                                    }
+                                                                }
+                                                        );
+
+                                                    }
+                                                },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        //ToDo log it
+                                                    }
+                                                }
+                                        );
+                                    }
                                 }
-                            });
-                            queue.add(loginRequest);
-                        }
-                        else if(error.networkResponse.statusCode == 404){
-                            //ToDo display a message box saying it does not have access to the server
-                        }
-                    }
-                });
-                queue.add(arr);
-
-
-
-/*              //this is the old code, i don't like deleting things in case rollback shits itself
-                ArrayList<Object> allList = new ArrayList<Object>();
-                allList.addAll();
-
-                // Sets some global variables, used other places.
-                currentViewSearch = allList;
-                gridViewString = selectedItem;
-
-                // Checks whether it is equal to default or not.
-                if (selectedItem.equals(getString(R.string.choose_category_colon))) {
-                    // Clears the view and load the empty view, if not search have been done.
-                    if (searchTemp.isEmpty()) {
-                        currentViewSearch.clear();
-                        loadCategoryPictogramIntoGridView(currentViewSearch);
-                    } else { // Loads the previous search results.
-                        loadCategoryPictogramIntoGridView(searchTemp);
-                    }
-                    onSearchSummaryCount(searchTemp);
-                } else { // Loads the pictograms inside a category into the grid.
-                    findViewById(R.id.empty_search_result).setVisibility(View.INVISIBLE);
-                    loadCategoryPictogramIntoGridView(currentViewSearch);
-                    onEnterCategoryCount(currentViewSearch);
+                            }
+                    );
                 }
-                */
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                searchForPictogram();
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
 
         final EditText searchTerm = (EditText) findViewById(R.id.text_search_input);
-
         searchTerm.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence chars, int start, int count, int after) {
@@ -441,12 +393,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 //int catCount = 0;
                 int picCount = 0;
 
-                for (Object o : checkoutList) {
-                    if (o instanceof Pictogram) {
-                        picCount++;
-                    } /*else if (o instanceof Category) {
-                        catCount++;
-                    }*/
+                for (Pictogram o : checkoutList) {
+                    picCount++;
 
                     if (picCount > 0 /*&& catCount > 0 */) {
                         break;
@@ -591,7 +539,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      *
      * @param cpList List of pictograms and categories from opening and closing a category.
      */
-    private void loadCategoryPictogramIntoGridView(ArrayList<Object> cpList) {
+    private void loadCategoryPictogramIntoGridView(ArrayList<Pictogram> cpList) {
         pictoGrid.setAdapter(new PictoAdapter(cpList, getApplicationContext()));
     }
 
@@ -740,7 +688,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      *
      * @param summaryTempList temporary object list with pictograms and categories.
      */
-    public void onSearchSummaryCount(ArrayList<Object> summaryTempList) {
+    public void onSearchSummaryCount(ArrayList<Pictogram> summaryTempList) {
         //int countCatTemp = countCategories(summaryTempList);
         int countPicTemp = countPictograms(summaryTempList);
 
@@ -789,10 +737,10 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * @param pictogramTempList object list
      * @return returns the count
      */
-    private int countPictograms(ArrayList<Object> pictogramTempList) {
+    private int countPictograms(ArrayList<Pictogram> pictogramTempList) {
         int count = 0;
 
-        for (Object o : pictogramTempList) {
+        for (Pictogram o : pictogramTempList) {
             if (o instanceof Pictogram) {
                 count++;
             }
@@ -826,7 +774,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * @param pictogramTempList object list
      */
 
-    public void onEnterCategoryCount(ArrayList<Object> pictogramTempList) {
+    public void onEnterCategoryCount(ArrayList<Pictogram> pictogramTempList) {
         TextView searchSummaryText = (TextView) findViewById(R.id.search_summary_count);
         if (pictogramTempList.size() == 1) {
             searchSummaryText.setText(getString(R.string.category_contains) + " " +
@@ -984,7 +932,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * @param output object list of pictograms and categories from search
      */
     @Override
-    public void processFinish(ArrayList<Object> output) {
+    public void processFinish(ArrayList<Pictogram> output) {
         searchList = output;
         searchTemp = searchList;
         onSearchSummaryCount(searchList);
@@ -1215,5 +1163,4 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             showShowcase();
         }
     }
-
 }
