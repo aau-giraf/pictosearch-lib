@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -265,36 +266,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    if (error.networkResponse.statusCode == 401) {
-                                        handler.login(
-                                                currentUser,
-                                                new Response.Listener<Integer>() {
-                                                    @Override
-                                                    public void onResponse(Integer response) {
-                                                        handler.getArray(
-                                                                300,
-                                                                Pictogram.class,
-                                                                listener,
-                                                                new Response.ErrorListener() {
-                                                                    @Override
-                                                                    public void onErrorResponse(VolleyError error) {
-                                                                        if (error.networkResponse.statusCode == 401) {
-                                                                            //ToDo display a message saying it failed to connect, try again later
-                                                                        }
-                                                                    }
-                                                                }
-                                                        );
-
-                                                    }
-                                                },
-                                                new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-                                                        //ToDo log it
-                                                    }
-                                                }
-                                        );
-                                    }
+                                    Log.d("VolleyError", "onErrorResponse: " + error.networkResponse.statusCode);
+                                    throw new RuntimeException();
                                 }
                             }
                     );
@@ -531,6 +504,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Log.d("VolleyError", "onErrorResponse: " + error.networkResponse.statusCode);
                     // TODO: Handle me
                     throw new RuntimeException();
                 }
