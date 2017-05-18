@@ -81,6 +81,7 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private TextView emptySearchTextView;
     private EditText searchTerm;
     private ImageButton clearButton;
+    private RequestQueueHandler handler;
 
     private ShowcaseManager showcaseManager;
     private boolean isFirstRun;
@@ -102,6 +103,8 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        handler = RequestQueueHandler.getInstance(getApplicationContext());
 
         // Update the guardian and child ID
         updateGuardianInfo();
@@ -231,9 +234,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     // Sets the itemSelected to local variable.
                     final String selectedItem = parent.getItemAtPosition(position).toString();
-
-
-                    final RequestQueueHandler handler = RequestQueueHandler.getInstance(getApplicationContext());
                     final Response.Listener<ArrayList<Pictogram>> listener = new Response.Listener<ArrayList<Pictogram>>() {
                         @Override
                         public void onResponse(ArrayList<Pictogram> response) {
@@ -514,7 +514,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
             waitingDialog.show(getSupportFragmentManager(), "WAITNG");
         }
 
-        final RequestQueueHandler handler = RequestQueueHandler.getInstance(this);
         handler.getArray(
             300,
             searchString,
