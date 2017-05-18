@@ -32,6 +32,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafConfirmDialog;
 import dk.aau.cs.giraf.gui.GirafSpinner;
+import dk.aau.cs.giraf.gui.GirafWaitingDialog;
 import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
 import dk.aau.cs.giraf.models.core.Pictogram;
 import dk.aau.cs.giraf.models.core.User;
@@ -66,8 +67,6 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
     private static final int MAX_NUMBER_OF_RETURNS = 100;
 
     private User currentUser;
-
-    private Search searcher;
 
     private ArrayList<Pictogram> checkoutList = new ArrayList<>();
     private ArrayList<Pictogram> searchList = new ArrayList<>();
@@ -497,24 +496,47 @@ public class PictoAdminMain extends GirafActivity implements AsyncResponse, Gira
      * @param showDialog boolean that indicated whether or not an obtrusive dialog should be shown
      *                   when the search is being performed
      */
-    public void searchForPictogram(boolean showDialog) {
-        //Cancel any ongoing search
-        if (searcher != null) {
-            searcher.cancel(true);
-        }
-
-        // Use the citizen id if its send with the intent, else it uses the guardian id
-        searcher = new Search(this, currentUser, this, isSingle, showDialog, getApplicationContext());
-
-
+    public void searchForPictogram(final boolean showDialog) {
         //Give feedback about searching, that isn't an obtrusive dialog box
         String searchString = searchTerm.getText().toString().toLowerCase().trim();
         if (!searchString.isEmpty()) {
             showSearchFeedback(searchString, true);
         }
 
-        //Start the actual searching
-        searcher.execute(searchString);
+
+        final GirafWaitingDialog waitingDialog =
+                GirafWaitingDialog.newInstance(
+                        getString(R.string.searching_title),
+                        getString(R.string.searching_description)
+                );
+
+        if (showDialog) {
+            waitingDialog.show(getSupportFragmentManager(), "WAITNG");
+        }
+
+        final RequestQueueHandler handler = RequestQueueHandler.getInstance(this);
+        handler.getArray(
+            300,
+            searchString,
+            Pictogram.class,
+            new Response.Listener<ArrayList<Pictogram>>() {
+                @Override
+                public void onResponse(ArrayList<Pictogram> response) {
+                    if (showDialog) {
+                        waitingDialog.dismiss();
+                    }
+
+                    pictoGrid.setAdapter(new PictoAdapter(response, PictoAdminMain.this));
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // TODO: Handle me
+                    throw new RuntimeException();
+                }
+            }
+        );
     }
 
     /**
